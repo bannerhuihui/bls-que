@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-con {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+        }
+
+        .login-add{
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+        }
+        .right {
+            flex: 1;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px; /* 添加顶部间距 */
+        }
+
+        .login {
+            flex: 1;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px; /* 添加右侧间距 */
+        }
+        .register {
+            flex: 1;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: -20px; /* 添加右侧间距 */
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .buttons{
+            width: 100%;
+        }
+
+        .created {
+            flex: 1;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px; /* 添加右侧间距 */
+        }
+        .reset {
+            flex: 1;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: -20px; /* 添加右侧间距 */
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+
+    <div class="login-con" id="login-con">
+        <div class="right">
+            <h2>问卷管理</h2>
+                <input type="text" placeholder="登录名" class="userName">
+                <input type="password" placeholder="密码" class="passWord">
+                <div class="buttons">
+                    <button  class="login">登录</button>
+                    <button  class="register">注册</button>
+                </div>
+        </div>
+    </div>
+    <div class="login-add"  id="login-add">
+        <div class="right">
+            <h2>用户注册</h2>
+            <input type="text" placeholder="登录名" name="userName" class="userName"/>
+            <input type="password" placeholder="登录密码" name="passWord" class="passWord"/>
+            <input type="password" placeholder="确认密码" name="checkPassWord" class="passWord"/>
+            <input type="text" placeholder="手机号" name="phone" class="phone">
+            <div class="buttons">
+                <button id="created"  class="created">注册</button>
+                <button id="reset" class="reset">返回</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var loginCon = document.getElementById("login-con");
+        var loginAdd = document.getElementById("login-add");
+        function validatePhone(phone) {
+            var phoneRegex = /^1[3-9]\d{9}$/; // 定义正则表达式
+            return phoneRegex.test(phone);    // 返回验证结果
+        }
+        $(function (){
+            loginAdd.style.display = 'none';//block
+            $(".login").click(function (){
+                //判断用户名和密码是不是为null
+                var userName = $(".userName").val();
+                var passWord = $('.passWord').val();
+                if(userName != null && userName != undefined && passWord != null && passWord != undefined){
+                    $.ajax({
+                        url:"/user/login",
+                        type:"POST",
+                        data:{'userName':userName,'passWord':passWord},
+                        success:function (data) {
+                            console.log(data.id);
+                            if(data.id != null && data.id != undefined){
+                                window.location.href = "/page/list?userId="+data.id+"&userName="+data.userName;
+                            } else {
+                               alert("用户名或密码错误！");
+                            }
+                        }
+                    });
+                }
+            });
+            //切换到注册页面
+            $(".register").click(function (){
+                $(".userName").val("");
+                $('.passWord').val("");
+                loginCon.style.display = "none";
+                loginAdd.style.display = 'block';
+            });
+            //切换到登录页面
+            $("#reset").click(function (){
+                $(".userName").val("");
+                $('.passWord').val("");
+                $(".phone").val("");
+                loginCon.style.display = "block";
+                loginAdd.style.display = 'none';
+            })
+            //用户注册
+            $("#created").click(function (){
+                var userName = $("input[name='userName']").val();
+                var passWord = $("input[name='passWord']").val();
+                var checkPassWord = $("input[name='checkPassWord']").val();
+                var phone = $("input[name='phone']").val();
+                if(passWord === checkPassWord){
+                    //判断phone的合法性
+                    if(validatePhone(phone)){
+                        //执行添加操作
+                       var createdData = {
+                           "userName":userName,
+                           "passWord":passWord,
+                           "phone":phone
+                       }
+                        $.ajax({
+                            url:"/user/createdUser",
+                            type:"POST",
+                            data:createdData,
+                            success:function (data) {
+                                if(data === "success"){
+                                    alert("添加成功")
+                                    $(".userName").val("");
+                                    $('.passWord').val("");
+                                    $(".phone").val("");
+                                    loginCon.style.display = "block";
+                                    loginAdd.style.display = 'none';
+                                }else {
+                                    alert("添加失败");
+                                }
+                            }
+                        });
+                    }else {
+                        alert("手机号格式错误");
+                    }
+                }else {
+                    alert("密码输入不一致");
+                }
+            })
+        })
+    </script>
+</body>
+</html>

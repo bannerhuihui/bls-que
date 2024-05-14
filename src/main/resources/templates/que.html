@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 10px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        main {
+            margin: 10px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            justify-content: center;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            width: 28vw;
+        }
+
+        div{
+            height: 45vh;
+            width: 70vw;
+            display: none;
+            padding: 20px;
+            margin: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: left;
+            background-color: #f9f9f9;
+            font-size: 23px;
+        }
+
+        input {
+            margin: 10px auto;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"]{
+            zoom: 140%;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<script src="/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+<header>
+    <h1>百乐思瘦身营养搭配方案调查</h1>
+    <input type="text" hidden id="queId" th:value="${queId}"/>
+</header>
+
+<main>
+    <div id="que_1" >
+        <p>1.请问您的身高和体重分别是多少？</p>
+        身高：（单位：cm）<input type="text" name="height"/>
+        <br>
+        体重：（单位：Kg）<input type="text" name="weight"/>
+    </div>
+    <div id="que_2">
+        <p>2.请问您的口味是？</p>
+        <input type="radio" name="taste" value="1">麻辣
+        <br>
+        <input type="radio" name="taste" value="2">甜口
+        <br>
+        <input type="radio" name="taste" value="3">酸口
+        <br>
+        <input type="radio" name="taste" value="4">其他
+    </div>
+    <div id="que_3">
+        <p>3.请问您是否有如下困扰？</p>
+        <input type="checkbox" name="trable" value="1">平时喝水都发胖
+        <br>
+        <input type="checkbox" name="trable" value="2">很自律也容易发胖
+        <br>
+        <input type="checkbox" name="trable" value="3">反弹比较严重
+        <br>
+        <input type="checkbox" name="trable" value="4">减肥速度比较慢
+    </div>
+    <div id="que_4">
+        <p>4.请问您对我们还有什么要求？</p>
+        <input type="checkbox" name="other" value="1">提供合适的方案
+        <br>
+        <input type="checkbox" name="other" value="2">推荐更好的营养搭配
+        <br>
+        <input type="checkbox" name="other" value="3">给于健康指导
+        <br>
+        <input type="checkbox" name="other" value="4">提供运动方案
+    </div>
+</main>
+<footer>
+    <button class="prev" >上一题</button>
+    <button class="submit" >提交</button>
+    <button class="next">下一题</button>
+</footer>
+<script type="text/javascript">
+    var base_div_clazz = "que_";
+    function divDisplayNone(que_no){
+        const div_list = ["que_1","que_2","que_3","que_4",];
+        //将所有的div隐藏
+        $.each(div_list,function(index,v){
+            document.getElementById(v).style.display = "none";
+        });
+        document.getElementById(base_div_clazz+que_no).style.display = "block";
+    }
+    $(function (){
+        var qId = $("#queId").val();
+        var que_no = 1;
+        //页面加载后显示第一个div
+        document.getElementById(base_div_clazz+que_no).style.display = "block";
+        $(".prev").prop("disabled", true);
+        $(".submit").prop("disabled", true);
+        $(".next").click(function (){
+            console.log(que_no);
+            que_no ++;
+            $(".prev").prop("disabled", false);
+            if(que_no === 4){
+                $(".submit").prop("disabled", false);
+                $(this).prop("disabled",true);
+            }
+            //将所有div隐藏，并展示当前需要展示的对应que_1，2，3，4等div
+            divDisplayNone(que_no);
+        });
+        $(".prev").click(function (){
+            que_no --;
+            if(que_no === 1){
+                $(this).prop("disabled", true);
+            }
+            $(".submit").prop("disabled", true);
+            $(".next").prop("disabled", false);
+            divDisplayNone(que_no);
+        });
+        $(".submit").click(function(){
+            let height = $("[name='height']").val();
+            let weight = $("[name='weight']").val();
+            let taste = $("input[name='taste']:checked").val();
+            let trables = [];
+            let others = [];
+            $("input[name='trable']:checked").each(function(){
+                trables.push($(this).val());
+            });
+            $("input[name='other']:checked").each(function(){
+                others.push($(this).val());
+            });
+            console.log('--------------')
+            console.log(height);
+            console.log(weight);
+            console.log(taste);
+            console.log(trables);
+            console.log(others);
+            console.log(qId);
+            console.log('--------------')
+        });
+    });
+</script>
+</body>
+</html>

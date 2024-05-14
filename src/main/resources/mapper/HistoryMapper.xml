@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bls.que.mapper.HistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.bls.que.pojo.History" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="question_url" property="questionUrl" jdbcType="VARCHAR" />
+    <result column="question_state" property="questionState" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="INTEGER" />
+    <result column="order_province" property="orderProvince" jdbcType="VARCHAR" />
+    <result column="order_city" property="orderCity" jdbcType="VARCHAR" />
+    <result column="order_county" property="orderCounty" jdbcType="VARCHAR" />
+    <result column="order_address" property="orderAddress" jdbcType="VARCHAR" />
+    <result column="order_recipient" property="orderRecipient" jdbcType="VARCHAR" />
+    <result column="order_phone" property="orderPhone" jdbcType="VARCHAR" />
+    <result column="order_remark" property="orderRemark" jdbcType="VARCHAR" />
+    <result column="question_id" property="questionId" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="other_name" property="otherName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, question_url, question_state, order_id, order_type, order_province, 
+    order_city, order_county, order_address, order_recipient, order_phone, order_remark, 
+    question_id, created_time, updated_time, remark, other_name
+  </sql>
+  <select id="queryHistoryBuQueId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from bls_question_history where question_state = 1 and question_id = #{queId}
+  </select>
+  <select id="queryHistoryListCount" resultType="java.lang.Integer" parameterType="com.bls.que.pojo.History" >
+    select count(*) from bls_question_history where 1 = 1
+    <if test="userId != null">
+      and user_id = #{userId}
+    </if>
+    <if test="questionUrl != null" >
+      and question_url = #{questionUrl}
+    </if>
+    <if test="questionState != null" >
+      and question_state = #{questionState}
+    </if>
+    <if test="orderId != null" >
+      and order_id = #{orderId}
+    </if>
+    <if test="orderType != null" >
+      and order_type = #{orderType}
+    </if>
+    <if test="orderRecipient != null" >
+      and order_recipient = #{orderRecipient}
+    </if>
+    <if test="orderPhone != null" >
+      and order_phone = #{orderPhone}
+    </if>
+    <if test="otherName != null" >
+      and other_name = #{otherName}
+    </if>
+    <if test="beginTime != null" >
+      and (created_time between #{beginTime} and #{endTime})
+    </if>
+  </select>
+  <select id="queryHistoryList" resultMap="BaseResultMap" parameterType="com.bls.que.pojo.History" >
+    select
+    <include refid="Base_Column_List" />
+    from bls_question_history where 1 = 1
+    <if test="userId != null">
+      and user_id = #{userId}
+    </if>
+    <if test="questionUrl != null" >
+      and question_url = #{questionUrl}
+    </if>
+    <if test="questionState != null" >
+      and question_state = #{questionState}
+    </if>
+    <if test="orderId != null" >
+      and order_id = #{orderId}
+    </if>
+    <if test="orderType != null" >
+      and order_type = #{orderType}
+    </if>
+    <if test="orderRecipient != null" >
+      and order_recipient = #{orderRecipient}
+    </if>
+    <if test="orderPhone != null" >
+      and order_phone = #{orderPhone}
+    </if>
+    <if test="otherName != null" >
+      and other_name = #{otherName}
+    </if>
+    <if test="beginTime != null" >
+      and (created_time between #{beginTime} and #{endTime})
+    </if>
+    order by created_time desc limit #{index},#{maxRow}
+  </select>
+  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bls_question_history
+    where order_id = #{orderId}
+  </select>
+  <select id="selectByQuestionId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bls_question_history
+    where question_id = #{questionId}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bls_question_history
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insertSelective" parameterType="com.bls.que.pojo.History" >
+    insert into bls_question_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="questionUrl != null" >
+        question_url,
+      </if>
+      <if test="questionState != null" >
+        question_state,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderType != null" >
+        order_type,
+      </if>
+      <if test="orderProvince != null" >
+        order_province,
+      </if>
+      <if test="orderCity != null" >
+        order_city,
+      </if>
+      <if test="orderCounty != null" >
+        order_county,
+      </if>
+      <if test="orderAddress != null" >
+        order_address,
+      </if>
+      <if test="orderRecipient != null" >
+        order_recipient,
+      </if>
+      <if test="orderPhone != null" >
+        order_phone,
+      </if>
+      <if test="orderRemark != null" >
+        order_remark,
+      </if>
+      <if test="questionId != null" >
+        question_id,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="otherName != null" >
+        other_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="questionUrl != null" >
+        #{questionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="questionState != null" >
+        #{questionState,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="orderProvince != null" >
+        #{orderProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCity != null" >
+        #{orderCity,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCounty != null" >
+        #{orderCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAddress != null" >
+        #{orderAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderRecipient != null" >
+        #{orderRecipient,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPhone != null" >
+        #{orderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderRemark != null" >
+        #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="questionId != null" >
+        #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="otherName != null" >
+        #{otherName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bls.que.pojo.History" >
+    update bls_question_history
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="questionUrl != null" >
+        question_url = #{questionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="questionState != null" >
+        question_state = #{questionState,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="orderProvince != null" >
+        order_province = #{orderProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCity != null" >
+        order_city = #{orderCity,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCounty != null" >
+        order_county = #{orderCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAddress != null" >
+        order_address = #{orderAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderRecipient != null" >
+        order_recipient = #{orderRecipient,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPhone != null" >
+        order_phone = #{orderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderRemark != null" >
+        order_remark = #{orderRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="questionId != null" >
+        question_id = #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="otherName != null" >
+        other_name = #{otherName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
