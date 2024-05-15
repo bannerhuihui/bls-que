@@ -52,6 +52,7 @@
             text-align: left;
             background-color: #f9f9f9;
             font-size: 23px;
+            overflow-y: auto;
         }
 
         input {
@@ -63,6 +64,10 @@
             zoom: 140%;
             margin-right: 10px;
         }
+        span{
+            font-size: 16px;
+        }
+
     </style>
 </head>
 <body>
@@ -74,40 +79,309 @@
 
 <main>
     <div id="que_1" >
-        <p>1.请问您的身高和体重分别是多少？</p>
-        身高：（单位：cm）<input type="text" name="height"/>
+        <p>1.请填写您的基本信息</p>
+        <span>生日：</span>
+        <select name="year" id="year">
+            <!-- 示例数据，实际应替换为适当的年份范围 -->
+            <option value="1930">1930</option>
+            <option value="1931">1931</option>
+            <option value="1932">1932</option>
+            <option value="1933">1933</option>
+            <option value="1934">1934</option>
+            <option value="1935">1935</option>
+            <option value="1936">1936</option>
+            <option value="1937">1937</option>
+            <option value="1938">1938</option>
+            <option value="1939">1939</option>
+
+            <option value="1940">1940</option>
+            <option value="1941">1941</option>
+            <option value="1942">1942</option>
+            <option value="1943">1943</option>
+            <option value="1944">1944</option>
+            <option value="1945">1945</option>
+            <option value="1946">1946</option>
+            <option value="1947">1947</option>
+            <option value="1948">1948</option>
+            <option value="1949">1949</option>
+
+            <option value="1950">1950</option>
+            <option value="1951">1951</option>
+            <option value="1952">1952</option>
+            <option value="1953">1953</option>
+            <option value="1954">1954</option>
+            <option value="1955">1955</option>
+            <option value="1956">1956</option>
+            <option value="1957">1957</option>
+            <option value="1958">1958</option>
+            <option value="1959">1959</option>
+
+            <option value="1960">1960</option>
+            <option value="1961">1961</option>
+            <option value="1962">1962</option>
+            <option value="1963">1963</option>
+            <option value="1964">1964</option>
+            <option value="1965">1965</option>
+            <option value="1966">1966</option>
+            <option value="1967">1967</option>
+            <option value="1968">1968</option>
+            <option value="1969">1969</option>
+
+            <option value="1970">1970</option>
+            <option value="1971">1971</option>
+            <option value="1972">1972</option>
+            <option value="1973">1973</option>
+            <option value="1974">1974</option>
+            <option value="1975">1975</option>
+            <option value="1976">1976</option>
+            <option value="1977">1977</option>
+            <option value="1978">1978</option>
+            <option value="1979">1979</option>
+
+            <option value="1980">1980</option>
+            <option value="1981">1981</option>
+            <option value="1982">1982</option>
+            <option value="1983">1983</option>
+            <option value="1984">1984</option>
+            <option value="1985">1985</option>
+            <option value="1986">1986</option>
+            <option value="1987">1987</option>
+            <option value="1988">1988</option>
+            <option value="1989">1989</option>
+
+            <option value="1990">1990</option>
+            <option value="1991">1991</option>
+            <option value="1992">1992</option>
+            <option value="1993">1993</option>
+            <option value="1994">1994</option>
+            <option value="1995">1995</option>
+            <option value="1996">1996</option>
+            <option value="1997">1997</option>
+            <option value="1998">1998</option>
+            <option value="1999">1999</option>
+
+            <option value="2000">2000</option>
+            <option value="2001">2001</option>
+            <option value="2002">2002</option>
+            <option value="2003">2003</option>
+            <option value="2004">2004</option>
+            <option value="2005">2005</option>
+            <option value="2006">2006</option>
+            <option value="2007">2007</option>
+            <option value="2008">2008</option>
+            <option value="2009">2009</option>
+
+            <option value="2010">2010</option>
+            <option value="2011">2011</option>
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+
+        </select>
+        <span>年</span>
+        <select name="month" id="month">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+        <span>月</span>
+        <select name="day" id="day">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+        </select>
+        <span>日</span>
         <br>
-        体重：（单位：Kg）<input type="text" name="weight"/>
+        <span>性别：</span>
+        <input type="radio" name="gender" value="male" checked> <span>男</span>
+        <input type="radio" name="gender" value="female"> <span>女</span>
+        <br>
+        <span>身高：</span>
+        <input type="text" name="height" placeholder="单位 (cm)">
+        <br>
+        <span>体重：</span>
+        <input type="text" name="weight" placeholder="单位 (kg)">
+        <br>
+        <span>腰围：</span>
+        <input type="text" name="waist" placeholder="单位 (cm)">
+
     </div>
     <div id="que_2">
-        <p>2.请问您的口味是？</p>
-        <input type="radio" name="taste" value="1">麻辣
+        <p>2.您平时从事体力劳动的强度？</p>
+        <input type="radio" name="physicalWorkIntensity" value="1">休息，主要是坐着或躺着
         <br>
-        <input type="radio" name="taste" value="2">甜口
+        <input type="radio" name="physicalWorkIntensity" value="2">坐位工作，几乎无走动，如办公室职员
         <br>
-        <input type="radio" name="taste" value="3">酸口
+        <input type="radio" name="physicalWorkIntensity" value="3">坐位工作，有时需走动或站立，很少有重体力活动，如司机、学生
         <br>
-        <input type="radio" name="taste" value="4">其他
+        <input type="radio" name="physicalWorkIntensity" value="4">主要是站着或走着工作，如服务员
+        <br>
+        <input type="radio" name="physicalWorkIntensity" value="5">重体力职业工作，如建筑工人、农民或运动员
     </div>
     <div id="que_3">
-        <p>3.请问您是否有如下困扰？</p>
-        <input type="checkbox" name="trable" value="1">平时喝水都发胖
+        <p>3.您目前是否患有以下代谢性疾病？</p>
+        <input type="checkbox" name="metabolicDisease" value="1">2型糖尿病
         <br>
-        <input type="checkbox" name="trable" value="2">很自律也容易发胖
+        <input type="checkbox" name="metabolicDisease" value="2">高血脂
         <br>
-        <input type="checkbox" name="trable" value="3">反弹比较严重
-        <br>
-        <input type="checkbox" name="trable" value="4">减肥速度比较慢
+        <input type="checkbox" name="metabolicDisease" value="3">无
     </div>
     <div id="que_4">
-        <p>4.请问您对我们还有什么要求？</p>
-        <input type="checkbox" name="other" value="1">提供合适的方案
+        <p>4.您目前是否患有以下心脑血管疾病？</p>
+        <input type="checkbox" name="heartAndBrainVascularDiseases" value="1">高血压
         <br>
-        <input type="checkbox" name="other" value="2">推荐更好的营养搭配
+        <input type="checkbox" name="heartAndBrainVascularDiseases" value="2">冠心病
         <br>
-        <input type="checkbox" name="other" value="3">给于健康指导
+        <input type="checkbox" name="heartAndBrainVascularDiseases" value="3">脑卒中
         <br>
-        <input type="checkbox" name="other" value="4">提供运动方案
+        <input type="checkbox" name="heartAndBrainVascularDiseases" value="4">无
+    </div>
+    <div id="que_5">
+        <p>5.您的直系亲属是否存在以下代谢性疾病？</p>
+        <input type="checkbox" name="metabolicDisorderStatus" value="1">高血脂
+        <br>
+        <input type="checkbox" name="metabolicDisorderStatus" value="2">无
+    </div>
+    <div id="que_6">
+        <p>6.您的直系亲属是否存在以下心脑血管疾病？</p>
+        <input type="checkbox" name="familyHeartAndBrainVascularDiseases" value="1">冠心病
+        <br>
+        <input type="checkbox" name="familyHeartAndBrainVascularDiseases" value="2">脑卒中
+        <br>
+        <input type="checkbox" name="familyHeartAndBrainVascularDiseases" value="3">无
+    </div>
+    <div id="que_7">
+        <p>7.您的其他相关指标？</p>
+        <span>总胆固醇：</span>
+        <input type="text" name="totalCholesterol" placeholder="单位 (mmol/L)">
+        <br>
+        <span>甘油三酯：</span>
+        <input type="text" name="Triglycerides" placeholder="单位 (mmol/L)">
+        <br>
+        <span>高密度脂蛋白胆固醇：</span>
+        <input type="text" name="heightProteinCholesterol" placeholder="单位 (mmol/L)">
+        <br>
+        <span>低密度脂蛋白胆固醇：</span>
+        <input type="text" name="lowProteinCholesterol" placeholder="单位 (mmol/L)">
+        <br>
+    </div>
+    <div id="que_8">
+        <p>8.您是否饮酒？</p>
+        <input type="radio" name="drinking" value="1">平均每天大于1两酒精
+        <br>
+        <input type="radio" name="drinking" value="2">平均每天0.5到1两酒精
+        <br>
+        <input type="radio" name="drinking" value="3">平均每天小于0.5两酒精
+        <br>
+        <input type="radio" name="drinking" value="4">不喝酒
+    </div>
+    <div id="que_9">
+        <p>9.您是否有以下健康问题？</p>
+        <input type="radio" name="health" value="1">跟腱增厚
+        <br>
+        <input type="radio" name="health" value="2">无
+    </div>
+    <div id="que_10">
+        <p>10.您是否有以下食物摄入超量问题？</p>
+        <input type="radio" name="foodExcess" value="1">每周3次以上吃甜品或含糖饮料
+        <br>
+        <input type="radio" name="foodExcess" value="2">无
+    </div>
+    <div id="que_11">
+        <p>11.您是否有以下饮食习惯？</p>
+        <input type="checkbox" name="foodHabit" value="1">常吃内脏（平均每月大于2次）
+        <br>
+        <input type="checkbox" name="foodHabit" value="2">每周至少吃一次油炸食品
+        <br>
+        <input type="checkbox" name="foodHabit" value="3">每周至少喝一次浓的肉汤
+        <br>
+        <input type="checkbox" name="foodHabit" value="4">每周至少吃一次烧烤
+        <br>
+        <input type="checkbox" name="foodHabit" value="5">无
+    </div>
+    <div id="que_12">
+        <p>12.您是否有以下食物摄入不足问题？</p>
+        <input type="radio" name="foodShort" value="1">平均每周吃粗粮少于3次
+        <br>
+        <input type="radio" name="foodShort" value="2">无
+    </div>
+    <div id="que_13">
+        <p>13.过去半年中每周的运动情况是？</p>
+        <input type="radio" name="sports" value="1">除了工作/家务之外几呼不动
+        <br>
+        <input type="radio" name="sports" value="2">每周运动1-2天
+        <br>
+        <input type="radio" name="sports" value="3">每周运动3-4天
+        <br>
+        <input type="radio" name="sports" value="4">每周运动5天以上
+    </div>
+    <div id="que_14">
+        <p>14.您的吸烟情况？</p>
+        <input type="radio" name="smocking" value="1">每天11-20支
+        <br>
+        <input type="radio" name="smocking" value="2">每天21-30支
+        <br>
+        <input type="radio" name="smocking" value="3">不抽烟但会接触二手烟，接触史小于20年
+        <br>
+        <input type="radio" name="smocking" value="4">不抽烟但会接触二手烟，接触史大于等于20年
+        <br>
+        <input type="radio" name="smocking" value="5">每天大于30支
+        <br>
+        <input type="radio" name="smocking" value="6">戒烟小于5年
+        <br>
+        <input type="radio" name="smocking" value="7">戒烟大于5年小于15年
+        <br>
+        <input type="radio" name="smocking" value="8">戒烟大于等于15年
+        <br>
+        <input type="radio" name="smocking" value="9">现在和曾经均不抽烟也不接触二手烟
     </div>
 </main>
 <footer>
@@ -117,26 +391,31 @@
 </footer>
 <script type="text/javascript">
     var base_div_clazz = "que_";
+    const div_list = ["que_1","que_2","que_3","que_4","que_5","que_6","que_7","que_8","que_9","que_10","que_11","que_12","que_13","que_14"];
     function divDisplayNone(que_no){
-        const div_list = ["que_1","que_2","que_3","que_4",];
         //将所有的div隐藏
         $.each(div_list,function(index,v){
             document.getElementById(v).style.display = "none";
         });
         document.getElementById(base_div_clazz+que_no).style.display = "block";
     }
+    function getDaysInFebruary(year) {
+        // 2月份的天数可以通过检查这年的3月1日前一天是几号来确定
+        return new Date(year, 2, 0).getDate();
+    }
     $(function (){
         var qId = $("#queId").val();
         var que_no = 1;
         //页面加载后显示第一个div
         document.getElementById(base_div_clazz+que_no).style.display = "block";
+        document.getElementById('year').value = '1990';
         $(".prev").prop("disabled", true);
         $(".submit").prop("disabled", true);
         $(".next").click(function (){
             console.log(que_no);
             que_no ++;
             $(".prev").prop("disabled", false);
-            if(que_no === 4){
+            if(que_no === div_list.length){
                 $(".submit").prop("disabled", false);
                 $(this).prop("disabled",true);
             }
@@ -153,25 +432,246 @@
             divDisplayNone(que_no);
         });
         $(".submit").click(function(){
+            //que_1
+            let year = $("#year").val();
+            let month = $("#month").val();
+            let day = $("#day").val();
+            let gender = $("[name='gender']").val();
             let height = $("[name='height']").val();
             let weight = $("[name='weight']").val();
-            let taste = $("input[name='taste']:checked").val();
-            let trables = [];
-            let others = [];
-            $("input[name='trable']:checked").each(function(){
-                trables.push($(this).val());
+            let waist = $("[name='waist']").val();
+            //que_2
+            let physicalWorkIntensity = $("input[name='physicalWorkIntensity']:checked").val();
+            //que_3
+            let metabolicDiseases = [];
+            $("input[name='metabolicDisease']:checked").each(function(){
+                metabolicDiseases.push($(this).val());
             });
-            $("input[name='other']:checked").each(function(){
-                others.push($(this).val());
+            //que_4
+            let heartAndBrainVascularDiseases = [];
+            $("input[name='heartAndBrainVascularDiseases']:checked").each(function(){
+                heartAndBrainVascularDiseases.push($(this).val());
             });
-            console.log('--------------')
-            console.log(height);
-            console.log(weight);
-            console.log(taste);
-            console.log(trables);
-            console.log(others);
-            console.log(qId);
-            console.log('--------------')
+            //que_5
+            let metabolicDisorderStatuses = [];
+            $("input[name='metabolicDisorderStatus']:checked").each(function(){
+                metabolicDisorderStatuses.push($(this).val());
+            });
+            //que_6
+            let familyHeartAndBrainVascularDiseases = [];
+            $("input[name='familyHeartAndBrainVascularDiseases']:checked").each(function(){
+                familyHeartAndBrainVascularDiseases.push($(this).val());
+            });
+            //que_7
+            let totalCholesterol = $("[name='totalCholesterol']").val();
+            let Triglycerides = $("[name='Triglycerides']").val();
+            let heightProteinCholesterol = $("[name='heightProteinCholesterol']").val();
+            let lowProteinCholesterol = $("[name='lowProteinCholesterol']").val();
+            //que_8
+            let drinking = $("[name='drinking']").val();
+            //que_9
+            let health = $("[name='health']").val();
+            //que_10
+            let foodExcess = $("[name='foodExcess']").val();
+            //que_11
+            let foodHabits = [];
+            $("input[name='foodHabit']:checked").each(function(){
+                foodHabits.push($(this).val());
+            });
+            //que_12
+            let foodShort = $("[name='foodShort']").val();
+            //que_13
+            let sports = $("[name='sports']").val();
+            //que_14
+            let smocking = $("[name='smocking']").val();
+            let otherText = {
+                "physicalWorkIntensity":physicalWorkIntensity,
+                "metabolicDisease":metabolicDiseases,
+                "heartAndBrainVascularDiseases":heartAndBrainVascularDiseases,
+                "metabolicDisorderStatus":metabolicDisorderStatuses,
+                "familyHeartAndBrainVascularDiseases":familyHeartAndBrainVascularDiseases,
+                "totalCholesterol":totalCholesterol,
+                "Triglycerides":Triglycerides,
+                "heightProteinCholesterol":heightProteinCholesterol,
+                "lowProteinCholesterol":lowProteinCholesterol,
+                "drinking":drinking,
+                "health":health,
+                "foodExcess":foodExcess,
+                "foodHabits":foodHabits,
+                "foodShort":foodShort,
+                "sports":sports,
+                "smocking":smocking
+            }
+            let queData = {
+                "queId":qId,
+                "birthday":year + "-" + month + "-" +day,
+                "gender":gender,
+                "height":height,
+                "weight":weight,
+                "waist":waist,
+                "otherText":JSON.stringify(otherText)
+            }
+            console.log(queData)
+            //填写完成后，ajax提交
+            $.ajax({
+                url:"/question/createQuestion",
+                type:"POST",
+                data:queData,
+                success:function (data) {
+                    console.log(data);
+                    if(data === "success"){
+                        window.location.href = "/page/success";
+                    }else {
+                        alert("哎呀出错了！")
+                    }
+                }
+            });
+        });
+
+        $("#month").change(function(){
+            let year = $("#year").val();
+            let month = $(this).val();
+            if(month === "1" || month === "3" || month === "5" || month === "7" || month === "8" || month === "10" || month === "12"){
+                $("#day").empty();
+                $("#day").append(`
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                    `)
+            }
+            if(month === "4" || month === "6" || month === "9" || month === "11"){
+                $("#day").empty();
+                $("#day").append(`
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    `)
+            }
+            if(month == "2"){
+                $("#day").empty();
+                //根据年份计算天数
+                let days = getDaysInFebruary(year);
+                if(days === 28){
+                    $("#day").append(`
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        `)
+                }else{
+                    $("#day").append(`
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        `)
+                }
+
+            }
         });
     });
 </script>

@@ -62,4 +62,16 @@ public class PageController {
         return mv;
     }
 
+    @RequestMapping(value = "success",method = RequestMethod.GET)
+    public ModelAndView success(ModelAndView mv){
+        mv.setViewName("success");
+        return mv;
+    }
+
+
+    @RequestMapping(value = "error",method = RequestMethod.GET)
+    public ModelAndView error(ModelAndView mv){
+        mv.setViewName("error");
+        return mv;
+    }
 }

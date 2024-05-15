@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bls.que.mapper.QuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.bls.que.pojo.Question" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="que_id" property="queId" jdbcType="VARCHAR" />
+    <result column="que_state" property="queState" jdbcType="INTEGER" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="height" property="height" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="VARCHAR" />
+    <result column="waist" property="waist" jdbcType="VARCHAR" />
+    <result column="other_text" property="otherText" jdbcType="VARCHAR" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, que_id, que_state, birthday, gender, height, weight, waist, other_text, label, 
+    created_time, updated_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bls_question_que
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByQueId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from bls_question_que
+    where que_id = #{queId} and que_state = 1
+  </select>
+  <insert id="insertSelective" parameterType="com.bls.que.pojo.Question" >
+    insert into bls_question_que
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="queId != null" >
+        que_id,
+      </if>
+      <if test="queState != null" >
+        que_state,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="waist != null" >
+        waist,
+      </if>
+      <if test="otherText != null" >
+        other_text,
+      </if>
+      <if test="label != null" >
+        label,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="queId != null" >
+        #{queId,jdbcType=VARCHAR},
+      </if>
+      <if test="queState != null" >
+        #{queState,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="waist != null" >
+        #{waist,jdbcType=VARCHAR},
+      </if>
+      <if test="otherText != null" >
+        #{otherText,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null" >
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bls.que.pojo.Question" >
+    update bls_question_que
+    <set >
+      <if test="queId != null" >
+        que_id = #{queId,jdbcType=VARCHAR},
+      </if>
+      <if test="queState != null" >
+        que_state = #{queState,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="waist != null" >
+        waist = #{waist,jdbcType=VARCHAR},
+      </if>
+      <if test="otherText != null" >
+        other_text = #{otherText,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null" >
+        label = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

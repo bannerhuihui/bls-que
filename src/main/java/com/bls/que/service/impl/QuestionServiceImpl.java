@@ -1,7 +1,14 @@
 package com.bls.que.service.impl;
 
+import com.bls.que.mapper.HistoryMapper;
+import com.bls.que.mapper.QuestionMapper;
+import com.bls.que.pojo.History;
+import com.bls.que.pojo.Question;
 import com.bls.que.service.QuestionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * @projectName: bls-que
@@ -14,4 +21,42 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class QuestionServiceImpl implements QuestionService {
+
+    @Autowired
+    private QuestionMapper questionMapper;
+
+    @Autowired
+    private HistoryMapper historyMapper;
+
+    @Override
+    public String createQuestion(Question question) {
+        if(checkQuestion(question)){
+            question.setCreatedTime(new Date());
+            question.setUpdatedTime(question.getCreatedTime());
+            //该条数据是最终数据
+            question.setQueState(1);
+            //TODO 给数据大标签
+            //question.setLabel("待定");
+            questionMapper.insertSelective(question);
+            //修改营养师历史列表中的数据状态为已完成
+            History history = historyMapper.selectByQuestionId(question.getQueId());
+            if(history != null){
+                History updHistory = new History();
+                updHistory.setId(history.getId());
+                updHistory.setQuestionState(2);
+                historyMapper.updateByPrimaryKeySelective(updHistory);
+            }
+            //TODO 同步订单
+            return "success";
+        }
+        return "error";
+    }
+
+    private boolean checkQuestion(Question question) {
+        boolean flag = true;
+        if(question == null){
+            flag = false;
+        }
+        return flag;
+    }
 }

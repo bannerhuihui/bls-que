@@ -1,10 +1,8 @@
 package com.bls.que.service;
 
+import com.bls.que.pojo.Question;
+
 public interface QuestionService {
 
-    //添加Question信息
-    boolean insertQuestion();
-
-    //更新Question的添加状态
-    boolean updateQuestion();
+    String createQuestion(Question question);
 }

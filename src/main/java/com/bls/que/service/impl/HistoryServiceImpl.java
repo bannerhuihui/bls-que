@@ -5,7 +5,9 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.bls.que.mapper.HistoryMapper;
+import com.bls.que.mapper.QuestionMapper;
 import com.bls.que.pojo.History;
+import com.bls.que.pojo.Question;
 import com.bls.que.service.HistoryService;
 import com.bls.que.stat.BaseStatic;
 import com.bls.que.vo.PageEntity;
@@ -29,6 +31,9 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Autowired
     private HistoryMapper historyMapper;
+
+    @Autowired
+    private QuestionMapper questionMapper;
 
     @Override
     public int createdHistory(History history) {
@@ -70,6 +75,17 @@ public class HistoryServiceImpl implements HistoryService {
     public String updatedHistory(History history) {
         history = updInitHistory(history);
         int i = historyMapper.updateByPrimaryKeySelective(history);
+        //用户的状态修改为未使用状态
+        if(history.getQuestionState() == 1){
+            //查询用户是不是已经填写过调查报告
+            Question question = questionMapper.selectByQueId(history.getQuestionId());
+            if(question != null){
+                //这个是用户已经填写过的单子，需要将单子的状态改为不可用
+                question.setQueState(2);
+                question.setUpdatedTime(new Date());
+                questionMapper.updateByPrimaryKeySelective(question);
+            }
+        }
         return (i > 0) ? "success":"false";
     }
 
