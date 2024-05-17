@@ -412,7 +412,6 @@
         $(".prev").prop("disabled", true);
         $(".submit").prop("disabled", true);
         $(".next").click(function (){
-            console.log(que_no);
             que_no ++;
             $(".prev").prop("disabled", false);
             if(que_no === div_list.length){
@@ -431,6 +430,7 @@
             $(".next").prop("disabled", false);
             divDisplayNone(que_no);
         });
+
         $(".submit").click(function(){
             //que_1
             let year = $("#year").val();

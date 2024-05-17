@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/layui.css">
+</head>
+<body>
+    <table class="layui-hide" id="ID-table-demo-search"></table>
+      <input type="text" value="11" name="aaa">  
+    <!-- 请勿在项目正式环境中引用该 layui.js 地址 -->
+    <script src="./js/layui.js"></script>
+    <script>
+        //http://127.0.0.1:8888/test/getArray
+        layui.use(["layer"], function(){
+            var $=layui.$;
+            var layer=layui.layer;
+            console.log('-----')
+            console.log($("[name='aaa']").val());
+            $.ajax({
+                url:"http://127.0.0.1:8888/test/getArray",
+                type:"GET",
+                dataType:"jsonp",
+                jsonp: "callback",
+                data:{"page":1,"limit":5},
+                success:function (data) {
+                    console.log('======')
+                    console.log(data);
+                },
+                error: function(e){
+                    console.log(e)
+                }
+            });
+            console.log('----')
+        });
+        
+    </script>
+</body>
+</html>

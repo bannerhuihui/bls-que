@@ -1,15 +1,11 @@
 package com.bls.que.controller;
 
-import com.bls.que.pojo.History;
 import com.bls.que.service.HistoryService;
-import com.bls.que.vo.PageEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -72,6 +68,12 @@ public class PageController {
     @RequestMapping(value = "error",method = RequestMethod.GET)
     public ModelAndView error(ModelAndView mv){
         mv.setViewName("error");
+        return mv;
+    }
+
+    @RequestMapping(value = "/historyList.html",method = RequestMethod.GET)
+    public ModelAndView historyList(ModelAndView mv){
+        mv.setViewName("history-list");
         return mv;
     }
 }
