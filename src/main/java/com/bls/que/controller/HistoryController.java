@@ -1,10 +1,15 @@
 package com.bls.que.controller;
 
 import com.bls.que.pojo.History;
+import com.bls.que.pojo.User;
 import com.bls.que.service.HistoryService;
+import com.bls.que.service.UserService;
 import com.bls.que.vo.PageEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @projectName: bls-que
@@ -21,6 +26,9 @@ public class HistoryController {
 
     @Autowired
     private HistoryService historyService;
+
+    @Autowired
+    private UserService userService;
 
     //创建问卷订单
     @PostMapping("/createdHistory")
@@ -50,8 +58,15 @@ public class HistoryController {
 
 
     @PostMapping(value = "updatedHistory")
-    public String updatedHistory(History history){
-        return historyService.updatedHistory(history);
+    @ResponseBody
+    public Map updatedHistory(History history){
+        Map res = new HashMap<>();
+        User user = userService.selectUserByKey(history.getUserId());
+        String s = historyService.updatedHistory(history);
+        res.put("msg",s);
+        res.put("userId",user.getId());
+        res.put("userName",user.getUserName());
+        return res;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.bls.que.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.bls.que.mapper.HistoryMapper;
 import com.bls.que.mapper.QuestionMapper;
 import com.bls.que.pojo.History;
@@ -43,13 +44,20 @@ public class QuestionServiceImpl implements QuestionService {
             if(history != null){
                 History updHistory = new History();
                 updHistory.setId(history.getId());
-                updHistory.setQuestionState(2);
+                updHistory.setQuestionState("不可用");
                 historyMapper.updateByPrimaryKeySelective(updHistory);
             }
-            //TODO 同步订单
             return "success";
         }
         return "error";
+    }
+
+    @Override
+    public Question queryQuestionByQid(String qid) {
+        if(StrUtil.isNotEmpty(qid)){
+            return questionMapper.selectByQueId(qid);
+        }
+        return null;
     }
 
     private boolean checkQuestion(Question question) {

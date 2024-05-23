@@ -1,5 +1,6 @@
 package com.bls.que.service.impl;
 
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.bls.que.mapper.UserMapper;
 import com.bls.que.pojo.User;
@@ -52,6 +53,24 @@ public class UserServiceImpl implements UserService {
             user.setRemark("true");
             int i = userMapper.insertSelective(user);
             return i > 0 ? "success" : "false";
+        }
+        return "false";
+    }
+
+    @Override
+    public User selectUserByKey(Integer userId) {
+        return userMapper.selectByPrimaryKey(userId);
+    }
+
+    @Override
+    public String logout(Integer userId) {
+        //退出登录，显示修改退出登录时间
+        User user = new User();
+        if(userId != null && userId != 0){
+            user.setId(userId);
+            user.setOutTime(new Date());
+            userMapper.updateByPrimaryKeySelective(user);
+            return "success";
         }
         return "false";
     }

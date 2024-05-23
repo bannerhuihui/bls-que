@@ -11,5 +11,5 @@ package com.bls.que.stat;
  */
 public class BaseStatic {
 
-    public static final String BASE_URL = "http://localhost:8888/page/que?queId=";
+    public static final String BASE_URL = "https://t.bls-jh.com/page/que?queId=";
 }

@@ -35,7 +35,13 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "createdUser",method = RequestMethod.POST)
+    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    public String logout(Integer userId){
+        return userService.logout(userId);
+    }
+
+
+    @RequestMapping(value = "/createdUser",method = RequestMethod.POST)
     public String createdUser(User user){
         return userService.createdUser(user);
     }

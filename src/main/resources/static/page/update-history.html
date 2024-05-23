@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更新用户信息</title>
+    <link rel="stylesheet" href="/css/layui.css">
+    <link rel="stylesheet" href="/css/create-history.css">
+    <style>
+        #update-iframe{
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        form{
+            padding-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="centered-form">
+    <div class="form-container">
+        <form class="layui-form" action="">
+            <input type="text" hidden name="userId" >
+            <input type="text" hidden name="id" >
+            <div class="layui-form-item">
+                <label class="layui-form-label">订单号</label>
+                <div class="layui-input-block  layui-input-wrap">
+                    <input type="text" name="orderId" placeholder="请输入订单号" class="layui-input ">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">选择平台</label>
+                <div class="layui-input-block">
+                    <select name="otherName" lay-filter="aihao">
+                        <option value="抖音">抖音</option>
+                        <option value="微信">微信</option>
+                        <option value="天猫">天猫</option>
+                        <option value="京东">京东</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">套餐价格</label>
+                <div class="layui-input-block">
+                    <select name="orderMoney" lay-filter="aihao">
+                        <option value="4980">4980</option>
+                        <option value="2980">2980</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">套餐类型</label>
+                <div class="layui-input-block">
+                    <select name="orderType" lay-filter="aihao">
+                        <option value="套餐1">套餐1</option>
+                        <option value="套餐2">套餐2</option>
+                        <option value="套餐3">套餐3</option>
+                        <option value="套餐4">套餐4</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">URL是否可用</label>
+                <input type="radio" name="questionState" value="可用" title="可用">
+                <input type="radio" name="questionState" value="不可用" title="不可用">
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">收件人姓名</label>
+                <div class="layui-input-block layui-input-wrap">
+                    <input type="tel" name="orderRecipient" lay-verify="required" placeholder="请填写收件人姓名"
+                           class="layui-input demo-phone">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-block layui-input-wrap">
+                    <input type="tel" name="orderPhone" lay-verify="required" placeholder="请填写收件人手机号"
+                           class="layui-input demo-phone">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">预付款</label>
+                <div class="layui-input-block  layui-input-wrap">
+                    <input type="text" value="0" name="priceBefore" placeholder="单位（元）" class="layui-input " min="0" step="1" lay-affix="number">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址</label>
+                <div class="layui-input-block layui-input-wrap sel">
+                    <select name="orderProvince" id="province" lay-filter="province">
+                        <option value="0">请选择省</option>
+                    </select>
+                </div>
+                <div class="layui-input-block layui-input-wrap sel">
+                    <select name="orderCity" id="city" lay-filter="city">
+                        <option value="0">请选择市</option>
+                    </select>
+                </div>
+                <div class="layui-input-block layui-input-wrap sel">
+                    <select name="orderCounty" id="area">
+                        <option value="0">请选择县/区</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">详细地址</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入详细地址" name="orderAddress" lay-verify="required" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">平台备注</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入平台备注" name="orderRemark" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">个人备注</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入个人备注" name="remark" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn" lay-submit lay-filter="demo1">修改</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+<script src="/js/layui.js"></script>
+<script>
+
+    layui.use(['form','util','jquery'], function () {
+        var form = layui.form;
+        var $ = layui.jquery;
+        var params = new URLSearchParams(window.location.search);
+        var dataParam = params.get('onLineData');
+        if (dataParam) {
+            // 解析 JSON 字符串到对象
+            var data = JSON.parse(decodeURIComponent(dataParam));
+            console.log('页面传递过来的值', data);
+            //获取所有的省份
+            $.ajax({
+                url:"https://api.rtyouth.com/openapi/getregion.ashx?pid=0",
+                type:"GET",
+                async: false,
+                success:function (data) {
+                    var provinces =  data.Value;
+                    for (let i = 0; i < provinces.length; i++) {
+                        $("[name='orderProvince']").append(new Option(provinces[i].RegionName, provinces[i].RegionID));
+                    }
+                }
+            });
+            let province = '';
+            //做数据回显
+            const selectElement = document.getElementById("province");
+            //选中省
+            for (let i = 0; i < selectElement.options.length; i++) {
+                if(selectElement.options[i].text === data.orderProvince){
+                    province = selectElement.options[i].value;
+                    $("[name = 'orderProvince']").val(province);
+                    break;
+                }
+            }
+            //选中市
+            $.ajax({
+                url:"https://api.rtyouth.com/openapi/getregion.ashx?pid="+province,
+                type:"GET",
+                async: false,
+                success:function (data) {
+                    var city =  data.Value;
+                    for (let i = 0; i < city.length; i++) {
+                        $('#city').append(new Option(city[i].RegionName, city[i].RegionID));
+                    }
+                }
+            });
+            let backCity = '';
+            //做数据回显市
+            const selectCityElement = document.getElementById("city");
+            //选中市
+            for (let i = 0; i < selectCityElement.options.length; i++) {
+                if(selectCityElement.options[i].text === data.orderCity){
+                    backCity = selectCityElement.options[i].value;
+                    $("[name = 'orderCity']").val(backCity);
+                    break;
+                }
+            }
+            //选中区
+            $.ajax({
+                url:"https://api.rtyouth.com/openapi/getregion.ashx?pid="+backCity,
+                type:"GET",
+                async: false,
+                success:function (data) {
+                    var area =  data.Value;
+                    for (let i = 0; i < city.length; i++) {
+                        $('#area').append(new Option(area[i].RegionName, area[i].RegionID));
+                    }
+                }
+            });
+            //做数据回显市
+            const selectAreaElement = document.getElementById("area");
+            //选中省
+            for (let i = 0; i < selectAreaElement.options.length; i++) {
+                if(selectAreaElement.options[i].text === data.orderCounty){
+                    let backArea = selectAreaElement.options[i].value;
+                    $("[name = 'orderCounty']").val(backArea);
+                    break;
+                }
+            }
+            // 渲染表单
+            form.render('select');
+            //给省和市添加事件
+            form.on('select(province)',function (data){
+                let now_provice = data.value;
+                $('#city').empty();
+                $('#area').empty();
+                $('#city').append(new Option("请选择市", "0"));
+
+                $.ajax({
+                    url:"https://api.rtyouth.com/openapi/getregion.ashx?pid="+now_provice,
+                    type:"GET",
+                    async: false,
+                    success:function (data) {
+                        var city =  data.Value;
+                        for (let i = 0; i < city.length; i++) {
+                            $('#city').append(new Option(city[i].RegionName, city[i].RegionID));
+                        }
+                    }
+                });
+                $('#area').append(new Option("请选择县/区", "0"));
+                // 渲染表单
+                form.render('select');
+            });
+            form.on('select(city)',function (data){
+                let now_city= data.value;
+                $('#area').append(new Option("请选择县/区", "0"));
+                $.ajax({
+                    url:"https://api.rtyouth.com/openapi/getregion.ashx?pid="+now_city,
+                    type:"GET",
+                    async: false,
+                    success:function (data) {
+                        var area =  data.Value;
+                        for (let i = 0; i < area.length; i++) {
+                            $('#area').append(new Option(area[i].RegionName, area[i].RegionID));
+                        }
+                    }
+                });
+                // 渲染表单
+                form.render('select');
+            });
+            //做其他数据的回显
+            $("[name = 'id']").val(data.id);
+            $("[name = 'userId']").val(data.userId);
+            $("[name = 'orderId']").val(data.orderId);
+            $("[name = 'otherName']").val(data.otherName);
+            $("[name = 'priceBefore']").val(data.priceBefore);
+            $("[name = 'orderType']").val(data.orderType);
+            $("[name = 'orderMoney']").val(data.orderMoney);
+            $("[name = 'orderRecipient']").val(data.orderRecipient);
+            $("[name = 'orderPhone']").val(data.orderPhone);
+            $("[name = 'orderAddress']").val(data.orderAddress);
+            $("[name = 'orderRemark']").val(data.orderRemark);
+            $("[name = 'remark']").val(data.remark);
+            $("[name='questionState'][value='" + data.questionState + "']").prop('checked', true);
+            // 渲染表单
+            form.render('select');
+            form.render('radio');
+            // 提交事件
+            form.on('submit(demo1)', function (data) {
+                var formData = data.field; // 获取表单字段值
+                formData.orderMoney = parseInt(formData.orderMoney, 10);
+                formData.priceBefore = parseInt(formData.priceBefore,10);
+                formData.userId = parseInt(formData.userId,10);
+                formData.orderProvince = $('#province option:selected').text();
+                formData.orderCity = $('#city option:selected').text();
+                formData.orderCounty = $('#area option:selected').text();
+
+                console.log(formData)
+                $.ajax({
+                    url:"/history/updatedHistory",
+                    type:"POST",
+                    data:formData,
+                    success:function (data) {
+                        if(data.msg === "success"){
+                            //关闭表单
+                            // 关闭父页面中的 layer 打开的窗口
+                            if (window.parent && window.parent.layer) {
+                                window.parent.layer.closeAll('iframe'); // or use specific layer index provided by the layer open call.
+                            }
+                            // 刷新父页面
+                            if (window.parent) {
+                                window.parent.location.reload();
+                            }
+                        }else {
+                            alert("添加失败")
+                        }
+
+                    }
+                });
+                return false; // 阻止默认 form 跳转
+            });
+        } else {
+            console.log('No data received');
+        }
+
+
+    });
+
+</script>
+</body>
+</html>

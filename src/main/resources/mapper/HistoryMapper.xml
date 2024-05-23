@@ -5,9 +5,9 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="question_url" property="questionUrl" jdbcType="VARCHAR" />
-    <result column="question_state" property="questionState" jdbcType="INTEGER" />
+    <result column="question_state" property="questionState" jdbcType="VARCHAR" />
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
-    <result column="order_type" property="orderType" jdbcType="INTEGER" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
     <result column="order_province" property="orderProvince" jdbcType="VARCHAR" />
     <result column="order_city" property="orderCity" jdbcType="VARCHAR" />
     <result column="order_county" property="orderCounty" jdbcType="VARCHAR" />
@@ -20,16 +20,18 @@
     <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="other_name" property="otherName" jdbcType="VARCHAR" />
+    <result column="order_money" property="orderMoney" jdbcType="INTEGER" />
+    <result column="price_before" property="priceBefore" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, question_url, question_state, order_id, order_type, order_province, 
     order_city, order_county, order_address, order_recipient, order_phone, order_remark, 
-    question_id, created_time, updated_time, remark, other_name
+    question_id, created_time, updated_time, remark, other_name, order_money, price_before
   </sql>
   <select id="queryHistoryBuQueId" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
     <include refid="Base_Column_List" />
-    from bls_question_history where question_state = 1 and question_id = #{queId}
+    from bls_question_history where question_state = '可用' and question_id = #{queId}
   </select>
   <select id="queryHistoryListCount" resultType="java.lang.Integer" parameterType="com.bls.que.pojo.History" >
     select count(*) from bls_question_history where 1 = 1
@@ -56,6 +58,9 @@
     </if>
     <if test="otherName != null" >
       and other_name = #{otherName}
+    </if>
+    <if test="orderMoney != null" >
+      and order_money = #{orderMoney}
     </if>
     <if test="beginTime != null" >
       and (created_time between #{beginTime} and #{endTime})
@@ -89,6 +94,9 @@
     <if test="otherName != null" >
       and other_name = #{otherName}
     </if>
+    <if test="orderMoney != null" >
+      and order_money = #{orderMoney}
+    </if>
     <if test="beginTime != null" >
       and (created_time between #{beginTime} and #{endTime})
     </if>
@@ -107,7 +115,7 @@
     where question_id = #{questionId}
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from bls_question_history
     where id = #{id,jdbcType=INTEGER}
@@ -169,6 +177,12 @@
       <if test="otherName != null" >
         other_name,
       </if>
+      <if test="orderMoney != null" >
+        order_money,
+      </if>
+      <if test="priceBefore != null" >
+        price_before,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -181,13 +195,13 @@
         #{questionUrl,jdbcType=VARCHAR},
       </if>
       <if test="questionState != null" >
-        #{questionState,jdbcType=INTEGER},
+        #{questionState,jdbcType=VARCHAR},
       </if>
       <if test="orderId != null" >
         #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="orderType != null" >
-        #{orderType,jdbcType=INTEGER},
+        #{orderType,jdbcType=VARCHAR},
       </if>
       <if test="orderProvince != null" >
         #{orderProvince,jdbcType=VARCHAR},
@@ -225,6 +239,12 @@
       <if test="otherName != null" >
         #{otherName,jdbcType=VARCHAR},
       </if>
+      <if test="orderMoney != null" >
+        #{orderMoney,jdbcType=INTEGER},
+      </if>
+      <if test="priceBefore != null" >
+        #{priceBefore,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.bls.que.pojo.History" >
@@ -237,13 +257,13 @@
         question_url = #{questionUrl,jdbcType=VARCHAR},
       </if>
       <if test="questionState != null" >
-        question_state = #{questionState,jdbcType=INTEGER},
+        question_state = #{questionState,jdbcType=VARCHAR},
       </if>
       <if test="orderId != null" >
         order_id = #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="orderType != null" >
-        order_type = #{orderType,jdbcType=INTEGER},
+        order_type = #{orderType,jdbcType=VARCHAR},
       </if>
       <if test="orderProvince != null" >
         order_province = #{orderProvince,jdbcType=VARCHAR},
@@ -277,6 +297,12 @@
       </if>
       <if test="otherName != null" >
         other_name = #{otherName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderMoney != null" >
+        order_money = #{orderMoney,jdbcType=INTEGER},
+      </if>
+      <if test="priceBefore != null" >
+        price_before = #{priceBefore,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

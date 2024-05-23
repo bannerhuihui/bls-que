@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>调查问卷页面</title>
     <style>
         body {
             margin: 10px;
@@ -73,13 +73,18 @@
 <body>
 <script src="/js/jquery-3.3.1.min.js" type="text/javascript"></script>
 <header>
-    <h1>百乐思瘦身营养搭配方案调查</h1>
+    <p>亲爱的红云朵VIP会员：
+        <br>
+        您好！欢迎您加入红云朵精准营养健康管理服务中心！每个人都有独特的生活方式，我们希望通过这份健康评测，更深入地了解您的身体健康情况。根据您的评测结论，红云朵权威营养专家将为您提供定制化的健康营养方案，帮助您实现健康目标。现在，就让我们开启这次探索健康之旅吧！</p>
     <input type="text" hidden id="queId" th:value="${queId}"/>
 </header>
 
 <main>
     <div id="que_1" >
         <p>1.请填写您的基本信息</p>
+        <span>姓名：</span>
+        <input type="text" name="name">
+        <br>
         <span>生日：</span>
         <select name="year" id="year">
             <!-- 示例数据，实际应替换为适当的年份范围 -->
@@ -241,8 +246,8 @@
         <span>日</span>
         <br>
         <span>性别：</span>
-        <input type="radio" name="gender" value="male" checked> <span>男</span>
-        <input type="radio" name="gender" value="female"> <span>女</span>
+        <input type="radio" name="gender" value="男" checked> <span>男</span>
+        <input type="radio" name="gender" value="女"> <span>女</span>
         <br>
         <span>身高：</span>
         <input type="text" name="height" placeholder="单位 (cm)">
@@ -251,137 +256,142 @@
         <input type="text" name="weight" placeholder="单位 (kg)">
         <br>
         <span>腰围：</span>
-        <input type="text" name="waist" placeholder="单位 (cm)">
+        <input type="text" name="waist" placeholder="单位 (cm)">&nbsp;&nbsp;&nbsp;&nbsp;<span>腰围80厘米相当于2尺4</span>
 
     </div>
     <div id="que_2">
-        <p>2.您平时从事体力劳动的强度？</p>
-        <input type="radio" name="physicalWorkIntensity" value="1">休息，主要是坐着或躺着
+        <p>1.您的直系亲属（父母/祖父母/外祖父母）患有以下疾病吗？</p>
+        <input type="checkbox" name="familyDisease" value="高血压">A.高血压
         <br>
-        <input type="radio" name="physicalWorkIntensity" value="2">坐位工作，几乎无走动，如办公室职员
+        <input type="checkbox" name="familyDisease" value="糖尿病">B.糖尿病
         <br>
-        <input type="radio" name="physicalWorkIntensity" value="3">坐位工作，有时需走动或站立，很少有重体力活动，如司机、学生
+        <input type="checkbox" name="familyDisease" value="高脂血症">C.高脂血症
         <br>
-        <input type="radio" name="physicalWorkIntensity" value="4">主要是站着或走着工作，如服务员
+        <input type="checkbox" name="familyDisease" value="冠心病">D.冠心病
         <br>
-        <input type="radio" name="physicalWorkIntensity" value="5">重体力职业工作，如建筑工人、农民或运动员
+        <input type="checkbox" name="familyDisease" value="脑卒中">E.脑卒中
+        <br>
+        <input type="checkbox" name="familyDisease" value="肥胖">F.肥胖
+        <br>
+        <input type="checkbox" name="familyDisease" value="以上都无">G.以上都无
     </div>
     <div id="que_3">
-        <p>3.您目前是否患有以下代谢性疾病？</p>
-        <input type="checkbox" name="metabolicDisease" value="1">2型糖尿病
+        <p>2.您是否被医院诊断为以下代谢疾病?</p>
+        <input type="checkbox" name="metabolicDiseases" value="糖尿病">A. 糖尿病
         <br>
-        <input type="checkbox" name="metabolicDisease" value="2">高血脂
+        <input type="checkbox" name="metabolicDiseases" value="高脂血症">B. 高脂血症
         <br>
-        <input type="checkbox" name="metabolicDisease" value="3">无
+        <input type="checkbox" name="metabolicDiseases" value="高血压">C. 高血压
+        <br>
+        <input type="checkbox" name="metabolicDiseases" value="脑血管病(脑出血、脑卒中)">D. 脑血管病(脑出血、脑卒中)
+        <br>
+        <input type="checkbox" name="metabolicDiseases" value="无">E. 无
     </div>
     <div id="que_4">
-        <p>4.您目前是否患有以下心脑血管疾病？</p>
-        <input type="checkbox" name="heartAndBrainVascularDiseases" value="1">高血压
+        <p>3.您一周的喝酒量是?</p>
+        <input type="radio" name="drinkWeek" value="普通瓶装啤酒8瓶/白酒400m/红酒2瓶">A.普通瓶装啤酒8瓶/白酒400m/红酒2瓶
         <br>
-        <input type="checkbox" name="heartAndBrainVascularDiseases" value="2">冠心病
+        <input type="radio" name="drinkWeek" value="少量饮酒">B.少量饮酒
         <br>
-        <input type="checkbox" name="heartAndBrainVascularDiseases" value="3">脑卒中
-        <br>
-        <input type="checkbox" name="heartAndBrainVascularDiseases" value="4">无
+        <input type="radio" name="drinkWeek" value="不喝酒">C.不喝酒
     </div>
     <div id="que_5">
-        <p>5.您的直系亲属是否存在以下代谢性疾病？</p>
-        <input type="checkbox" name="metabolicDisorderStatus" value="1">高血脂
+        <p>4.您平时的烟草接触情况？</p>
+        <input type="radio" name="smoking" value="平时抽烟">A.平时抽烟
         <br>
-        <input type="checkbox" name="metabolicDisorderStatus" value="2">无
+        <input type="radio" name="smoking" value="不抽烟但会接触二手烟">B.不抽烟但会接触二手烟
+        <br>
+        <input type="radio" name="smoking" value="不抽烟也不接触二手烟">C.不抽烟也不接触二手烟
     </div>
     <div id="que_6">
-        <p>6.您的直系亲属是否存在以下心脑血管疾病？</p>
-        <input type="checkbox" name="familyHeartAndBrainVascularDiseases" value="1">冠心病
+        <p>5.您一天的睡眠时长是?</p>
+        <input type="radio" name="sleepOneDay" value="高于6小时/天">A. 高于6小时/天
         <br>
-        <input type="checkbox" name="familyHeartAndBrainVascularDiseases" value="2">脑卒中
-        <br>
-        <input type="checkbox" name="familyHeartAndBrainVascularDiseases" value="3">无
+        <input type="radio" name="sleepOneDay" value="低于6个小时/天">B.低于6个小时/天
     </div>
     <div id="que_7">
-        <p>7.您的其他相关指标？</p>
-        <span>总胆固醇：</span>
-        <input type="text" name="totalCholesterol" placeholder="单位 (mmol/L)">
+        <p>6.您的睡眠质量怎么样?</p>
+        <input type="checkbox" name="sleepQuality" value="入睡困难">A.入睡困难
         <br>
-        <span>甘油三酯：</span>
-        <input type="text" name="Triglycerides" placeholder="单位 (mmol/L)">
+        <input type="checkbox" name="sleepQuality" value="容易醒">B.容易醒
         <br>
-        <span>高密度脂蛋白胆固醇：</span>
-        <input type="text" name="heightProteinCholesterol" placeholder="单位 (mmol/L)">
+        <input type="checkbox" name="sleepQuality" value="多梦(一晚上都在做梦，且回想不起来梦过什么)">C.多梦(一晚上都在做梦，且回想不起来梦过什么)
         <br>
-        <span>低密度脂蛋白胆固醇：</span>
-        <input type="text" name="lowProteinCholesterol" placeholder="单位 (mmol/L)">
-        <br>
+        <input type="checkbox" name="sleepQuality" value="比较好">D.比较好
     </div>
     <div id="que_8">
-        <p>8.您是否饮酒？</p>
-        <input type="radio" name="drinking" value="1">平均每天大于1两酒精
+        <p>7.您是否长期处于紧张焦虑当中或高压力工作中?</p>
+        <input type="radio" name="work" value="是">A.是
         <br>
-        <input type="radio" name="drinking" value="2">平均每天0.5到1两酒精
+        <input type="radio" name="work" value="偶尔会有一段时间焦虑">B.偶尔会有一段时间焦虑
         <br>
-        <input type="radio" name="drinking" value="3">平均每天小于0.5两酒精
-        <br>
-        <input type="radio" name="drinking" value="4">不喝酒
+        <input type="radio" name="work" value="否">C.否
     </div>
     <div id="que_9">
-        <p>9.您是否有以下健康问题？</p>
-        <input type="radio" name="health" value="1">跟腱增厚
+        <p>8.您每天的运动量?</p>
+        <input type="radio" name="amount" value="平时都会做适量运动">A.平时都会做适量运动
         <br>
-        <input type="radio" name="health" value="2">无
+        <input type="radio" name="amount" value="只有上下班走走路">B.只有上下班走走路
+        <br>
+        <input type="radio" name="amount" value="只做做家务">C.只做做家务
+        <br>
+        <input type="radio" name="amount" value="几乎不动，久坐，下班开车">D.几乎不动，久坐，下班开车
+        <br>
+        <input type="radio" name="amount" value="去健身房锻炼">E.去健身房锻炼
     </div>
     <div id="que_10">
-        <p>10.您是否有以下食物摄入超量问题？</p>
-        <input type="radio" name="foodExcess" value="1">每周3次以上吃甜品或含糖饮料
+        <p>9.您的排便情况?</p>
+        <input type="checkbox" name="defecation" value="大便不成形，粘滞不易冲冲">A.大便不成形，粘滞不易冲冲
         <br>
-        <input type="radio" name="foodExcess" value="2">无
+        <input type="checkbox" name="defecation" value="排便气味重">B.排便气味重
+        <br>
+        <input type="checkbox" name="defecation" value="颜色非黄或黄褐色">C.颜色非黄或黄褐色
+        <br>
+        <input type="checkbox" name="defecation" value="便秘">D.便秘
+        <br>
+        <input type="checkbox" name="defecation" value="经常腹泻">E.经常腹泻
+        <br>
+        <input type="checkbox" name="defecation" value="无以上症状">F.无以上症状
     </div>
     <div id="que_11">
-        <p>11.您是否有以下饮食习惯？</p>
-        <input type="checkbox" name="foodHabit" value="1">常吃内脏（平均每月大于2次）
+        <p>10.以下描述哪项更贴近您的饮食习惯?</p>
+        <input type="checkbox" name="foodShort" value="平时特别喜欢吃咸的，味比较重的食物(包括炒菜、腌菜和卤制品等)?">A. 平时特别喜欢吃咸的，味比较重的食物(包括炒菜、腌菜和卤制品等)?
         <br>
-        <input type="checkbox" name="foodHabit" value="2">每周至少吃一次油炸食品
+        <input type="checkbox" name="foodShort" value="蔬菜、水果摄入少 (每日蔬菜摄入量<300g)">B.蔬菜、水果摄入少 (每日蔬菜摄入量<300g)
         <br>
-        <input type="checkbox" name="foodHabit" value="3">每周至少喝一次浓的肉汤
+        <input type="checkbox" name="foodShort" value="经常喝含糖饮料或吃甜品等高糖食品">C.经常喝含糖饮料或吃甜品等高糖食品
         <br>
-        <input type="checkbox" name="foodHabit" value="4">每周至少吃一次烧烤
+        <input type="checkbox" name="foodShort" value="喜欢吃肉类或加工肉制品(火腿、培根等)">D.喜欢吃肉类或加工肉制品(火腿、培根等)
         <br>
-        <input type="checkbox" name="foodHabit" value="5">无
+        <input type="checkbox" name="foodShort" value="主食吃的都是精加工谷物(精米白面)，几乎不吃粗粮类食物">E.主食吃的都是精加工谷物(精米白面)，几乎不吃粗粮类食物
+        <br>
+        <input type="checkbox" name="foodShort" value="经常在外就餐或点外卖">F.经常在外就餐或点外卖
+        <br>
+        <input type="checkbox" name="foodShort" value="爱吃烧烤、油炸、腌制食物">G.爱吃烧烤、油炸、腌制食物
+        <br>
+        <input type="checkbox" name="foodShort" value="饮水量<1500ml">H.饮水量<1500ml
+        <br>
+        <input type="checkbox" name="foodShort" value="无以上任何习惯">I.无以上任何习惯
     </div>
     <div id="que_12">
-        <p>12.您是否有以下食物摄入不足问题？</p>
-        <input type="radio" name="foodShort" value="1">平均每周吃粗粮少于3次
+        <p>11.您是否有以下症状？</p>
+        <input type="checkbox" name="otherDisease" value="疲劳、精力不济">A.疲劳、精力不济
         <br>
-        <input type="radio" name="foodShort" value="2">无
+        <input type="checkbox" name="otherDisease" value="虚弱、经常犯困">B.虚弱、经常犯困
+        <br>
+        <input type="checkbox" name="otherDisease" value="容易感冒、反复感染">C.容易感冒、反复感染
     </div>
     <div id="que_13">
-        <p>13.过去半年中每周的运动情况是？</p>
-        <input type="radio" name="sports" value="1">除了工作/家务之外几呼不动
+        <p>12.目前最想解决的健康问题（单选）？</p>
+        <input type="radio" name="needs" value="高血压">A.高血压
         <br>
-        <input type="radio" name="sports" value="2">每周运动1-2天
+        <input type="radio" name="needs" value="高血脂">B.高血脂
         <br>
-        <input type="radio" name="sports" value="3">每周运动3-4天
+        <input type="radio" name="needs" value="高血糖">C.高血糖
         <br>
-        <input type="radio" name="sports" value="4">每周运动5天以上
-    </div>
-    <div id="que_14">
-        <p>14.您的吸烟情况？</p>
-        <input type="radio" name="smocking" value="1">每天11-20支
+        <input type="radio" name="needs" value="肠道健康">D.肠道健康
         <br>
-        <input type="radio" name="smocking" value="2">每天21-30支
-        <br>
-        <input type="radio" name="smocking" value="3">不抽烟但会接触二手烟，接触史小于20年
-        <br>
-        <input type="radio" name="smocking" value="4">不抽烟但会接触二手烟，接触史大于等于20年
-        <br>
-        <input type="radio" name="smocking" value="5">每天大于30支
-        <br>
-        <input type="radio" name="smocking" value="6">戒烟小于5年
-        <br>
-        <input type="radio" name="smocking" value="7">戒烟大于5年小于15年
-        <br>
-        <input type="radio" name="smocking" value="8">戒烟大于等于15年
-        <br>
-        <input type="radio" name="smocking" value="9">现在和曾经均不抽烟也不接触二手烟
+        <input type="radio" name="needs" value="免疫力">E.免疫力
     </div>
 </main>
 <footer>
@@ -391,7 +401,7 @@
 </footer>
 <script type="text/javascript">
     var base_div_clazz = "que_";
-    const div_list = ["que_1","que_2","que_3","que_4","que_5","que_6","que_7","que_8","que_9","que_10","que_11","que_12","que_13","que_14"];
+    const div_list = ["que_1","que_2","que_3","que_4","que_5","que_6","que_7","que_8","que_9","que_10","que_11","que_12","que_13"];
     function divDisplayNone(que_no){
         //将所有的div隐藏
         $.each(div_list,function(index,v){
@@ -433,6 +443,7 @@
 
         $(".submit").click(function(){
             //que_1
+            let name = $("[name='name']").val();
             let year = $("#year").val();
             let month = $("#month").val();
             let day = $("#day").val();
@@ -441,66 +452,62 @@
             let weight = $("[name='weight']").val();
             let waist = $("[name='waist']").val();
             //que_2
-            let physicalWorkIntensity = $("input[name='physicalWorkIntensity']:checked").val();
+            let familyDisease = [];
+            $("input[name='familyDisease']:checked").each(function (){
+                familyDisease.push($(this).val());
+            });
             //que_3
             let metabolicDiseases = [];
-            $("input[name='metabolicDisease']:checked").each(function(){
+            $("input[name='metabolicDiseases']:checked").each(function(){
                 metabolicDiseases.push($(this).val());
             });
             //que_4
-            let heartAndBrainVascularDiseases = [];
-            $("input[name='heartAndBrainVascularDiseases']:checked").each(function(){
-                heartAndBrainVascularDiseases.push($(this).val());
-            });
+            let drinkWeek = $("input[name='drinkWeek']:checked").val();
             //que_5
-            let metabolicDisorderStatuses = [];
-            $("input[name='metabolicDisorderStatus']:checked").each(function(){
-                metabolicDisorderStatuses.push($(this).val());
-            });
+            let smoking = $("input[name='smoking']:checked").val();
             //que_6
-            let familyHeartAndBrainVascularDiseases = [];
-            $("input[name='familyHeartAndBrainVascularDiseases']:checked").each(function(){
-                familyHeartAndBrainVascularDiseases.push($(this).val());
-            });
+            let sleepOneDay = $("input[name='sleepOneDay']:checked").val();
             //que_7
-            let totalCholesterol = $("[name='totalCholesterol']").val();
-            let Triglycerides = $("[name='Triglycerides']").val();
-            let heightProteinCholesterol = $("[name='heightProteinCholesterol']").val();
-            let lowProteinCholesterol = $("[name='lowProteinCholesterol']").val();
+            let sleepQuality = [];
+            $("input[name='sleepQuality']:checked").each(function(){
+                sleepQuality.push($(this).val());
+            });
             //que_8
-            let drinking = $("[name='drinking']").val();
+            let work = $("[name='work']:checked").val();
             //que_9
-            let health = $("[name='health']").val();
+            let amount = $("[name='amount']:checked").val();
             //que_10
-            let foodExcess = $("[name='foodExcess']").val();
+            let defecation = [];
+            $("input[name='defecation']:checked").each(function(){
+                defecation.push($(this).val());
+            });
             //que_11
-            let foodHabits = [];
-            $("input[name='foodHabit']:checked").each(function(){
-                foodHabits.push($(this).val());
+            let foodShort = [];
+            $("input[name='foodShort']:checked").each(function(){
+                foodShort.push($(this).val());
             });
             //que_12
-            let foodShort = $("[name='foodShort']").val();
+            let otherDisease = [];
+            $("input[name='otherDisease']:checked").each(function(){
+                otherDisease.push($(this).val());
+            });
             //que_13
-            let sports = $("[name='sports']").val();
-            //que_14
-            let smocking = $("[name='smocking']").val();
+            let needs = $("[name='needs']:checked").val();
+            let label = needs;
             let otherText = {
-                "physicalWorkIntensity":physicalWorkIntensity,
-                "metabolicDisease":metabolicDiseases,
-                "heartAndBrainVascularDiseases":heartAndBrainVascularDiseases,
-                "metabolicDisorderStatus":metabolicDisorderStatuses,
-                "familyHeartAndBrainVascularDiseases":familyHeartAndBrainVascularDiseases,
-                "totalCholesterol":totalCholesterol,
-                "Triglycerides":Triglycerides,
-                "heightProteinCholesterol":heightProteinCholesterol,
-                "lowProteinCholesterol":lowProteinCholesterol,
-                "drinking":drinking,
-                "health":health,
-                "foodExcess":foodExcess,
-                "foodHabits":foodHabits,
+                "name":name,
+                "familyDisease":familyDisease,
+                "metabolicDiseases":metabolicDiseases,
+                "drinkWeek":drinkWeek,
+                "smoking":smoking,
+                "sleepOneDay":sleepOneDay,
+                "sleepQuality":sleepQuality,
+                "work":work,
+                "amount":amount,
+                "defecation":defecation,
                 "foodShort":foodShort,
-                "sports":sports,
-                "smocking":smocking
+                "otherDisease":otherDisease,
+                "needs":needs
             }
             let queData = {
                 "queId":qId,
@@ -509,6 +516,7 @@
                 "height":height,
                 "weight":weight,
                 "waist":waist,
+                "label":label,
                 "otherText":JSON.stringify(otherText)
             }
             console.log(queData)
@@ -520,7 +528,17 @@
                 success:function (data) {
                     console.log(data);
                     if(data === "success"){
-                        window.location.href = "/page/success";
+                        if(needs === "高血压"){
+                            window.location.href = "/page/gotoDisease?disease=gaoxueya&name="+name;
+                        }else if(needs === "高血脂"){
+                            window.location.href = "/page/gotoDisease?disease=gaoxuezhi&name="+name;
+                        }else if(needs === "高血糖"){
+                            window.location.href = "/page/gotoDisease?disease=gaoxuetang&name="+name;
+                        }else if(needs === "肠道健康"){
+                            window.location.href = "/page/gotoDisease?disease=changdaojiankang&name="+name;
+                        }else {
+                            window.location.href = "/page/gotoDisease?disease=mianyili&name="+name;
+                        }
                     }else {
                         alert("哎呀出错了！")
                     }

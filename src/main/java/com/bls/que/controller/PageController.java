@@ -3,7 +3,7 @@ package com.bls.que.controller;
 import com.bls.que.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,19 +24,20 @@ public class PageController {
     @Autowired
     private HistoryService historyService;
 
-    @RequestMapping(value = "/index.do",method = RequestMethod.GET)
-    public ModelAndView index(ModelAndView mv){
-        mv.setViewName("index");
+    @RequestMapping(value = "/goto/{page}",method = RequestMethod.GET)
+    public ModelAndView gotoPage(ModelAndView modelAndView,@PathVariable("page") String page){
+        modelAndView.setViewName(page);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/home",method = RequestMethod.GET)
+    public ModelAndView home(ModelAndView mv , Integer userId,String userName){
+        mv.addObject("userId",userId);
+        mv.addObject("userName",userName);
+        mv.setViewName("home");
         return mv;
     }
 
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public String list(Model model,Integer userId,String userName){
-        //获取该用户的订单列表
-        model.addAttribute("userName",userName);
-        model.addAttribute("userId",userId);
-        return "list";
-    }
 
     //调查问卷
     @RequestMapping(value = "que",method = RequestMethod.GET)
@@ -50,30 +51,13 @@ public class PageController {
         return mv;
     }
 
-    //跳转更新页面
-    @RequestMapping(value = "update",method = RequestMethod.GET)
-    public ModelAndView gotoUpdatePage(int id,ModelAndView mv){
-        mv.addObject("id",id);
-        mv.setViewName("update");
-        return mv;
-    }
 
-    @RequestMapping(value = "success",method = RequestMethod.GET)
-    public ModelAndView success(ModelAndView mv){
-        mv.setViewName("success");
+    @RequestMapping(value = "gotoDisease",method = RequestMethod.GET)
+    public ModelAndView gotoDisease(String name,ModelAndView mv,String disease){
+        mv.addObject("name",name);
+        mv.setViewName(disease);
         return mv;
     }
 
 
-    @RequestMapping(value = "error",method = RequestMethod.GET)
-    public ModelAndView error(ModelAndView mv){
-        mv.setViewName("error");
-        return mv;
-    }
-
-    @RequestMapping(value = "/historyList.html",method = RequestMethod.GET)
-    public ModelAndView historyList(ModelAndView mv){
-        mv.setViewName("history-list");
-        return mv;
-    }
 }

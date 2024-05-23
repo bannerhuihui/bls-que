@@ -1,0 +1,28 @@
+.centered-form {
+    display: flex;
+    height: 100vh;
+    margin-left: 10vw;
+    padding-bottom: 200px;
+}
+.form-container {
+    width: 100%;
+    max-width: 500px; /* 你可以根据需要调整这个宽度 */
+    padding: 20px;
+}
+
+button{
+    width: 47.5%;
+}
+
+.title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.sel {
+    padding-bottom: 15px;
+}
+

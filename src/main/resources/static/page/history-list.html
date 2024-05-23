@@ -1,40 +1,554 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./css/layui.css">
+    <title>创建用户列表</title>
+    <link rel="stylesheet" href="/css/layui.css">
+    <style>
+        #update-iframe{
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        #demo-laypage-layout-1{
+            float: right;
+        }
+        .title-query-form{
+            padding-top: 30px;
+            height: 15vh;
+        }
+
+        td{
+            height: 60px;
+        }
+        .parent {
+            position: relative; /* 必须相对定位父容器 */
+            width: 98vw;
+            height: 98vh;
+            margin-left: 1vw;
+            margin-right: 1vw;
+            margin-top: 1vh;
+            margin-bottom: 1vh;
+        }
+
+        .child {
+            position: absolute; /* 绝对定位子容器 */
+            right: 0; /* 将右边距设为0 */
+            bottom: 0; /* 将下边距设为0 */
+        }
+    </style>
 </head>
 <body>
-    <table class="layui-hide" id="ID-table-demo-search"></table>
-      <input type="text" value="11" name="aaa">  
-    <!-- 请勿在项目正式环境中引用该 layui.js 地址 -->
-    <script src="./js/layui.js"></script>
-    <script>
-        //http://127.0.0.1:8888/test/getArray
-        layui.use(["layer"], function(){
-            var $=layui.$;
-            var layer=layui.layer;
-            console.log('-----')
-            console.log($("[name='aaa']").val());
+<script src="/js/layui.js"></script>
+<div class="parent">
+    <form class="layui-form title-query-form" action="">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">订&nbsp;单&nbsp;号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="orderId" placeholder="订单号" autocomplete="off" class="layui-input ">
+                </div>
+                <label class="layui-form-label">收&nbsp;件&nbsp;人</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="orderRecipient"  placeholder="收件人" autocomplete="off" class="layui-input ">
+                </div>
+                <label class="layui-form-label">手&nbsp;机&nbsp;号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="orderPhone"  placeholder="收件人手机号" autocomplete="off" class="layui-input ">
+                </div>
+                <label class="layui-form-label">网页路径</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="questionUrl"  placeholder="收件人手机号" autocomplete="off" class="layui-input ">
+                </div>
+                <label class="layui-form-label">问卷提交</label>
+                <div class="layui-input-inline">
+                    <select name="questionState" lay-filter="aihao">
+                        <option value="请选择">请选择</option>
+                        <option value="可用">未提交</option>
+                        <option value="不可用">已提交</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">平&nbsp;&nbsp;&nbsp;&nbsp;台</label>
+                <div class="layui-input-inline">
+                    <select name="otherName" lay-filter="aihao">
+                        <option value="请选择">请选择</option>
+                        <option value="抖音">抖音</option>
+                        <option value="微信">微信</option>
+                        <option value="天猫">天猫</option>
+                        <option value="京东">京东</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">套餐价格</label>
+                <div class="layui-input-inline">
+                    <select name="orderMoney" lay-filter="aihao">
+                        <option value="请选择">请选择</option>
+                        <option value="4980">4980</option>
+                        <option value="2980">2980</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">套餐类型</label>
+                <div class="layui-input-inline">
+                    <select name="orderType" lay-filter="aihao">
+                        <option value="请选择">请选择</option>
+                        <option value="套餐1">套餐1</option>
+                        <option value="套餐2">套餐2</option>
+                        <option value="套餐3">套餐3</option>
+                        <option value="套餐4">套餐4</option>
+                        <option value="套餐5">套餐5</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">创建时间</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline layui-input-wrap">
+                        <div class="layui-input-prefix">
+                            <i class="layui-icon layui-icon-date"></i>
+                        </div>
+                        <input type="text" name="beginTime"  lay-verify="date" placeholder="开始" autocomplete="off" class="demo-table-search-date layui-input">
+                    </div>
+                </div>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline layui-input-wrap">
+                        <div class="layui-input-prefix">
+                            <i class="layui-icon layui-icon-date"></i>
+                        </div>
+                        <input type="text" name="endTime"  lay-verify="date" placeholder="结束" autocomplete="off" class="demo-table-search-date layui-input">
+                    </div>
+                </div>
+                <button type="submit" class="layui-btn" lay-submit lay-filter="table-search">查询</button>
+            </div>
+        </div>
+    </form>
+    <table class="layui-hide" id="history-list" lay-filter="history-list"></table>
+    <div id="demo-laypage-layout-1" class="child"></div>
+</div>
+<script type="text/html" id="barDemo">
+    <div class="layui-clear-space">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="more">
+            更多
+            <i class="layui-icon layui-icon-down"></i>
+        </a>
+    </div>
+</script>
+<script>
+    function isEmptyResponse(response) {
+        if (response === null || response === undefined) {
+            return true;
+        }
+
+        if (typeof response === "string" && response.trim() === "") {
+            return true;
+        }
+
+        if (Array.isArray(response) && response.length === 0) {
+            return true;
+        }
+
+        if (typeof response === "object" && Object.keys(response).length === 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function getCurrentTime() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = (now.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，所以+1
+        var day = now.getDate().toString().padStart(2, '0');
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+
+        return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+    }
+
+
+    layui.use(["layer",'dropdown','laypage'], function(){
+        var $=layui.$;
+        var layer=layui.layer;
+        var table = layui.table;
+        var form = layui.form;
+        var laydate = layui.laydate;
+        var dropdown = layui.dropdown;
+        var laypage = layui.laypage;
+        var total = 0;
+        //将form中的数据进行封装
+        var beginTime = $("[name = 'beginTime']").val();
+        var endTime = $("[name = 'endTime']").val();
+        var orderId = $("[name = 'orderId']").val();
+        var orderMoney = $("[name = 'orderMoney']").val();
+        var orderPhone = $("[name = 'orderPhone']").val();
+        var orderRecipient = $("[name = 'orderRecipient']").val();
+        var orderType = $("[name = 'orderType']").val();
+        var otherName = $("[name = 'otherName']").val();
+        var questionState = $("[name = 'questionState']").val();
+        var questionUrl = $("[name = 'questionUrl']").val();
+        if(beginTime != ""){
+            beginTime = beginTime + " 00:00:00";
+            if(endTime === ""){
+                endTime =  getCurrentTime();
+            }else {
+                endTime = endTime + " 23:59:59"
+            }
+        }else {
+            beginTime = null;
+            endTime = null;
+        }
+        if(orderMoney === "请选择"){
+            orderMoney = null;
+        }else {
+            orderMoney = parseInt(orderMoney);
+        }
+        if(orderType === "请选择"){
+            orderType = null;
+        }
+        if(questionState === "请选择"){
+            questionState = null;
+        }
+        if(otherName === "请选择"){
+            otherName = null;
+        }
+        //加载页面
+        var loadData = {
+            "userId":parseInt(window.parent.userId),
+            "currentPage":1,
+            "maxRow":10,
+            "beginTime":beginTime,
+            "endTime":endTime,
+            "orderId":orderId,
+            "orderMoney":orderMoney,
+            "orderPhone":orderPhone,
+            "orderRecipient":orderRecipient,
+            "orderType":orderType,
+            "otherName":otherName,
+            "questionState":questionState,
+            "questionUrl":questionUrl
+        }
+        loadPage(loadData);
+
+        table.on('tool(history-list)', function(obj){ // 双击 toolDouble
+            let onLineData = obj.data; // 获得当前行数据
+            if(obj.event === 'edit'){
+                layer.open({
+                    title: '修改问卷内容',
+                    type: 1,
+                    area: ['80%','80%'],
+                    content: '<div style="padding: 16px;height: 100%"><iframe id="update-iframe" src="/page/update-history.html?onLineData='+ encodeURIComponent(JSON.stringify(onLineData))+'" allowfullscreen></iframe></div>'
+                });
+            } else if(obj.event === 'more'){
+                console.log("-------")
+                // 更多 - 下拉菜单
+                dropdown.render({
+                    elem: this, // 触发事件的 DOM 对象
+                    show: true, // 外部事件触发即显示
+                    data: [{
+                        title: '查看详情',
+                        id: 'detail'
+                    },{
+                        title: '同步订单',
+                        id: 'del'
+                    }],
+                    click: function(menudata){
+                        if(menudata.id === 'detail'){
+                            //查看的历史详情
+                            $.ajax({
+                                url:"/question/queryQuestionByQid?qid="+onLineData.questionId,
+                                type:"GET",
+                                success:function (data) {
+                                    layer.open({
+                                        title: '用户提交的详细信息',
+                                        type: 1,
+                                        area: ['80%','80%'],
+                                        content: '<div id="que-all" style="padding: 16px;height: 100%"></div>'
+                                    });
+                                    if(!isEmptyResponse(data)){
+                                        var otherText = JSON.parse(data.otherText);
+                                        let aue_all_text = "个人信息：<br><p>姓名："
+                                            +otherText.name+"</p><br><p>生日："
+                                            +data.birthday+"</p><br><p>性别："
+                                            +data.gender+"</p><br><p>身高："
+                                            +data.height+"</p><br><p>体重："+
+                                            data.weight+"</p><br><p>腰围："+
+                                            data.waist+"</p><br>健康状况评估：<br>您的直系亲属（父母/祖父母/外祖父母）患有以下疾病吗?<br><p>"+
+                                            otherText.familyDisease+"</p><br>您是否被医院诊断为以下代谢疾病?<br><p>"+
+                                            otherText.metabolicDiseases+"</p><br>您一周的喝酒量是?<br><p>"+
+                                            otherText.drinkWeek+"</p><br>您平时的烟草接触情况?<br><p>"+
+                                            otherText.smoking+"</p><br>您一天的睡眠时长是?<br><p>"+
+                                            otherText.sleepOneDay+"</p><br>您的睡眠质量怎么样?<br><p>"+
+                                            otherText.sleepQuality+"</p><br>您是否长期处于紧张焦虑当中或高压力工作中?<br><p>"+
+                                            otherText.work+"</p><br>您每天的运动量?<br><p>"+
+                                            otherText.amount+"</p><br>您的排便情况?<br><p>"+
+                                            otherText.defecation+"</p><br>以下描述哪项更贴近您的饮食习惯?<br><p>"+
+                                            otherText.foodShort+"</p><br>您是否有以下症状：<br><p>"+
+                                            otherText.otherDisease+"</p><br>目前最想解决的健康问题（单选）<br><p>"+
+                                            otherText.needs+"</p>";
+                                        $("#que-all").html(aue_all_text);
+                                    } else {
+                                        $("#que-all").html("<h2>用户暂时还没有填写问卷哟！</h2>");
+                                    }
+                                },
+                                error: function(e){
+                                    console.log(e)
+                                }
+                            });
+
+                        } else if(menudata.id === 'del'){
+                            layer.confirm('要同步该条数据么？', function(index){
+                                console.log("订单同步的id为"+onLineData.id);
+                                layer.close(index);
+                                // 向服务端发送删除指令
+                            });
+                        }
+                    },
+                    align: 'right', // 右对齐弹出
+                    style: 'box-shadow: 1px 1px 10px rgb(0 0 0 / 12%);' // 设置额外样式
+                })
+            }
+        });
+        // 日期
+        laydate.render({
+            elem: '.demo-table-search-date'
+        });
+
+        laypage.render({
+            elem: 'demo-laypage-layout-1',
+            count: total,
+            layout: ['prev', 'page', 'next'],
+            limit: 10,
+            jump: function (obj,first){
+                var beginTime = $("[name = 'beginTime']").val();
+                var endTime = $("[name = 'endTime']").val();
+                var orderId = $("[name = 'orderId']").val();
+                var orderMoney = $("[name = 'orderMoney']").val();
+                var orderPhone = $("[name = 'orderPhone']").val();
+                var orderRecipient = $("[name = 'orderRecipient']").val();
+                var orderType = $("[name = 'orderType']").val();
+                var otherName = $("[name = 'otherName']").val();
+                var questionState = $("[name = 'questionState']").val();
+                var questionUrl = $("[name = 'questionUrl']").val();
+                if(beginTime != ""){
+                    beginTime = beginTime + " 00:00:00";
+                    if(endTime === ""){
+                        endTime =  getCurrentTime();
+                    }else {
+                        endTime = endTime + "23:59:59";
+                    }
+                }else {
+                    beginTime = null;
+                    endTime = null;
+                }
+                if(orderMoney === "请选择"){
+                    orderMoney = null;
+                }else {
+                    orderMoney = parseInt(orderMoney);
+                }
+                if(orderType === "请选择"){
+                    orderType = null;
+                }
+                if(questionState === "请选择"){
+                    questionState = null;
+                }
+                if(otherName === "请选择"){
+                    otherName = null;
+                }
+                //加载页面
+                var nextAndBefore = {
+                    "userId":parseInt(window.parent.userId),
+                    "currentPage":1,
+                    "maxRow":10,
+                    "beginTime":beginTime,
+                    "endTime":endTime,
+                    "orderId":orderId,
+                    "orderMoney":orderMoney,
+                    "orderPhone":orderPhone,
+                    "orderRecipient":orderRecipient,
+                    "orderType":orderType,
+                    "otherName":otherName,
+                    "questionState":questionState,
+                    "questionUrl":questionUrl
+                }
+                var pageAction = obj.pages > 1 ? (obj.curr === 1 ? "prev" : "next") : "";
+                if (pageAction === "prev") {
+                    // 这是上一页的点击事件
+                    if(!first){
+                        nextAndBefore.currentPage = obj.curr;
+                    }
+                } else if (pageAction === "next") {
+                    // 这是下一页的点击事件
+                    nextAndBefore.currentPage = obj.curr;
+                }
+
+                loadPage(nextAndBefore);
+            }
+        });
+
+        function loadPage(listData){
             $.ajax({
-                url:"http://127.0.0.1:8888/test/getArray",
-                type:"GET",
-                dataType:"jsonp",
-                jsonp: "callback",
-                data:{"page":1,"limit":5},
+                url:"/history/queryHistoryList",
+                type:"POST",
+                async: false,
+                data: listData,
                 success:function (data) {
-                    console.log('======')
-                    console.log(data);
+                    console.log(data)
+                    var listData = data.dataList;
+                    total = data.total;
+                    table.render({
+                        elem: '#history-list',
+                        cols: [
+                            [ //标题栏
+                                {field: 'orderId', title: '订单号',},
+                                {field: 'otherName', title: '平台', },
+                                {field: 'orderType', title: '套餐类型', },
+                                {field: 'orderRecipient', title: '收件人', },
+                                {field: 'orderPhone', title: '收件人手机号', },
+                                {field: 'questionUrl', title: '发送网址', },
+                                {field: 'questionState', title: '发送状态', },
+                                {field: 'orderMoney', title: '订单金额(元)',},
+                                {field: 'createdTime', title: '创建时间', },
+                                {fixed: 'right', title:'操作', width: 134, minWidth: 125, unresize: true, toolbar: '#barDemo'}
+                            ]
+                        ],
+                        data: listData,
+                    });
                 },
                 error: function(e){
                     console.log(e)
                 }
             });
-            console.log('----')
+        }
+
+        // 搜索提交
+        form.on('submit(table-search)', function(data){
+            var beginTime = $("[name = 'beginTime']").val();
+            var endTime = $("[name = 'endTime']").val();
+            var orderId = $("[name = 'orderId']").val();
+            var orderMoney = $("[name = 'orderMoney']").val();
+            var orderPhone = $("[name = 'orderPhone']").val();
+            var orderRecipient = $("[name = 'orderRecipient']").val();
+            var orderType = $("[name = 'orderType']").val();
+            var otherName = $("[name = 'otherName']").val();
+            var questionState = $("[name = 'questionState']").val();
+            var questionUrl = $("[name = 'questionUrl']").val();
+            if(beginTime != ""){
+                beginTime = beginTime + " 00:00:00";
+                if(endTime === ""){
+                    endTime =  getCurrentTime();
+                }else {
+                    endTime = endTime + " 23:59:59"
+                }
+            }else {
+                beginTime = null;
+                endTime = null;
+            }
+            if(orderMoney === "请选择"){
+                orderMoney = null;
+            }else {
+                orderMoney = parseInt(orderMoney);
+            }
+            if(orderType === "请选择"){
+                orderType = null;
+            }
+            if(questionState === "请选择"){
+                questionState = null;
+            }
+            if(otherName === "请选择"){
+                otherName = null;
+            }
+            //加载页面
+            var queryData = {
+                "userId":parseInt(window.parent.userId),
+                "currentPage":1,
+                "maxRow":10,
+                "beginTime":beginTime,
+                "endTime":endTime,
+                "orderId":orderId,
+                "orderMoney":orderMoney,
+                "orderPhone":orderPhone,
+                "orderRecipient":orderRecipient,
+                "orderType":orderType,
+                "otherName":otherName,
+                "questionState":questionState,
+                "questionUrl":questionUrl
+            }
+            loadPage(queryData);
+            laypage.render({
+                elem: 'demo-laypage-layout-1',
+                count: total,
+                layout: ['prev', 'page', 'next'],
+                limit: 10,
+                jump: function (obj,first){
+                    var beginTime = $("[name = 'beginTime']").val();
+                    var endTime = $("[name = 'endTime']").val();
+                    var orderId = $("[name = 'orderId']").val();
+                    var orderMoney = $("[name = 'orderMoney']").val();
+                    var orderPhone = $("[name = 'orderPhone']").val();
+                    var orderRecipient = $("[name = 'orderRecipient']").val();
+                    var orderType = $("[name = 'orderType']").val();
+                    var otherName = $("[name = 'otherName']").val();
+                    var questionState = $("[name = 'questionState']").val();
+                    var questionUrl = $("[name = 'questionUrl']").val();
+                    if(beginTime != ""){
+                        beginTime = beginTime + " 00:00:00";
+                        if(endTime === ""){
+                            endTime =  getCurrentTime();
+                        }else {
+                            endTime = endTime + " 23:59:59"
+                        }
+                    }else {
+                        beginTime = null;
+                        endTime = null;
+                    }
+                    if(orderMoney === "请选择"){
+                        orderMoney = null;
+                    }else {
+                        orderMoney = parseInt(orderMoney);
+                    }
+                    if(orderType === "请选择"){
+                        orderType = null;
+                    }
+                    if(questionState === "请选择"){
+                        questionState = null;
+                    }
+                    if(otherName === "请选择"){
+                        otherName = null;
+                    }
+                    //加载页面
+                    var nextAndBefore = {
+                        "userId":parseInt(window.parent.userId),
+                        "currentPage":1,
+                        "maxRow":10,
+                        "beginTime":beginTime,
+                        "endTime":endTime,
+                        "orderId":orderId,
+                        "orderMoney":orderMoney,
+                        "orderPhone":orderPhone,
+                        "orderRecipient":orderRecipient,
+                        "orderType":orderType,
+                        "otherName":otherName,
+                        "questionState":questionState,
+                        "questionUrl":questionUrl
+                    }
+                    var pageAction = obj.pages > 1 ? (obj.curr === 1 ? "prev" : "next") : "";
+                    if (pageAction === "prev") {
+                        // 这是上一页的点击事件
+                        if(!first){
+                            nextAndBefore.currentPage = obj.curr;
+                        }
+                    } else if (pageAction === "next") {
+                        // 这是下一页的点击事件
+                        nextAndBefore.currentPage = obj.curr;
+                    }
+
+                    loadPage(nextAndBefore);
+                }
+            });
+            return false; // 阻止默认 form 跳转
         });
-        
-    </script>
+    });
+</script>
 </body>
 </html>

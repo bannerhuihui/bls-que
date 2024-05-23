@@ -41,7 +41,7 @@ public class HistoryServiceImpl implements HistoryService {
             //生成一个关联问题ID
             history.setQuestionId(createdQuestionId());
             //将状态改为可用状态
-            history.setQuestionState(1);
+            history.setQuestionState("可用");
             //编译可访问的html路径
             history.setQuestionUrl(BaseStatic.BASE_URL+history.getQuestionId());
             //添加第一次创建时间
@@ -49,12 +49,27 @@ public class HistoryServiceImpl implements HistoryService {
             history.setUpdatedTime(history.getCreatedTime());
             //生成一个订单ID
             if(StrUtil.isEmpty(history.getOrderId())){
-
+                String orderId = getOrderId();
+                history.setOrderId(orderId);
             }
             historyMapper.insertSelective(history);
             return 1;
         }
         return 0;
+    }
+
+    private String getOrderId() {
+        String orderId = "";
+        boolean flag = true;
+        while (flag) {
+            String baseOrderId = IdUtil.simpleUUID();
+            orderId = baseOrderId.substring(0, 3) + baseOrderId.substring(5, 10) + baseOrderId.substring(9, 16);
+            History checkHistory = historyMapper.selectByOrderId(orderId);
+            if (checkHistory == null) {
+                flag = false;
+            }
+        }
+        return orderId;
     }
 
     @Override
@@ -76,7 +91,7 @@ public class HistoryServiceImpl implements HistoryService {
         history = updInitHistory(history);
         int i = historyMapper.updateByPrimaryKeySelective(history);
         //用户的状态修改为未使用状态
-        if(history.getQuestionState() == 1){
+        if(StrUtil.equals(history.getQuestionState(),"可用")){
             //查询用户是不是已经填写过调查报告
             Question question = questionMapper.selectByQueId(history.getQuestionId());
             if(question != null){
@@ -133,13 +148,13 @@ public class HistoryServiceImpl implements HistoryService {
         if (StrUtil.isEmpty(history.getQuestionUrl())){
             history.setQuestionUrl(null);
         }
-        if( history.getQuestionState() == null || history.getQuestionState() == 0){
+        if( StrUtil.isEmpty(history.getQuestionState())){
             history.setQuestionState(null);
         }
         if(StrUtil.isEmpty(history.getOtherName())){
             history.setOtherName(null);
         }
-        if( history.getOrderType() == null || history.getOrderType() == 0 ){
+        if(StrUtil.isEmpty(history.getOrderType())){
             history.setOrderType(null);
         }
         if(StrUtil.isEmpty(history.getOrderRecipient())){
@@ -151,7 +166,7 @@ public class HistoryServiceImpl implements HistoryService {
         if(StrUtil.isEmpty(history.getQuestionUrl())){
             history.setQuestionUrl(null);
         }
-        if (history.getQuestionState() == null || history.getQuestionState() == 0){
+        if (StrUtil.isEmpty(history.getQuestionState())){
             history.setQuestionState(null);
         }
         return history;
@@ -179,7 +194,7 @@ public class HistoryServiceImpl implements HistoryService {
         if(history.getUserId() == null || history.getUserId() == 0){
             flag = false;
         }
-        if(history.getOrderType() == null || history.getOrderType() == 0){
+        if(StrUtil.isEmpty(history.getOrderType())){
             flag = false;
         }
         if(StrUtil.isEmpty(history.getOrderProvince())){

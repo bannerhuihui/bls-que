@@ -3,9 +3,7 @@ package com.bls.que.controller;
 import com.bls.que.pojo.Question;
 import com.bls.que.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @projectName: bls-que
@@ -23,11 +21,19 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-
+//  /question/queryQuestionByQid?qid=
 
     @PostMapping(value = "/createQuestion")
     public String createQuestion(Question question){
         return questionService.createQuestion(question);
+    }
+
+
+
+    @GetMapping(value = "/queryQuestionByQid")
+    @ResponseBody
+    public Question queryQuestionByQid(String qid){
+        return questionService.queryQuestionByQid(qid);
     }
 
 
