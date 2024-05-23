@@ -40,14 +40,21 @@ public class PageController {
 
 
     //调查问卷
-    @RequestMapping(value = "que",method = RequestMethod.GET)
-    public ModelAndView que(ModelAndView mv,String queId){
+    @RequestMapping(value = "/que",method = RequestMethod.GET)
+    public ModelAndView queIndex(ModelAndView mv,String queId){
         if (historyService.queryHistoryByQueId(queId)){
             mv.addObject("queId",queId);
-            mv.setViewName("que");
+            mv.setViewName("que-index");
         }else {
             mv.setViewName("error");
         }
+        return mv;
+    }
+
+    @RequestMapping(value = "/queNext",method = RequestMethod.GET)
+    public ModelAndView que(ModelAndView mv,String queId){
+        mv.addObject("queId",queId);
+        mv.setViewName("que");
         return mv;
     }
 
