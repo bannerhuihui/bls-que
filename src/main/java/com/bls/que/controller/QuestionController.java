@@ -5,6 +5,8 @@ import com.bls.que.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
+
 /**
  * @projectName: bls-que
  * @package: com.bls.que.controller
@@ -24,7 +26,7 @@ public class QuestionController {
 //  /question/queryQuestionByQid?qid=
 
     @PostMapping(value = "/createQuestion")
-    public String createQuestion(Question question){
+    public String createQuestion(@RequestBody Question question){
         return questionService.createQuestion(question);
     }
 
