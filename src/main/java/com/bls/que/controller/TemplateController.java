@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @projectName: bls-que
@@ -34,7 +35,9 @@ public class TemplateController {
             List<Template> templates = templateMapper.selectByType(type);
             if(ArrayUtil.isNotEmpty(templates)){
                 //随机返回一条数据
-                Template template = templates.get(0);
+                Random random = new Random();
+                int index = random.nextInt(templates.size());
+                Template template = templates.get(index);
                 JSONObject jsonObject = JSONObject.parseObject(template.getContent());
                 JSONObject res = new JSONObject();
                 res.put(type,jsonObject);

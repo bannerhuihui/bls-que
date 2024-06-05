@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @projectName: bls-que
@@ -266,6 +267,17 @@ public class UserServiceTest {
         System.out.println(JSONObject.toJSONString(templateData).length());
     }
 
+
+    @Test
+    public void randomTest(){
+        Random random = new Random();
+        for (int i = 0; i < 20; i++) {
+            int index = random.nextInt(10);
+            System.out.println(index);
+        }
+
+
+    }
 
 
 }
