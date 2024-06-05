@@ -13,7 +13,7 @@
       overflow: hidden; /* 防止出现滚动条 */
     }
     body {
-      background-image: url('/images/bj-first.jpg');
+      background-image: url('/images/index-bj.jpg');
       background-size: cover; /* 背景图像将被缩放到完全覆盖元素背景区域 */
       background-position: center; /* 背景图像将居中显示 */
     }
@@ -21,7 +21,7 @@
       height: 7vh;
       width: 75vw;
       margin-left: 12.5vw;
-      margin-top: 70vh;
+      margin-top: 80vh;
       background-image: url('/images/btn.jpg');
       background-size: cover; /* 使背景图片覆盖整个DIV */
       background-position: center; /* 背景图片居中 */
@@ -38,7 +38,7 @@
 <script>
   $(function (){
       $("#gotoList").click(function (){
-        window.location.href = "/page/queNext?queId="+$("[name='userId']").val();
+        window.location.href = 'https://t.bls-jh.com/bls/?queId='+$("[name='userId']").val();
       });
   });
 </script>

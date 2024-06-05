@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bls.que.mapper.TemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.bls.que.pojo.Template" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tmp_type" property="tmpType" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tmp_type, content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bls_question_template
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bls_question_template
+    where tmp_type = #{type}
+  </select>
+</mapper>
