@@ -1,7 +1,10 @@
 package com.bls.service;
 
 import cn.hutool.core.lang.Console;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bls.que.vo.template.*;
 import org.junit.Test;
@@ -277,6 +280,27 @@ public class UserServiceTest {
         }
 
 
+    }
+
+
+    @Test
+    public void textJson(){
+        String label = "";
+        String text = "{\"name\":\"袁辉\",\"familyDisease\":[\"脑卒中\"],\"metabolicDiseases\":[\"无\"],\"drinkWeek\":\"少量饮酒\",\"smoking\":\"不抽烟但会接触二手烟\",\"sleepOneDay\":\"低于6个小时/天\",\"sleepQuality\":\"容易醒\",\"work\":\"偶尔会有一段时间焦虑\",\"amount\":\"几乎不动，久坐，下班开车\",\"defecation\":[\"颜色非黄或黄褐色\",\"便秘\"],\"foodShort\":[\"经常喝含糖饮料或吃甜品等高糖食品\"],\"otherDisease\":[\"虚弱、经常犯困\"],\"needs\":\"肠道健康\"}";
+        JSONObject parse = JSONObject.parseObject(text);
+        if(parse != null && parse.get("defecation") != null){
+            System.out.println(parse.get("defecation").getClass());
+            JSONArray jsonArray = (JSONArray) parse.get("defecation");
+            for (Object key : jsonArray) {
+                String strKey = (String) key;
+                if(StrUtil.equals(strKey,"便秘")){
+                    label = "便秘";
+                } else if (StrUtil.equals(strKey,"经常腹泻")) {
+                    label = "腹泻";
+                }
+            }
+        }
+        System.out.println(label);
     }
 
 

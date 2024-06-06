@@ -1,6 +1,8 @@
 package com.bls.que.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.bls.que.mapper.HistoryMapper;
 import com.bls.que.mapper.QuestionMapper;
 import com.bls.que.pojo.History;
@@ -36,8 +38,43 @@ public class QuestionServiceImpl implements QuestionService {
             question.setUpdatedTime(question.getCreatedTime());
             //该条数据是最终数据
             question.setQueState(1);
-            //TODO 给数据大标签
-            //question.setLabel("待定");
+            String label = "ALL";
+            //TODO 给数据打标签
+            if(StrUtil.isNotEmpty(question.getOtherText())){
+                JSONObject parse = JSONObject.parseObject(question.getOtherText());
+                if(parse != null && parse.get("defecation") != null){
+                    System.out.println(parse.get("defecation").getClass());
+                    JSONArray jsonArray = (JSONArray) parse.get("defecation");
+                    for (Object key : jsonArray) {
+                        String strKey = (String) key;
+                        if(StrUtil.equals(strKey,"便秘")){
+                            label = "BM";
+                        } else if (StrUtil.equals(strKey,"经常腹泻")) {
+                            label = "FX";
+                        }
+                    }
+                }
+
+            }
+            String firstLabel = "";
+            if(StrUtil.isNotEmpty(question.getLabel())){
+                if(StrUtil.equals("高血压",question.getLabel())){
+                    firstLabel = "GXY";
+                }
+                if(StrUtil.equals("高血脂",question.getLabel())){
+                    firstLabel = "GXZ";
+                }
+                if(StrUtil.equals("高血糖",question.getLabel())){
+                    firstLabel = "GXT";
+                }
+                if(StrUtil.equals("肠道健康",question.getLabel())){
+                    firstLabel = "CDJK";
+                }
+                if(StrUtil.equals("免疫力",question.getLabel())){
+                    firstLabel = "MYL";
+                }
+            }
+            question.setLabel(firstLabel+"_"+label);
             questionMapper.insertSelective(question);
             //修改营养师历史列表中的数据状态为已完成
             History history = historyMapper.selectByQuestionId(question.getQueId());

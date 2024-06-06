@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.bls.que.pojo.Question" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="que_id" property="queId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="que_state" property="queState" jdbcType="INTEGER" />
     <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
     <result column="gender" property="gender" jdbcType="VARCHAR" />
@@ -17,7 +18,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, que_id, que_state, birthday, gender, height, weight, waist, other_text, label, 
-    created_time, updated_time
+    created_time, updated_time, user_name
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -36,6 +37,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="userName != null" >
+        user_name,
       </if>
       <if test="queId != null" >
         que_id,
@@ -74,6 +78,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
       </if>
       <if test="queId != null" >
         #{queId,jdbcType=VARCHAR},
@@ -115,6 +122,9 @@
     <set >
       <if test="queId != null" >
         que_id = #{queId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
       </if>
       <if test="queState != null" >
         que_state = #{queState,jdbcType=INTEGER},
