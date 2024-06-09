@@ -6,8 +6,11 @@ import java.util.List;
 
 public interface TemplateMapper {
 
+    int insertSelective(Template record);
+
     Template selectByPrimaryKey(Integer id);
 
-    List<Template> selectByType(String type);
+    int updateByPrimaryKeySelective(Template record);
 
+    List<Template> selectByTemplate(Template template);
 }

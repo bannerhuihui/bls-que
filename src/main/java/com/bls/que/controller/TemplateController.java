@@ -5,6 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.bls.que.mapper.TemplateMapper;
 import com.bls.que.pojo.Template;
+import com.bls.que.service.TemplateService;
+import com.bls.que.vo.TemplateVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,25 +28,15 @@ import java.util.Random;
 @RequestMapping("/hyd")
 public class TemplateController {
 
-    @Autowired
-    private TemplateMapper templateMapper;
 
-    @RequestMapping("/genReport/{type}")
-    public JSONObject genReport(@PathVariable("type") String type){
-        if(StrUtil.isNotEmpty(type)){
-            List<Template> templates = templateMapper.selectByType(type);
-            if(ArrayUtil.isNotEmpty(templates)){
-                //随机返回一条数据
-                Random random = new Random();
-                int index = random.nextInt(templates.size());
-                Template template = templates.get(index);
-                JSONObject jsonObject = JSONObject.parseObject(template.getContent());
-                JSONObject res = new JSONObject();
-                res.put(type,jsonObject);
-                return res;
-            }
-        }
-        return null;
+    @Autowired
+    private TemplateService templateService;
+
+    @RequestMapping("/genReport/{orderNo}")
+    public TemplateVo genReport(@PathVariable("orderNo") String orderNo,String type){
+        return templateService.genReport(orderNo,type);
     }
+
+
 
 }

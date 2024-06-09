@@ -39,7 +39,6 @@ public class QuestionServiceImpl implements QuestionService {
             //该条数据是最终数据
             question.setQueState(1);
             String label = "ALL";
-            //TODO 给数据打标签
             if(StrUtil.isNotEmpty(question.getOtherText())){
                 JSONObject parse = JSONObject.parseObject(question.getOtherText());
                 if(parse != null && parse.get("defecation") != null){
@@ -68,10 +67,10 @@ public class QuestionServiceImpl implements QuestionService {
                     firstLabel = "GXT";
                 }
                 if(StrUtil.equals("肠道健康",question.getLabel())){
-                    firstLabel = "CDJK";
+                    firstLabel = "CD";
                 }
                 if(StrUtil.equals("免疫力",question.getLabel())){
-                    firstLabel = "MYL";
+                    firstLabel = "ZHMY";
                 }
             }
             question.setLabel(firstLabel+"_"+label);

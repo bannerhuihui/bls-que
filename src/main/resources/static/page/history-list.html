@@ -251,6 +251,9 @@
                     },{
                         title: '同步订单',
                         id: 'del'
+                    },{
+                        title: '查看打印',
+                        id: 'template'
                     }],
                     click: function(menudata){
                         if(menudata.id === 'detail'){
@@ -302,6 +305,9 @@
                                 layer.close(index);
                                 // 向服务端发送删除指令
                             });
+                        }else{
+                            console.log("订单同步的id为"+onLineData.orderId);
+                            alert("跳转到钟总页面,订单号为："+onLineData.orderId);
                         }
                     },
                     align: 'right', // 右对齐弹出

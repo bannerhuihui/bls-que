@@ -81,7 +81,7 @@ public class UserServiceTest {
 
     @Test
     public void rematDB(){
-        //-------------最后一个对象--------------
+        //-------------最后一个层--------------
         EndData endData = new EndData();
         List endList = new ArrayList();
         List<Item> endListFirst = new ArrayList<>();
@@ -267,18 +267,15 @@ public class UserServiceTest {
         templateList.add(endData);
         templateData.setPages(templateList);
         System.out.println(JSONObject.toJSONString(templateData));
-        System.out.println(JSONObject.toJSONString(templateData).length());
     }
 
 
     @Test
     public void randomTest(){
-        Random random = new Random();
-        for (int i = 0; i < 20; i++) {
-            int index = random.nextInt(10);
-            System.out.println(index);
-        }
 
+        String str = "注意饮食多样化，多摄入优质高蛋白，多吃含维生素的食物，比如海鲜、瘦肉、牛奶、蔬菜水果等。ABC";
+        System.out.println(str.substring(0,44));
+        System.out.println(str.substring(44));
 
     }
 

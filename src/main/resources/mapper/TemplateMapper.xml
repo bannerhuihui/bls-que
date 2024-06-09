@@ -4,10 +4,12 @@
   <resultMap id="BaseResultMap" type="com.bls.que.pojo.Template" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="tmp_type" property="tmpType" jdbcType="VARCHAR" />
+    <result column="sub_type" property="subType" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="lable" property="lable" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, tmp_type, content
+    id, tmp_type, sub_type, content, lable
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -15,10 +17,74 @@
     from bls_question_template
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByTemplate" resultMap="BaseResultMap" parameterType="com.bls.que.pojo.Template">
     select
     <include refid="Base_Column_List" />
     from bls_question_template
-    where tmp_type = #{type}
+    where 1 = 1
+    <if test="tmpType != null" >
+      and tmp_type = #{tmpType}
+    </if>
+    <if test="subType != null" >
+      and sub_type = #{subType}
+    </if>
+    <if test="lable != null" >
+      and lable = #{lable}
+    </if>
   </select>
+  <insert id="insertSelective" parameterType="com.bls.que.pojo.Template" >
+    insert into bls_question_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tmpType != null" >
+        tmp_type,
+      </if>
+      <if test="subType != null" >
+        sub_type,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="lable != null" >
+        lable,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tmpType != null" >
+        #{tmpType,jdbcType=VARCHAR},
+      </if>
+      <if test="subType != null" >
+        #{subType,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="lable != null" >
+        #{lable,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bls.que.pojo.Template" >
+    update bls_question_template
+    <set >
+      <if test="tmpType != null" >
+        tmp_type = #{tmpType,jdbcType=VARCHAR},
+      </if>
+      <if test="subType != null" >
+        sub_type = #{subType,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="lable != null" >
+        lable = #{lable,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

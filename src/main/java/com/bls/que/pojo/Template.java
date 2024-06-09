@@ -8,6 +8,10 @@ public class Template {
 
     private String tmpType;
 
+    private String subType;
+
     private String content;
+
+    private String lable;
 
 }
