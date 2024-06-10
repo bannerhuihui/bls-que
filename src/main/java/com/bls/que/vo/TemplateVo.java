@@ -21,6 +21,8 @@ public class TemplateVo {
 
     private String orderNo;
 
+    private String key;
+
     private JSONObject pageMessage;
 
 }

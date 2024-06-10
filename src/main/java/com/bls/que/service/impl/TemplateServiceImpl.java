@@ -72,6 +72,7 @@ public class TemplateServiceImpl implements TemplateService {
             templateVo.setUserName(userName);
             templateVo.setSex(gender);
             templateVo.setOrderNo(orderNo);
+            templateVo.setKey(tmpType);
             //随机封装页面内容
             //-------------第一层开始--------------
             FirstData firstData = new FirstData();
