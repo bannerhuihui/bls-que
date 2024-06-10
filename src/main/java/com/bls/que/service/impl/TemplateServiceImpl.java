@@ -70,7 +70,7 @@ public class TemplateServiceImpl implements TemplateService {
         TemplateVo templateVo = new TemplateVo();
         if(StrUtil.isNotEmpty(tmpType) && StrUtil.isNotEmpty(subType) && StrUtil.isNotEmpty(userName) && StrUtil.isNotEmpty(gender)){
             templateVo.setUserName(userName);
-            templateVo.setSex(gender);
+            templateVo.setSex(StrUtil.equals("男",gender) ? "先生":"女士");
             templateVo.setOrderNo(orderNo);
             templateVo.setKey(tmpType);
             //随机封装页面内容
