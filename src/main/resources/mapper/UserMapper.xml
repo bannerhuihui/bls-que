@@ -11,10 +11,11 @@
     <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
     <result column="out_time" property="outTime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="auth" property="auth" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_name, pass_word, phone, created_time, updated_time, login_time, out_time, 
-    remark
+    remark, auth
   </sql>
   <select id="login" resultMap="BaseResultMap" parameterType="com.bls.que.pojo.User" >
     select
@@ -58,6 +59,9 @@
       <if test="remark != null" >
         remark,
       </if>
+      <if test="auth != null" >
+        auth,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -87,6 +91,9 @@
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="auth != null" >
+        #{auth,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.bls.que.pojo.User" >
@@ -112,6 +119,9 @@
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="auth != null" >
+        auth = #{auth,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

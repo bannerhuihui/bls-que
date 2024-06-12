@@ -22,7 +22,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">选择平台</label>
                 <div class="layui-input-block">
-                    <select name="otherName" lay-filter="aihao">
+                    <select name="otherName" lay-filter="aihao" lay-verify="checkOtherName">
+                        <option value="0">---请选择平台---</option>
                         <option value="抖音">抖音</option>
                         <option value="微信">微信</option>
                         <option value="天猫">天猫</option>
@@ -34,7 +35,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">套餐价格</label>
                 <div class="layui-input-block">
-                    <select name="orderMoney" lay-filter="aihao">
+                    <select name="orderMoney" lay-filter="aihao" lay-verify="checkOrderMoney">
+                        <option value="0">---请选择套餐价格---</option>
                         <option value="4980">4980</option>
                         <option value="2980">2980</option>
                     </select>
@@ -43,48 +45,50 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">套餐类型</label>
                 <div class="layui-input-block">
-                    <select name="orderType" lay-filter="aihao">
-                        <option value="套餐1">套餐1</option>
-                        <option value="套餐2">套餐2</option>
-                        <option value="套餐3">套餐3</option>
-                        <option value="套餐4">套餐4</option>
+                    <select name="orderType" lay-filter="aihao" lay-verify="checkOrderType">
+                        <option value="0">---请选择套餐---</option>
+                        <option value="高血压">高血压</option>
+                        <option value="高血脂">高血脂</option>
+                        <option value="高血糖">高血糖</option>
+                        <option value="肠道">肠道</option>
+                        <option value="综合免疫">综合免疫</option>
                     </select>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">收件人姓名</label>
                 <div class="layui-input-block layui-input-wrap">
-                    <input type="tel" name="orderRecipient" lay-verify="required" placeholder="请填写收件人姓名"
+                    <input type="tel" name="orderRecipient" lay-verify="required|checkUserName" placeholder="请填写收件人姓名"
                            class="layui-input demo-phone">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">手机号</label>
                 <div class="layui-input-block layui-input-wrap">
-                    <input type="tel" name="orderPhone" lay-verify="required" placeholder="请填写收件人手机号"
+                    <input type="tel" name="orderPhone" lay-verify="required|phone" placeholder="请填写收件人手机号"
                            class="layui-input demo-phone">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">预付款</label>
                 <div class="layui-input-block  layui-input-wrap">
-                    <input type="text" value="0" name="priceBefore" placeholder="单位（元）" class="layui-input " min="0" step="1" lay-affix="number">
+                    <input type="text" value="0" name="priceBefore" placeholder="单位（元）" class="layui-input " min="0" step="10" lay-affix="number">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">地址</label>
                 <div class="layui-input-block layui-input-wrap sel">
-                    <select name="orderProvince" id="province" lay-filter="province">
+                    <select name="orderProvince" id="province" lay-filter="province" lay-verify="checkProvince">
                         <option value="0">请选择省</option>
                     </select>
                 </div>
                 <div class="layui-input-block layui-input-wrap sel">
-                    <select name="orderCity" id="city" lay-filter="city">
+                    <select name="orderCity" id="city" lay-filter="city" lay-verify="checkCity">
                         <option value="0">请选择市</option>
                     </select>
                 </div>
                 <div class="layui-input-block layui-input-wrap sel">
-                    <select name="orderCounty" id="area">
+                    <select name="orderCounty" id="area" lay-verify="checkArea">
                         <option value="0">请选择县/区</option>
                     </select>
                 </div>
@@ -127,11 +131,60 @@
     layui.use(['form','util','jquery'], function () {
         var form = layui.form;
         var $ = layui.jquery;
+        var util = layui.util;
+        util.on('lay-on',{
+            "success": function(){
+                layer.alert('提交成功');
+            }, "error": function(){
+                layer.alert('提交失败');
+            }
+        })
         form.verify({
             phone: function (value) {
                 var phoneReg = /^1[3-9]\d{9}$/; // 简单的手机号正则
-                if (phoneReg.test(value)) {
+                if (!phoneReg.test(value)) {
                     return '请输入有效的手机号';
+                }
+            },
+            checkOtherName: function (value){
+                if(value === "0"){
+                    return '请选择平台'
+                }
+            },
+            checkOrderMoney: function (value){
+                if(value === "0"){
+                    return '请选择套餐价格'
+                }
+            },
+            checkOrderType: function (value){
+                if(value === "0"){
+                    return '请选择套餐类型'
+                }
+            },
+            checkProvince: function (value){
+                if(value === "0"){
+                    return '请选择省'
+                }
+            },
+            checkCity: function (value){
+                if(value === "0"){
+                    return '请选择市'
+                }
+            },
+            checkArea: function (value){
+                if(value === "0"){
+                    return '请选择县/区'
+                }
+            },
+            checkUserName: function (value,){
+                if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                    return '用户名不能有特殊字符';
+                }
+                if (/(^_)|(__)|(_+$)/.test(value)) {
+                    return '用户名首尾不能出现下划线';
+                }
+                if (/^\d+$/.test(value)) {
+                    return '用户名不能全为数字';
                 }
             }
         });
@@ -198,6 +251,9 @@
             formData.orderProvince = $('#province option:selected').text();
             formData.orderCity = $('#city option:selected').text();
             formData.orderCounty = $('#area option:selected').text();
+            if(formData.otherName === "0"){
+
+            }
             $.ajax({
                 url:"/history/createdHistory",
                 type:"POST",
@@ -205,9 +261,9 @@
                 success:function (data) {
                     console.log(data);
                     if(data === "success"){
-                        alert("添加成功")
+                        alert('添加成功');
                     }else {
-                        alert("添加失败")
+                        alert("添加失败");
                     }
                     //跳转到list页面
                     var iframe = window.parent.document.getElementById('center-iframe');

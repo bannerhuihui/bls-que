@@ -24,4 +24,6 @@ public class User {
 
     private String remark;
 
+    private String auth;
+
 }
