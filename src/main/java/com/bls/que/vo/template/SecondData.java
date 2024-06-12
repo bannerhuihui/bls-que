@@ -1,5 +1,6 @@
 package com.bls.que.vo.template;
 
+import com.alibaba.fastjson.JSONArray;
 import lombok.Data;
 
 import java.util.List;
@@ -16,6 +17,6 @@ import java.util.List;
 @Data
 public class SecondData {
 
-    private List table;
+    private JSONArray table;
 
 }

@@ -1,6 +1,7 @@
 package com.bls.service;
 
 import cn.hutool.core.lang.Console;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
@@ -198,7 +199,7 @@ public class UserServiceTest {
         secondList.add(secondList1);
         secondList.add(secondList2);
         secondList.add(secondList3);
-        secondData.setTable(secondList);
+        //secondData.setTable(secondList);
         //-------------第二层结束--------------
 
 
@@ -298,6 +299,36 @@ public class UserServiceTest {
             }
         }
         System.out.println(label);
+    }
+
+
+    @Test
+    public void testArray(){
+
+        //String arrStr = "[[\"1 复合多种营养素片\",\"每天2次，每次1片\",\"早餐/晚餐后温水吞服\"],[\"2 高纤果蔬精华\",\"每天1次，每次1袋\",\"每日午餐前\"],[\"3 灵芝富硒多肽蛋白粉\",\"每天1次，每次1袋\",\"每日早餐后\"]]";
+        List secondList = new ArrayList();
+        List<String> secondList1 = new ArrayList<>();
+        secondList1.add("1 复合营养双蛋白固体饮料（麦香味）/（榛巧味）");
+        secondList1.add("每天1次，每次1勺");
+        secondList1.add("每日晚餐前");
+        List<String> secondList2 = new ArrayList<>();
+        secondList2.add("2 高纤果蔬精华");
+        secondList2.add("每天1次，每次1袋");
+        secondList2.add("每日午餐前");
+        List<String> secondList3 = new ArrayList<>();
+        secondList3.add("3 复合多种营养素片");
+        secondList3.add("每天2次，每次1片");
+        secondList3.add("早餐/晚餐后温水吞服");
+        List<String> secondList4 = new ArrayList<>();
+        secondList4.add("4 纳豆红曲地龙蛋白片");
+        secondList4.add("每天2次，每次2粒");
+        secondList4.add("早餐/晚餐后温水吞服");
+        secondList.add(secondList1);
+        secondList.add(secondList3);
+        secondList.add(secondList2);
+        secondList.add(secondList4);
+        System.out.println(JSONObject.toJSONString(secondList));
+
     }
 
 

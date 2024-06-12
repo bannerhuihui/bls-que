@@ -8,6 +8,7 @@ import com.bls.que.pojo.Template;
 import com.bls.que.service.TemplateService;
 import com.bls.que.vo.TemplateVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,7 @@ public class TemplateController {
     @Autowired
     private TemplateService templateService;
 
+    //@CrossOrigin(origins = "http://localhost:59001")
     @RequestMapping("/genReport/{orderNo}")
     public TemplateVo genReport(@PathVariable("orderNo") String orderNo,String type){
         return templateService.genReport(orderNo,type);
