@@ -94,6 +94,7 @@ public class HistoryController {
             }
             if(!StrUtil.equals(his_orderType,que_orderType)){
                 question.setLabel(his_orderType+"_"+que_second);
+                question.setTmpContent(null);
                 questionMapper.updateByPrimaryKeySelective(question);
             }
         }
