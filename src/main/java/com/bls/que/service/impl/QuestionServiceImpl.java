@@ -55,8 +55,10 @@ public class QuestionServiceImpl implements QuestionService {
                 }
 
             }
+            String historyType = "";
             String firstLabel = "";
             if(StrUtil.isNotEmpty(question.getLabel())){
+                historyType = question.getLabel();
                 if(StrUtil.equals("高血压",question.getLabel())){
                     firstLabel = "GXY";
                 }
@@ -81,6 +83,7 @@ public class QuestionServiceImpl implements QuestionService {
                 History updHistory = new History();
                 updHistory.setId(history.getId());
                 updHistory.setQuestionState("已填写");
+                updHistory.setOrderType(historyType);
                 historyMapper.updateByPrimaryKeySelective(updHistory);
             }
             return "success";
