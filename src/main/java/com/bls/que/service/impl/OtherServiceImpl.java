@@ -65,11 +65,16 @@ public class OtherServiceImpl implements OtherService {
                 //添加第一次创建时间
                 history.setCreatedTime(new Date());
                 history.setUpdatedTime(history.getCreatedTime());
-                //生成一个订单ID
-                historyMapper.insertSelective(history);
-                result.put("code",2000);
-                result.put("message","订单同步完成");
-                result.put("data",history.getQuestionUrl());
+                if(checkOrderId(history.getOrderId())){
+                    historyMapper.insertSelective(history);
+                    result.put("code",2000);
+                    result.put("message","订单同步完成");
+                    result.put("data",history.getQuestionUrl());
+                }else {
+                    result.put("code",2001);
+                    result.put("message","订单号重复");
+                    result.put("data",syncOrderBean);
+                }
             }else {
                 result.put("code",4001);
                 result.put("message","参数不全");
@@ -78,7 +83,7 @@ public class OtherServiceImpl implements OtherService {
         }else {
             result.put("code",4000);
             result.put("message","参数为空");
-            result.put("data",syncOrderBean);
+            result.put("data",null);
         }
         return result;
     }
@@ -95,5 +100,13 @@ public class OtherServiceImpl implements OtherService {
             }
         }
         return questionId;
+    }
+
+    private boolean checkOrderId(String orderId){
+        History order = historyMapper.selectByOrderId(orderId);
+        if(order == null){
+            return true;
+        }
+        return false;
     }
 }

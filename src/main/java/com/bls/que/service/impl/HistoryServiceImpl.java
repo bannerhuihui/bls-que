@@ -52,8 +52,10 @@ public class HistoryServiceImpl implements HistoryService {
                 String orderId = getOrderId();
                 history.setOrderId(orderId);
             }
-            historyMapper.insertSelective(history);
-            return 1;
+            if(checkOrderId(history.getOrderId())){
+                historyMapper.insertSelective(history);
+                return 1;
+            }
         }
         return 0;
     }
@@ -233,6 +235,15 @@ public class HistoryServiceImpl implements HistoryService {
             }
         }
         return orderNo;
+    }
+
+
+    private boolean checkOrderId(String orderId){
+        History order = historyMapper.selectByOrderId(orderId);
+        if(order == null){
+            return true;
+        }
+        return false;
     }
 
 }
