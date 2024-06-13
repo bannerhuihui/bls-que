@@ -80,7 +80,7 @@ public class QuestionServiceImpl implements QuestionService {
             if(history != null){
                 History updHistory = new History();
                 updHistory.setId(history.getId());
-                updHistory.setQuestionState("不可用");
+                updHistory.setQuestionState("已填写");
                 historyMapper.updateByPrimaryKeySelective(updHistory);
             }
             return "success";

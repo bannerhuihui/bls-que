@@ -15,10 +15,12 @@
     <result column="label" property="label" jdbcType="VARCHAR" />
     <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
     <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+    <result column="tmp_content" property="tmpContent" jdbcType="VARCHAR" />
+
   </resultMap>
   <sql id="Base_Column_List" >
     id, que_id, que_state, birthday, gender, height, weight, waist, other_text, label, 
-    created_time, updated_time, user_name
+    created_time, updated_time, user_name, tmp_content
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -152,6 +154,9 @@
       </if>
       <if test="updatedTime != null" >
         updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmpContent != null" >
+        tmp_content = #{tmpContent},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

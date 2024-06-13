@@ -31,7 +31,7 @@
   <select id="queryHistoryBuQueId" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
     <include refid="Base_Column_List" />
-    from bls_question_history where question_state = '可用' and question_id = #{queId}
+    from bls_question_history where question_state = '未填写' and question_id = #{queId}
   </select>
   <select id="queryHistoryListCount" resultType="java.lang.Integer" parameterType="com.bls.que.pojo.History" >
     select count(*) from bls_question_history where 1 = 1

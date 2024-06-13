@@ -3,6 +3,8 @@ package com.bls.que.vo;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @projectName: bls-que
  * @package: com.bls.que.vo
@@ -13,7 +15,9 @@ import lombok.Data;
  * @version: 1.0
  */
 @Data
-public class TemplateVo {
+public class TemplateVo implements Serializable {
+
+    private static final long serialVersionUID = -8323266094190684333L;
 
     private String userName;
 

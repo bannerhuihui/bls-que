@@ -8,6 +8,7 @@ import java.util.Date;
 
 @Data
 public class Question {
+
     private Integer id;
 
     private String queId;
@@ -35,4 +36,6 @@ public class Question {
     private Date updatedTime;
 
     private String userName;
+
+    private String tmpContent;
 }

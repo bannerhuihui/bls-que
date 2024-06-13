@@ -306,9 +306,8 @@
                                 // 向服务端发送删除指令
                             });
                         }else{
-                            console.log("订单同步的id为"+onLineData.orderId);
                             layer.open({
-                                title: '修改问卷内容',
+                                title: '查看打印模版',
                                 type: 1,
                                 area: ['100%','100%'],
                                 content: '<iframe style="height: 100% ;width: 100%"  src="https://ai.zhycit.com/hyd/'+onLineData.orderId +'"></iframe>'
@@ -417,7 +416,7 @@
                                 {field: 'orderRecipient', title: '收件人', },
                                 {field: 'orderPhone', title: '收件人手机号', },
                                 {field: 'questionUrl', title: '发送网址', },
-                                {field: 'questionState', title: '发送状态', },
+                                {field: 'questionState', title: '状态', },
                                 {field: 'orderMoney', title: '订单金额(元)',},
                                 {field: 'createdTime', title: '创建时间', },
                                 {fixed: 'right', title:'操作', width: 134, minWidth: 125, unresize: true, toolbar: '#barDemo'}

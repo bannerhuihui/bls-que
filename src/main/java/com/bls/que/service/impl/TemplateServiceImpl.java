@@ -54,8 +54,12 @@ public class TemplateServiceImpl implements TemplateService {
         String userName = "";
         String gender = "";
         //在历史记录中有信息，获取问卷信息
+        Question question = null;
         if(history != null){
-            Question question = questionMapper.selectByQueId(history.getQuestionId());
+            question = questionMapper.selectByQueId(history.getQuestionId());
+        }
+        TemplateVo templateVo = null;
+        if(question != null){
             if(StrUtil.isNotEmpty(question.getLabel())){
                 String[] labels = question.getLabel().split("_");
                 tmpType = labels[0];
@@ -63,12 +67,21 @@ public class TemplateServiceImpl implements TemplateService {
             }
             userName = question.getUserName();
             gender = question.getGender();
-        }
-        if(StrUtil.isNotEmpty(type)){
-            tmpType = type;
+            if(StrUtil.isNotEmpty(type)){
+                if(!StrUtil.equals(tmpType,type)){
+                    question.setTmpContent(null);
+                }
+                tmpType = type;
+            }
+            if(StrUtil.isNotEmpty(question.getTmpContent())){
+                //直接返回
+                templateVo = JSONObject.parseObject(question.getTmpContent(), TemplateVo.class);
+                return templateVo;
+            }
+
         }
         //将数据保存到Vo
-        TemplateVo templateVo = new TemplateVo();
+        templateVo = new TemplateVo();
         if(StrUtil.isNotEmpty(tmpType) && StrUtil.isNotEmpty(subType) && StrUtil.isNotEmpty(userName) && StrUtil.isNotEmpty(gender)){
             templateVo.setUserName(userName);
             templateVo.setSex(StrUtil.equals("男",gender) ? "先生":"女士");
@@ -980,7 +993,11 @@ public class TemplateServiceImpl implements TemplateService {
             lastJson.put(tmpType,templateData);
             templateVo.setPageMessage(lastJson);
         }
+        //将tmpContent存起来
+        question.setTmpContent(JSONObject.toJSONString(templateVo));
+        questionMapper.updateByPrimaryKeySelective(question);
         return templateVo;
+
     }
 
     private Template getIndex(List<Template> templates) {

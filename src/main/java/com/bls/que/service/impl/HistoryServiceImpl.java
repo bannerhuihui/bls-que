@@ -41,7 +41,7 @@ public class HistoryServiceImpl implements HistoryService {
             //生成一个关联问题ID
             history.setQuestionId(createdQuestionId());
             //将状态改为可用状态
-            history.setQuestionState("可用");
+            history.setQuestionState("未填写");
             //编译可访问的html路径
             history.setQuestionUrl(BaseStatic.BASE_URL+history.getQuestionId());
             //添加第一次创建时间
@@ -91,7 +91,7 @@ public class HistoryServiceImpl implements HistoryService {
         history = updInitHistory(history);
         int i = historyMapper.updateByPrimaryKeySelective(history);
         //用户的状态修改为未使用状态
-        if(StrUtil.equals(history.getQuestionState(),"可用")){
+        if(StrUtil.equals(history.getQuestionState(),"未填写")){
             //查询用户是不是已经填写过调查报告
             Question question = questionMapper.selectByQueId(history.getQuestionId());
             if(question != null){
