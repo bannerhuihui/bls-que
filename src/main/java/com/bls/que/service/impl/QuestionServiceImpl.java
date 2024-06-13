@@ -69,6 +69,7 @@ public class QuestionServiceImpl implements QuestionService {
                     firstLabel = "GXT";
                 }
                 if(StrUtil.equals("肠道健康",question.getLabel())){
+                    historyType = "肠道";
                     firstLabel = "CD";
                 }
                 if(StrUtil.equals("免疫力",question.getLabel())){
@@ -84,6 +85,13 @@ public class QuestionServiceImpl implements QuestionService {
                 updHistory.setId(history.getId());
                 updHistory.setQuestionState("已填写");
                 updHistory.setOrderType(historyType);
+                updHistory.setOrderRecipient(question.getOrderRecipient());
+                updHistory.setOrderPhone(question.getOrderPhone());
+                updHistory.setOrderProvince(question.getOrderProvince());
+                updHistory.setOrderCity(question.getOrderCity());
+                updHistory.setOrderCounty(question.getOrderCounty());
+                updHistory.setOrderAddress(question.getOrderAddress());
+                updHistory.setOrderRemark(question.getOrderRemark());
                 historyMapper.updateByPrimaryKeySelective(updHistory);
             }
             return "success";

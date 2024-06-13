@@ -38,4 +38,18 @@ public class Question {
     private String userName;
 
     private String tmpContent;
+
+    private String orderRecipient;
+
+    private String orderPhone;
+
+    private String orderProvince;
+
+    private String orderCity;
+
+    private String orderCounty;
+
+    private String orderAddress;
+
+    private String orderRemark;
 }

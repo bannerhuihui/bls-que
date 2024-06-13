@@ -69,6 +69,7 @@ public class OtherServiceImpl implements OtherService {
                 historyMapper.insertSelective(history);
                 result.put("code",2000);
                 result.put("message","订单同步完成");
+                result.put("data",history.getQuestionUrl());
             }else {
                 result.put("code",4001);
                 result.put("message","参数不全");
