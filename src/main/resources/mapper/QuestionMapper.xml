@@ -34,6 +34,12 @@
     from bls_question_que
     where que_id = #{queId} and que_state = 1
   </select>
+  <select id="selectByQueId1" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from bls_question_que
+    where que_id = #{queId}
+  </select>
   <insert id="insertSelective" parameterType="com.bls.que.pojo.Question" >
     insert into bls_question_que
     <trim prefix="(" suffix=")" suffixOverrides="," >

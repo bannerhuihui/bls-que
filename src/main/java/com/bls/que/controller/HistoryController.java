@@ -66,11 +66,12 @@ public class HistoryController {
     @PostMapping(value = "updatedHistory")
     @ResponseBody
     public Map updatedHistory(History history){
+        String questionId = history.getQuestionId();
         Map res = new HashMap<>();
         User user = userService.selectUserByKey(history.getUserId());
         String s = historyService.updatedHistory(history);
         //需要更新question表
-        Question question = questionMapper.selectByQueId(history.getQuestionId());
+        Question question = questionMapper.selectByQueId1(questionId);
         String his_orderType = "";
         String que_orderType = "";
         String que_second = "";
@@ -87,7 +88,7 @@ public class HistoryController {
                 his_orderType = "GXZ";
             }else if(StrUtil.equals("高血糖",history.getOrderType())){
                 his_orderType = "GXT";
-            }else if(StrUtil.equals("肠道健康",history.getOrderType())){
+            }else if(StrUtil.equals("肠道",history.getOrderType())){
                 his_orderType = "CD";
             }else if(StrUtil.equals("免疫力",history.getOrderType())){
                 his_orderType = "ZHMY";

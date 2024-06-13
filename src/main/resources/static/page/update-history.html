@@ -22,6 +22,7 @@
         <form class="layui-form" action="">
             <input type="text" hidden name="userId" >
             <input type="text" hidden name="id" >
+            <input type="text" hidden name="questionId">
             <div class="layui-form-item">
                 <label class="layui-form-label">订单号</label>
                 <div class="layui-input-block  layui-input-wrap">
@@ -63,8 +64,8 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">URL是否可用</label>
-                <input type="radio" name="questionState" value="可用" title="可用">
-                <input type="radio" name="questionState" value="不可用" title="不可用">
+                <input type="radio" name="questionState" value="未填写" title="未填写">
+                <input type="radio" name="questionState" value="已填写" title="已填写">
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">收件人姓名</label>
@@ -268,6 +269,7 @@
             $("[name = 'orderRemark']").val(data.orderRemark);
             $("[name = 'remark']").val(data.remark);
             $("[name='questionState'][value='" + data.questionState + "']").prop('checked', true);
+            $("[name = 'questionId']").val(data.questionId);
             // 渲染表单
             form.render('select');
             form.render('radio');

@@ -11,4 +11,6 @@ public interface QuestionMapper {
     int updateByPrimaryKeySelective(Question record);
 
     Question selectByQueId(String queId);
+
+    Question selectByQueId1(String queId);
 }
