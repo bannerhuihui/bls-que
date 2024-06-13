@@ -155,9 +155,7 @@
       <if test="updatedTime != null" >
         updated_time = #{updatedTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="tmpContent != null" >
-        tmp_content = #{tmpContent},
-      </if>
+      tmp_content = #{tmpContent}
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
