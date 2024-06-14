@@ -18,10 +18,12 @@ public class SyncOrderBean {
 
     private String oid; //乐好课的订单ID
 
-    private Integer pr; //支付金额
+    private String pr; //支付金额
 
     private String spu; //乐好课商品ID   可以用于匹配对应套餐
 
     private String token; //验证token
+
+    private String url;
 
 }

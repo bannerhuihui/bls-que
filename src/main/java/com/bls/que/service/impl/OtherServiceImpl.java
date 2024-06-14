@@ -36,7 +36,7 @@ public class OtherServiceImpl implements OtherService {
         Map<String,Object> result = new HashMap<>();
         if(syncOrderBean != null){
             if(StrUtil.isNotEmpty(syncOrderBean.getOid())
-                    && syncOrderBean.getPr() != null
+                    && StrUtil.isNotEmpty(syncOrderBean.getPr())
                     && StrUtil.isNotEmpty(syncOrderBean.getSpu())
                     && StrUtil.isNotEmpty(syncOrderBean.getUid())
                     && StrUtil.isNotEmpty(syncOrderBean.getToken())
@@ -44,7 +44,16 @@ public class OtherServiceImpl implements OtherService {
                 History history = new History();
                 history.setUserId(2);
                 history.setOrderId(syncOrderBean.getOid());
-                history.setPriceBefore(syncOrderBean.getPr());
+                Integer priceBefore = 0;
+                try{
+                    priceBefore = Integer.valueOf(syncOrderBean.getPr());
+                }catch (Exception e){
+                    result.put("code",402);
+                    result.put("message","参数异常");
+                    result.put("data",syncOrderBean);
+                    return result;
+                }
+                history.setPriceBefore(priceBefore);
                 //TODO 根据Uid生成类型、订单价格
                 history.setOrderType("免疫力");
                 history.setOrderMoney(4080);
@@ -65,12 +74,15 @@ public class OtherServiceImpl implements OtherService {
                 //添加第一次创建时间
                 history.setCreatedTime(new Date());
                 history.setUpdatedTime(history.getCreatedTime());
-                if(checkOrderId(history.getOrderId())){
+                History checkHistory = checkOrderId(history.getOrderId());
+                if(checkHistory == null){
                     historyMapper.insertSelective(history);
+                    syncOrderBean.setUrl(history.getQuestionUrl());
                     result.put("code",2000);
                     result.put("message","订单同步完成");
-                    result.put("data",history.getQuestionUrl());
+                    result.put("data",syncOrderBean);
                 }else {
+                    syncOrderBean.setUrl(checkHistory.getQuestionUrl());
                     result.put("code",2001);
                     result.put("message","订单号重复");
                     result.put("data",syncOrderBean);
@@ -102,11 +114,8 @@ public class OtherServiceImpl implements OtherService {
         return questionId;
     }
 
-    private boolean checkOrderId(String orderId){
+    private History checkOrderId(String orderId){
         History order = historyMapper.selectByOrderId(orderId);
-        if(order == null){
-            return true;
-        }
-        return false;
+        return order;
     }
 }
