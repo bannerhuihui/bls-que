@@ -55,6 +55,13 @@ public class HistoryServiceImpl implements HistoryService {
             if(history.getPriceBefore() == null){
                 history.setPriceBefore(0);
             }
+            history.setOrderProvince("待定");
+            history.setOrderCity("待定");
+            history.setOrderCounty("待定");
+            history.setOrderAddress("待定");
+            history.setOrderRecipient("待定");
+            history.setOrderPhone("待定");
+            history.setOrderRemark("待定");
             if(checkOrderId(history.getOrderId())){
                 historyMapper.insertSelective(history);
                 return 1;
