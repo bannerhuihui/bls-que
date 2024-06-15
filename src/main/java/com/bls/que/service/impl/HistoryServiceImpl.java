@@ -231,7 +231,7 @@ public class HistoryServiceImpl implements HistoryService {
         if(StrUtil.isEmpty(history.getOrderId())){
             flag = false;
         }
-        if(history.getOrderMoney() == null || history.getOrderMoney() != 0){
+        if(history.getOrderMoney() == null ){
             flag = false;
         }
         if(StrUtil.isEmpty(history.getOrderType())){
