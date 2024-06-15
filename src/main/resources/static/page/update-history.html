@@ -199,14 +199,14 @@
                 async: false,
                 success:function (data) {
                     var area =  data.Value;
-                    for (let i = 0; i < city.length; i++) {
+                    for (let i = 0; i < area.length; i++) {
                         $('#area').append(new Option(area[i].RegionName, area[i].RegionID));
                     }
                 }
             });
-            //做数据回显市
+            //做数据回显区
             const selectAreaElement = document.getElementById("area");
-            //选中省
+            //选中区
             for (let i = 0; i < selectAreaElement.options.length; i++) {
                 if(selectAreaElement.options[i].text === data.orderCounty){
                     let backArea = selectAreaElement.options[i].value;
@@ -310,10 +310,7 @@
         } else {
             console.log('No data received');
         }
-
-
     });
-
 </script>
 </body>
 </html>
