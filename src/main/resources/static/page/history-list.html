@@ -229,9 +229,42 @@
             "questionUrl":questionUrl
         }
         loadPage(loadData);
-
+        const moreData1 = [{
+            title: '问卷网址',
+            id: 'queUrl'
+        },{
+            title: '问卷详情',
+            id: 'detail'
+        },{
+            title: '通知发货',
+            id: 'del'
+        },{
+            title: '查看打印',
+            id: 'template'
+        }];
+        const moreData2 = [{
+            title: '问卷网址',
+            id: 'queUrl'
+        },{
+            title: '问卷详情',
+            id: 'detail'
+        },{
+            title: '查看打印',
+            id: 'template'
+        }];
+        const moreData3 = [{
+            title: '问卷网址',
+            id: 'queUrl'
+        }];
         table.on('tool(history-list)', function(obj){ // 双击 toolDouble
             let onLineData = obj.data; // 获得当前行数据
+            let moreData = moreData2;
+            if(onLineData.syncOrder === '待通知发货'){
+                moreData = moreData1;
+            }
+            if (onLineData.questionState === "未填写"){
+                moreData = moreData3;
+            }
             if(obj.event === 'edit'){
                 layer.open({
                     title: '修改问卷内容',
@@ -240,21 +273,11 @@
                     content: '<div style="padding: 16px;height: 100%"><iframe id="update-iframe" src="/page/update-history.html?onLineData='+ encodeURIComponent(JSON.stringify(onLineData))+'" allowfullscreen></iframe></div>'
                 });
             } else if(obj.event === 'more'){
-                console.log("-------")
                 // 更多 - 下拉菜单
                 dropdown.render({
                     elem: this, // 触发事件的 DOM 对象
                     show: true, // 外部事件触发即显示
-                    data: [{
-                        title: '查看详情',
-                        id: 'detail'
-                    },{
-                        title: '同步订单',
-                        id: 'del'
-                    },{
-                        title: '查看打印',
-                        id: 'template'
-                    }],
+                    data: moreData,
                     click: function(menudata){
                         if(menudata.id === 'detail'){
                             //查看的历史详情
@@ -305,12 +328,19 @@
                                 layer.close(index);
                                 // 向服务端发送删除指令
                             });
-                        }else{
+                        }else if (menudata.id === 'template'){
                             layer.open({
                                 title: '查看打印模版',
                                 type: 1,
                                 area: ['100%','100%'],
                                 content: '<iframe style="height: 100% ;width: 100%"  src="https://ai.zhycit.com/hyd/'+onLineData.orderId +'"></iframe>'
+                            });
+                        }else {
+                            layer.open({
+                                title: '查看问卷网址',
+                                type: 1,
+                                area: ['50%','50%'],
+                                content: '<div style="margin: 30px;font-size: 30px;">问卷网址<br/><br/>'+onLineData.questionUrl+'</div>'
                             });
                         }
                     },
@@ -411,14 +441,35 @@
                         cols: [
                             [ //标题栏
                                 {field: 'orderId', title: '订单号',},
-                                {field: 'otherName', title: '平台', },
-                                {field: 'orderType', title: '套餐类型', },
-                                {field: 'orderRecipient', title: '收件人', },
-                                {field: 'orderPhone', title: '收件人手机号', },
-                                {field: 'questionUrl', title: '发送网址', },
-                                {field: 'questionState', title: '状态', },
+                                {field: 'otherName', title: '平台',},
+                                {field: 'orderType', title: '套餐类型',},
+                                {field: 'orderRecipient', title: '收件人',},
+                                {field: 'orderPhone', title: '收件人手机号',},
+                                {field: 'questionUrl', title: '问卷地址',},
+                                {field: 'questionState', title: '状态', templet: function (q){
+                                    if(q.questionState === "未填写"){
+                                        return '<span style="color:red;">' + q.questionState + '</span>';
+                                    }
+                                    return '<span >' + q.questionState + '</span>';
+                                }},
                                 {field: 'orderMoney', title: '订单金额(元)',},
-                                {field: 'createdTime', title: '创建时间', },
+                                {field: 'createdTime', title: '创建时间',},
+                                {field: 'syncOrder', title: '订单推送',templet: function(d) {
+                                    // 根据syncOrder的值来设置不同的背景色
+                                    var bgColor;
+                                    if (d.syncOrder === '已通知发货') {
+                                        bgColor = '#5FB878'; // 例如：绿色
+                                    } else if (d.syncOrder === '待通知发货') {
+                                        bgColor = '#FFB800'; // 例如：黄色
+                                    } else {
+                                        bgColor = '#FF5722'
+                                    }
+                                    if(d.syncOrder === null){
+                                        d.syncOrder = ''
+                                    }
+                                    // 返回带背景色的HTML
+                                    return '<span style="background-color:' + bgColor + ';">' + d.syncOrder + '</span>';
+                                    }},
                                 {fixed: 'right', title:'操作', width: 134, minWidth: 125, unresize: true, toolbar: '#barDemo'}
                             ]
                         ],

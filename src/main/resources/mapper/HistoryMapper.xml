@@ -22,11 +22,12 @@
     <result column="other_name" property="otherName" jdbcType="VARCHAR" />
     <result column="order_money" property="orderMoney" jdbcType="INTEGER" />
     <result column="price_before" property="priceBefore" jdbcType="INTEGER" />
+    <result column="sync_order" property="syncOrder" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, question_url, question_state, order_id, order_type, order_province, 
     order_city, order_county, order_address, order_recipient, order_phone, order_remark, 
-    question_id, created_time, updated_time, remark, other_name, order_money, price_before
+    question_id, created_time, updated_time, remark, other_name, order_money, price_before,sync_order
   </sql>
   <select id="queryHistoryBuQueId" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
@@ -183,6 +184,9 @@
       <if test="priceBefore != null" >
         price_before,
       </if>
+      <if test="syncOrder != null">
+        sync_order,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -245,6 +249,9 @@
       <if test="priceBefore != null" >
         #{priceBefore,jdbcType=INTEGER},
       </if>
+      <if test="syncOrder != null">
+        #{syncOrder},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.bls.que.pojo.History" >
@@ -303,6 +310,9 @@
       </if>
       <if test="priceBefore != null" >
         price_before = #{priceBefore,jdbcType=INTEGER},
+      </if>
+      <if test="syncOrder != null">
+        sync_order = #{syncOrder},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

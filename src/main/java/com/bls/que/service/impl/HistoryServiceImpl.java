@@ -52,6 +52,9 @@ public class HistoryServiceImpl implements HistoryService {
                 String orderId = getOrderId();
                 history.setOrderId(orderId);
             }
+            if(history.getPriceBefore() == null){
+                history.setPriceBefore(0);
+            }
             if(checkOrderId(history.getOrderId())){
                 historyMapper.insertSelective(history);
                 return 1;
@@ -78,6 +81,7 @@ public class HistoryServiceImpl implements HistoryService {
     public PageEntity<History> queryHistoryList(History history) {
         history = initHistory(history);
         List<History> historyList = historyMapper.queryHistoryList(history);
+
         int totalCount = historyMapper.queryHistoryListCount(history);
         PageEntity<History> pageEntity = new PageEntity<>(historyList,history.getCurrentPage(),history.getMaxRow(),totalCount);
         return pageEntity;
@@ -196,10 +200,7 @@ public class HistoryServiceImpl implements HistoryService {
         if(history.getUserId() == null || history.getUserId() == 0){
             flag = false;
         }
-        if(StrUtil.isEmpty(history.getOrderType())){
-            flag = false;
-        }
-        if(StrUtil.isEmpty(history.getOrderProvince())){
+        /*if(StrUtil.isEmpty(history.getOrderProvince())){
             flag = false;
         }
         if(StrUtil.isEmpty(history.getOrderCity())){
@@ -210,16 +211,26 @@ public class HistoryServiceImpl implements HistoryService {
         }
         if(StrUtil.isEmpty(history.getOrderAddress())){
             flag = false;
-        }
-        if(StrUtil.isEmpty(history.getOrderRecipient())){
+        }*/
+        /*if(StrUtil.isEmpty(history.getOrderRecipient())){
             flag = false;
         }
         if(StrUtil.isEmpty(history.getOrderPhone())){
             flag = false;
-        }
+        }*/
         if(StrUtil.isEmpty(history.getOtherName())){
             flag = false;
         }
+        if(StrUtil.isEmpty(history.getOrderId())){
+            flag = false;
+        }
+        if(history.getOrderMoney() == null || history.getOrderMoney() != 0){
+            flag = false;
+        }
+        if(StrUtil.isEmpty(history.getOrderType())){
+            flag = false;
+        }
+
         return flag;
     }
 

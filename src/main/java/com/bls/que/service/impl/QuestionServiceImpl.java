@@ -96,6 +96,7 @@ public class QuestionServiceImpl implements QuestionService {
                     updHistory.setOrderCounty(question.getOrderCounty());
                     updHistory.setOrderAddress(question.getOrderAddress());
                     updHistory.setOrderRemark(question.getOrderRemark());
+                    updHistory.setSyncOrder("待通知发货");
                     historyMapper.updateByPrimaryKeySelective(updHistory);
                     return "success";
                 }
