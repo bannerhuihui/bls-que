@@ -3,6 +3,7 @@ package com.bls.que;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @projectName: bls-que
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version: 1.0
  */
 @SpringBootApplication
+@EnableTransactionManagement
 @MapperScan(value = "com.bls.que.mapper")
 public class QueApplication {
 
