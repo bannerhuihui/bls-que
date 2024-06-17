@@ -68,8 +68,14 @@
                 type:"POST",
                 data:field,
                 success:function (data) {
-                    if(data.id != null && data.id != undefined){
+
+                    if(data.id !== null && data.id !== undefined){
                         //执行页面跳转
+                        if(data.token !== null && data.token !== undefined && data.token !== ""){
+                            //将token存储到LocalStorage
+                            const token = data.token;
+                            localStorage.setItem('token', token);
+                        }
                         window.location.href = "/page/home?userId="+data.id+"&userName="+data.userName;
                     } else {
                         layer.msg('登录失败！', {icon: 2, time: 2000});

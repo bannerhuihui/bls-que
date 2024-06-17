@@ -142,6 +142,7 @@
         var $ = layui.jquery;
         var params = new URLSearchParams(window.location.search);
         var dataParam = params.get('onLineData');
+        let token = localStorage.getItem('token');
         if (dataParam) {
             // 解析 JSON 字符串到对象
             var data = JSON.parse(decodeURIComponent(dataParam));
@@ -287,22 +288,29 @@
                 $.ajax({
                     url:"/history/updatedHistory",
                     type:"POST",
+                    headers: {
+                        'Authorization': token
+                    },
                     data:formData,
-                    success:function (data) {
-                        if(data.msg === "success"){
-                            //关闭表单
-                            // 关闭父页面中的 layer 打开的窗口
-                            if (window.parent && window.parent.layer) {
-                                window.parent.layer.closeAll('iframe'); // or use specific layer index provided by the layer open call.
-                            }
-                            // 刷新父页面
-                            if (window.parent) {
-                                window.parent.location.reload();
-                            }
+                    success:function (data,textStatus, xhr) {
+                        var redirectUrl = xhr.getResponseHeader('X-Redirect');
+                        if (redirectUrl) {
+                            window.parent.location.href = redirectUrl;
                         }else {
-                            alert("添加失败")
+                            if(data.msg === "success"){
+                                //关闭表单
+                                // 关闭父页面中的 layer 打开的窗口
+                                if (window.parent && window.parent.layer) {
+                                    window.parent.layer.closeAll('iframe'); // or use specific layer index provided by the layer open call.
+                                }
+                                // 刷新父页面
+                                if (window.parent) {
+                                    window.parent.location.reload();
+                                }
+                            }else {
+                                alert("添加失败")
+                            }
                         }
-
                     }
                 });
                 return false; // 阻止默认 form 跳转

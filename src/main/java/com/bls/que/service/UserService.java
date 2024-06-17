@@ -13,4 +13,7 @@ public interface UserService {
 
     String logout(Integer userId);
 
+    User queryUserByUserName(String userName);
+
+    void updateUser(User user);
 }

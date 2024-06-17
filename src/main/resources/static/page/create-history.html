@@ -132,6 +132,7 @@
         var form = layui.form;
         var $ = layui.jquery;
         var util = layui.util;
+        let token = localStorage.getItem('token');
         util.on('lay-on',{
             "success": function(){
                 layer.alert('提交成功');
@@ -262,33 +263,40 @@
             $.ajax({
                 url:"/history/createdHistory",
                 type:"POST",
+                headers: {
+                    'Authorization': token
+                },
                 data:formData,
-                success:function (data) {
-                    console.log(data);
-                    if(data === "success"){
-                        alert('添加成功');
+                success:function (data,textStatus, xhr) {
+                    var redirectUrl = xhr.getResponseHeader('X-Redirect');
+                    if (redirectUrl) {
+                        window.parent.location.href = redirectUrl;
                     }else {
-                        alert("添加失败");
-                    }
-                    //跳转到list页面
-                    var iframe = window.parent.document.getElementById('center-iframe');
-                    iframe.src = "/page/history-list.html";
-                    // 检查是否能够访问父页面
-                    if (window.parent) {
-                        // 使用 try...catch 来处理潜在的跨域错误
-                        try {
-                            var parentDocument = window.parent.document;
-                            var ddElement = parentDocument.getElementById('history_list');
-                            if (ddElement) {
-                                ddElement.classList.add('layui-this');
-                            } else {
-                                console.log('dd element not found');
-                            }
-                        } catch (error) {
-                            console.error('Cannot access parent document: ', error);
+                        if(data === "success"){
+                            alert('添加成功');
+                        }else {
+                            alert("添加失败");
                         }
-                    } else {
-                        console.log('No parent window available');
+                        //跳转到list页面
+                        var iframe = window.parent.document.getElementById('center-iframe');
+                        iframe.src = "/page/history-list.html";
+                        // 检查是否能够访问父页面
+                        if (window.parent) {
+                            // 使用 try...catch 来处理潜在的跨域错误
+                            try {
+                                var parentDocument = window.parent.document;
+                                var ddElement = parentDocument.getElementById('history_list');
+                                if (ddElement) {
+                                    ddElement.classList.add('layui-this');
+                                } else {
+                                    console.log('dd element not found');
+                                }
+                            } catch (error) {
+                                console.error('Cannot access parent document: ', error);
+                            }
+                        } else {
+                            console.log('No parent window available');
+                        }
                     }
                 }
             });

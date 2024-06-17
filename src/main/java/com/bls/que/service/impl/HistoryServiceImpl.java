@@ -123,6 +123,12 @@ public class HistoryServiceImpl implements HistoryService {
         return history != null;
     }
 
+    @Override
+    public String syncOrderToFD(String id) {
+        historyMapper.selectByOrderId(id);
+        return null;
+    }
+
     private History updInitHistory(History history) {
         if(history == null){
             history = new History();

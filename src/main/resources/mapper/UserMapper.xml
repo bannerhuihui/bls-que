@@ -12,10 +12,12 @@
     <result column="out_time" property="outTime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="auth" property="auth" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="token_date" property="tokenDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_name, pass_word, phone, created_time, updated_time, login_time, out_time, 
-    remark, auth
+    remark, auth, token, token_date
   </sql>
   <select id="login" resultMap="BaseResultMap" parameterType="com.bls.que.pojo.User" >
     select
@@ -23,6 +25,19 @@
     from bls_question_user
     where user_name = #{userName} and pass_word = #{passWord} and remark = 'true'
   </select>
+  <select id="loginByPhone" resultMap="BaseResultMap" parameterType="com.bls.que.pojo.User" >
+    select
+    <include refid="Base_Column_List" />
+    from bls_question_user
+    where phone = #{userName} and pass_word = #{passWord} and remark = 'true'
+  </select>
+  <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from bls_question_user
+    where user_name = #{userName} and remark = 'true'
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -122,6 +137,12 @@
       </if>
       <if test="auth != null" >
         auth = #{auth,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        token = #{token},
+      </if>
+      <if test="tokenDate != null">
+        token_date = #{tokenDate},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

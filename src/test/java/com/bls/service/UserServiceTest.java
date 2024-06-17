@@ -7,6 +7,11 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bls.que.vo.template.*;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,9 +20,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @projectName: bls-que
@@ -330,6 +334,46 @@ public class UserServiceTest {
         System.out.println(JSONObject.toJSONString(secondList));
 
     }
+
+    private static final String SECRET = "your-256-bit-secret";
+    private static final Algorithm algorithm = Algorithm.HMAC256(SECRET);
+    private static final JWTVerifier verifier = JWT.require(algorithm).build();
+    private static Map<String, String> tokenStore = new HashMap<>();
+
+    // Method to generate a token
+    public String getToken(String username) {
+        String token = JWT.create()
+                .withSubject(username)
+                .sign(algorithm);
+        tokenStore.put(username, token);
+        return token;
+    }
+
+    // Method to verify a token
+    public String verifyToken(String token) {
+        try {
+            DecodedJWT jwt = verifier.verify(token);
+            String username = jwt.getSubject();
+            return username;
+        } catch (JWTVerificationException exception) {
+            return "";
+        }
+    }
+
+
+    @Test
+    public void testToken (){
+        String userName = "admin";
+        String token = getToken(userName);
+        Console.log("token = > ",token);
+
+        String s = verifyToken(token);
+        System.out.println(s);
+
+        String s1 = verifyToken(token + "1");
+        System.out.println(StrUtil.isEmpty(s1));
+    }
+
 
 
 }

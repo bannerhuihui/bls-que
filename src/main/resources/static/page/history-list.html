@@ -176,6 +176,7 @@
         var dropdown = layui.dropdown;
         var laypage = layui.laypage;
         var total = 0;
+        let token = localStorage.getItem('token');
         //将form中的数据进行封装
         var beginTime = $("[name = 'beginTime']").val();
         var endTime = $("[name = 'endTime']").val();
@@ -284,37 +285,45 @@
                             $.ajax({
                                 url:"/question/queryQuestionByQid?qid="+onLineData.questionId,
                                 type:"GET",
-                                success:function (data) {
-                                    layer.open({
-                                        title: '用户提交的详细信息',
-                                        type: 1,
-                                        area: ['80%','80%'],
-                                        content: '<div id="que-all" style="padding: 16px;height: 100%"></div>'
-                                    });
-                                    if(!isEmptyResponse(data)){
-                                        var otherText = JSON.parse(data.otherText);
-                                        let aue_all_text = "个人信息：<br><p>姓名："
-                                            +otherText.name+"</p><br><p>生日："
-                                            +data.birthday+"</p><br><p>性别："
-                                            +data.gender+"</p><br><p>身高："
-                                            +data.height+"</p><br><p>体重："+
-                                            data.weight+"</p><br><p>腰围："+
-                                            data.waist+"</p><br>健康状况评估：<br>您的直系亲属（父母/祖父母/外祖父母）患有以下疾病吗?<br><p>"+
-                                            otherText.familyDisease+"</p><br>您是否被医院诊断为以下代谢疾病?<br><p>"+
-                                            otherText.metabolicDiseases+"</p><br>您一周的喝酒量是?<br><p>"+
-                                            otherText.drinkWeek+"</p><br>您平时的烟草接触情况?<br><p>"+
-                                            otherText.smoking+"</p><br>您一天的睡眠时长是?<br><p>"+
-                                            otherText.sleepOneDay+"</p><br>您的睡眠质量怎么样?<br><p>"+
-                                            otherText.sleepQuality+"</p><br>您是否长期处于紧张焦虑当中或高压力工作中?<br><p>"+
-                                            otherText.work+"</p><br>您每天的运动量?<br><p>"+
-                                            otherText.amount+"</p><br>您的排便情况?<br><p>"+
-                                            otherText.defecation+"</p><br>以下描述哪项更贴近您的饮食习惯?<br><p>"+
-                                            otherText.foodShort+"</p><br>您是否有以下症状：<br><p>"+
-                                            otherText.otherDisease+"</p><br>目前最想解决的健康问题（单选）<br><p>"+
-                                            otherText.needs+"</p>";
-                                        $("#que-all").html(aue_all_text);
-                                    } else {
-                                        $("#que-all").html("<h2>用户暂时还没有填写问卷哟！</h2>");
+                                headers: {
+                                    'Authorization': token
+                                },
+                                success:function (data,textStatus, xhr) {
+                                    var redirectUrl = xhr.getResponseHeader('X-Redirect');
+                                    if (redirectUrl) {
+                                        window.parent.location.href = redirectUrl;
+                                    }else {
+                                        layer.open({
+                                            title: '用户提交的详细信息',
+                                            type: 1,
+                                            area: ['80%','80%'],
+                                            content: '<div id="que-all" style="padding: 16px;height: 100%"></div>'
+                                        });
+                                        if(!isEmptyResponse(data)){
+                                            var otherText = JSON.parse(data.otherText);
+                                            let aue_all_text = "个人信息：<br><p>姓名："
+                                                +otherText.name+"</p><br><p>生日："
+                                                +data.birthday+"</p><br><p>性别："
+                                                +data.gender+"</p><br><p>身高："
+                                                +data.height+"</p><br><p>体重："+
+                                                data.weight+"</p><br><p>腰围："+
+                                                data.waist+"</p><br>健康状况评估：<br>您的直系亲属（父母/祖父母/外祖父母）患有以下疾病吗?<br><p>"+
+                                                otherText.familyDisease+"</p><br>您是否被医院诊断为以下代谢疾病?<br><p>"+
+                                                otherText.metabolicDiseases+"</p><br>您一周的喝酒量是?<br><p>"+
+                                                otherText.drinkWeek+"</p><br>您平时的烟草接触情况?<br><p>"+
+                                                otherText.smoking+"</p><br>您一天的睡眠时长是?<br><p>"+
+                                                otherText.sleepOneDay+"</p><br>您的睡眠质量怎么样?<br><p>"+
+                                                otherText.sleepQuality+"</p><br>您是否长期处于紧张焦虑当中或高压力工作中?<br><p>"+
+                                                otherText.work+"</p><br>您每天的运动量?<br><p>"+
+                                                otherText.amount+"</p><br>您的排便情况?<br><p>"+
+                                                otherText.defecation+"</p><br>以下描述哪项更贴近您的饮食习惯?<br><p>"+
+                                                otherText.foodShort+"</p><br>您是否有以下症状：<br><p>"+
+                                                otherText.otherDisease+"</p><br>目前最想解决的健康问题（单选）<br><p>"+
+                                                otherText.needs+"</p>";
+                                            $("#que-all").html(aue_all_text);
+                                        } else {
+                                            $("#que-all").html("<h2>用户暂时还没有填写问卷哟！</h2>");
+                                        }
                                     }
                                 },
                                 error: function(e){
@@ -325,7 +334,26 @@
                         } else if(menudata.id === 'del'){
                             layer.confirm('要同步该条数据么？', function(index){
                                 console.log("订单同步的id为"+onLineData.id);
-                                layer.close(index);
+                                if(onLineData.id !== null && onLineData.id !== "" && onLineData.id !== undefined){
+                                    $.ajax({
+                                        url:"/history/syncOrderToFD/"+onLineData.id,
+                                        type:"GET",
+                                        headers: {
+                                            'Authorization': token
+                                        },
+                                        success:function (data,textStatus, xhr) {
+                                            var redirectUrl = xhr.getResponseHeader('X-Redirect');
+                                            if (redirectUrl) {
+                                                window.parent.location.href = redirectUrl;
+                                            }else {
+                                                layer.close(index);
+                                            }
+                                        },
+                                        error: function(e){
+                                            console.log(e)
+                                        }
+                                    });
+                                }
                                 // 向服务端发送删除指令
                             });
                         }else if (menudata.id === 'template'){
@@ -430,51 +458,58 @@
             $.ajax({
                 url:"/history/queryHistoryList",
                 type:"POST",
+                headers: {
+                    'Authorization': token
+                },
                 async: false,
                 data: listData,
-                success:function (data) {
-                    console.log(data)
-                    var listData = data.dataList;
-                    total = data.total;
-                    table.render({
-                        elem: '#history-list',
-                        cols: [
-                            [ //标题栏
-                                {field: 'orderId', title: '订单号',},
-                                {field: 'otherName', title: '平台',},
-                                {field: 'orderType', title: '套餐类型',},
-                                {field: 'orderRecipient', title: '收件人',},
-                                {field: 'orderPhone', title: '收件人手机号',},
-                                {field: 'questionUrl', title: '问卷地址',},
-                                {field: 'questionState', title: '状态', templet: function (q){
-                                    if(q.questionState === "未填写"){
-                                        return '<span style="color:red;">' + q.questionState + '</span>';
-                                    }
-                                    return '<span >' + q.questionState + '</span>';
-                                }},
-                                {field: 'orderMoney', title: '订单金额(元)',},
-                                {field: 'createdTime', title: '创建时间',},
-                                {field: 'syncOrder', title: '订单推送',templet: function(d) {
-                                    // 根据syncOrder的值来设置不同的背景色
-                                    var bgColor;
-                                    if (d.syncOrder === '已通知发货') {
-                                        bgColor = '#5FB878'; // 例如：绿色
-                                    } else if (d.syncOrder === '待通知发货') {
-                                        bgColor = '#FFB800'; // 例如：黄色
-                                    } else {
-                                        bgColor = '#FF5722'
-                                    }
-                                    if(d.syncOrder === null){
-                                        d.syncOrder = ''
-                                    }
-                                    // 返回带背景色的HTML
-                                    return '<span style="background-color:' + bgColor + ';">' + d.syncOrder + '</span>';
-                                    }},
-                                {fixed: 'right', title:'操作', width: 134, minWidth: 125, unresize: true, toolbar: '#barDemo'}
-                            ]
-                        ],
-                        data: listData,
-                    });
+                success:function (data,textStatus, xhr) {
+                    var redirectUrl = xhr.getResponseHeader('X-Redirect');
+                    if (redirectUrl) {
+                        window.parent.location.href = redirectUrl;
+                    } else {
+                        var listData = data.dataList;
+                        total = data.total;
+                        table.render({
+                            elem: '#history-list',
+                            cols: [
+                                [ //标题栏
+                                    {field: 'orderId', title: '订单号',},
+                                    {field: 'otherName', title: '平台',},
+                                    {field: 'orderType', title: '套餐类型',},
+                                    {field: 'orderRecipient', title: '收件人',},
+                                    {field: 'orderPhone', title: '收件人手机号',},
+                                    {field: 'questionUrl', title: '问卷地址',},
+                                    {field: 'questionState', title: '状态', templet: function (q){
+                                            if(q.questionState === "未填写"){
+                                                return '<span style="color:red;">' + q.questionState + '</span>';
+                                            }
+                                            return '<span >' + q.questionState + '</span>';
+                                        }},
+                                    {field: 'orderMoney', title: '订单金额(元)',},
+                                    {field: 'createdTime', title: '创建时间',},
+                                    {field: 'syncOrder', title: '订单推送',templet: function(d) {
+                                            // 根据syncOrder的值来设置不同的背景色
+                                            var bgColor;
+                                            if (d.syncOrder === '已通知发货') {
+                                                bgColor = '#5FB878'; // 例如：绿色
+                                            } else if (d.syncOrder === '待通知发货') {
+                                                bgColor = '#FFB800'; // 例如：黄色
+                                            } else {
+                                                bgColor = '#FF5722'
+                                            }
+                                            if(d.syncOrder === null){
+                                                d.syncOrder = ''
+                                            }
+                                            // 返回带背景色的HTML
+                                            return '<span style="background-color:' + bgColor + ';">' + d.syncOrder + '</span>';
+                                        }},
+                                    {fixed: 'right', title:'操作', width: 134, minWidth: 125, unresize: true, toolbar: '#barDemo'}
+                                ]
+                            ],
+                            data: listData,
+                        });
+                    }
                 },
                 error: function(e){
                     console.log(e)

@@ -105,4 +105,10 @@ public class HistoryController {
         return res;
     }
 
+    //将订单同步给库房
+    @GetMapping("/syncOrderToFD/{id}")
+    public String syncOrderToFD(@PathVariable("id") String id){
+        return historyService.syncOrderToFD(id);
+    }
+
 }

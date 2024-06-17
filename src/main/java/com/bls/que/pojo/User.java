@@ -26,4 +26,8 @@ public class User {
 
     private String auth;
 
+    private String token;
+
+    private Date tokenDate;
+
 }

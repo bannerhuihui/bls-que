@@ -78,6 +78,7 @@
         var util = layui.util;
         var $ = layui.$;
         userId = $("input[name='userId']").val();
+        let token = localStorage.getItem('token');
         //头部事件
         util.event('lay-header-event', {
             menuLeft: function(othis){ // 左侧菜单事件
@@ -97,10 +98,14 @@
             }
         });
         $("#exit").click(function (){
+
             //执行登出操作
             $.ajax({
                 url:"/user/logout",
                 type:"GET",
+                headers: {
+                    'Authorization': token
+                },
                 data:{"userId":parseInt($("[name = 'userId']").val())},
                 success:function (data) {
                     if(data === "success"){

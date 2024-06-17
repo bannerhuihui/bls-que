@@ -1,17 +1,17 @@
 package com.bls.que.service.impl;
 
-import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.bls.que.mapper.UserMapper;
 import com.bls.que.pojo.User;
 import com.bls.que.service.UserService;
+import com.bls.que.utils.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.Map;
 
 /**
  * @projectName: bls-que
@@ -36,9 +36,14 @@ public class UserServiceImpl implements UserService {
         if (user != null && StrUtil.isNotEmpty(user.getUserName()) && StrUtil.isNotEmpty(user.getPassWord())) {
             queryUser = userMapper.login(user);
         }
+        if(queryUser == null){
+            queryUser = userMapper.loginByPhone(user);
+        }
         if (queryUser != null) {
             //记录登陆时间
             queryUser.setLoginTime(new Date());
+            queryUser.setToken(TokenUtil.generateToken(queryUser.getUserName()));
+            queryUser.setTokenDate(new Date());
             userMapper.updateByPrimaryKeySelective(queryUser);
         }
         return queryUser;
@@ -69,9 +74,26 @@ public class UserServiceImpl implements UserService {
         if(userId != null && userId != 0){
             user.setId(userId);
             user.setOutTime(new Date());
+            user.setTokenDate(DateUtil.offsetMinute(new Date(), -30));
             userMapper.updateByPrimaryKeySelective(user);
             return "success";
         }
         return "false";
+    }
+
+    @Override
+    public User queryUserByUserName(String userName) {
+        User user = null;
+        if(StrUtil.isNotEmpty(userName)){
+            user = userMapper.selectByUserName(userName);
+        }
+        return user;
+    }
+
+    @Override
+    public void updateUser(User user) {
+        if(user != null && user.getId() != null && user.getId() != 0){
+            userMapper.updateByPrimaryKeySelective(user);
+        }
     }
 }
