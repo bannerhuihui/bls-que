@@ -101,6 +101,12 @@ public class TokenFilter implements Filter {
             flag = true;
         }else if (StrUtil.equals("/page/user-list.html",url)){
             flag = true;
+        }else if (StrUtil.equals("/page/goto/end",url)){
+            flag = true;
+        }else if (StrUtil.equals("/page/goto/submission",url)){
+            flag = true;
+        }else if (StrUtil.equals("/page/que",url)){
+            flag = true;
         }
         return flag;
     }
