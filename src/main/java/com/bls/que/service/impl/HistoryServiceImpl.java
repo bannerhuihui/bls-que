@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
 import com.bls.que.mapper.HistoryMapper;
 import com.bls.que.mapper.QuestionMapper;
 import com.bls.que.pojo.History;
@@ -124,9 +125,20 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public String syncOrderToFD(String id) {
-        historyMapper.selectByOrderId(id);
-        return null;
+    public String syncOrderToFD(Integer id) {
+        if(id != null && id != 0){
+            //获取订单信息
+            History history = historyMapper.selectByPrimaryKey(id);
+            if(history != null){
+                //TODO 对接FD系统
+                //更新订单状态为已推送
+                history.setSyncOrder("已通知发货");
+                history.setUpdatedTime(new Date());
+                historyMapper.updateByPrimaryKeySelective(history);
+                return "success";
+            }
+        }
+        return "error";
     }
 
     private History updInitHistory(History history) {

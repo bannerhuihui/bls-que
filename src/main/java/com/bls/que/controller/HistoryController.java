@@ -63,7 +63,7 @@ public class HistoryController {
     }
 
 
-    @PostMapping(value = "updatedHistory")
+    @PostMapping(value = "/updatedHistory")
     @ResponseBody
     public Map updatedHistory(History history){
         String questionId = history.getQuestionId();
@@ -98,6 +98,7 @@ public class HistoryController {
                 question.setTmpContent(null);
                 questionMapper.updateByPrimaryKeySelective(question);
             }
+            //判断是否需要更新
         }
         res.put("msg",s);
         res.put("userId",user.getId());
@@ -107,7 +108,7 @@ public class HistoryController {
 
     //将订单同步给库房
     @GetMapping("/syncOrderToFD/{id}")
-    public String syncOrderToFD(@PathVariable("id") String id){
+    public String syncOrderToFD(@PathVariable("id") Integer id){
         return historyService.syncOrderToFD(id);
     }
 

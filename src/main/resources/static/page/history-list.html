@@ -333,7 +333,6 @@
 
                         } else if(menudata.id === 'del'){
                             layer.confirm('要同步该条数据么？', function(index){
-                                console.log("订单同步的id为"+onLineData.id);
                                 if(onLineData.id !== null && onLineData.id !== "" && onLineData.id !== undefined){
                                     $.ajax({
                                         url:"/history/syncOrderToFD/"+onLineData.id,
@@ -347,6 +346,27 @@
                                                 window.parent.location.href = redirectUrl;
                                             }else {
                                                 layer.close(index);
+                                                if(data === "success"){
+                                                    layer.msg('通知发货成功', {icon: 1, time: 800}, function() {
+                                                        // 删除成功后，在2秒钟后刷新父页面
+                                                        setTimeout(function() {
+                                                            if (window.parent) {
+                                                                window.parent.layer.msg('通知发货成功', {icon: 1, time: 800});
+                                                                window.parent.location.reload();
+                                                            }
+                                                        }, 800);
+                                                    });
+                                                }else {
+                                                    layer.msg('通知发货失败', {icon: 2, time: 800}, function() {
+                                                        // 删除失败的提示
+                                                        setTimeout(function() {
+                                                            if (window.parent) {
+                                                                window.parent.layer.msg('通知发货失败', {icon: 2, time: 800});
+                                                                window.parent.location.reload();
+                                                            }
+                                                        }, 800);
+                                                    });
+                                                }
                                             }
                                         },
                                         error: function(e){
@@ -354,7 +374,7 @@
                                         }
                                     });
                                 }
-                                // 向服务端发送删除指令
+
                             });
                         }else if (menudata.id === 'template'){
                             layer.open({

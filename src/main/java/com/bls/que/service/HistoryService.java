@@ -14,6 +14,6 @@ public interface HistoryService {
 
     boolean queryHistoryByQueId(String queId);
 
-    String syncOrderToFD(String id);
+    String syncOrderToFD(Integer id);
 
 }

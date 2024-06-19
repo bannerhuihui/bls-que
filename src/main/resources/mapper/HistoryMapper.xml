@@ -101,7 +101,7 @@
     <if test="beginTime != null" >
       and (created_time between #{beginTime} and #{endTime})
     </if>
-    order by created_time desc limit #{index},#{maxRow}
+    order by updated_time desc limit #{index},#{maxRow}
   </select>
   <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
