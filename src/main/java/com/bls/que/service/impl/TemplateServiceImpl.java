@@ -325,7 +325,21 @@ public class TemplateServiceImpl implements TemplateService {
                 }
                 thirdData.setParagraph(thirdList);
                 Item thirdItem5 = new Item();
-                thirdItem5.setContent("通过改善生活习惯和饮食方式可有效缓解便秘。");
+                Template third5 = new Template();
+                third5.setTmpType(tmpType);
+                third5.setSubType("gdnr3");
+                if(StrUtil.equals("FX",subType)){
+                    third5.setLable("fx");
+                }else if (StrUtil.equals("BM",subType)){
+                    third5.setLable("bm");
+                }else {
+                    third5.setLable("all");
+                }
+                List<Template> thirdTemplates5 = templateMapper.selectByTemplate(third5);
+                Template thirdTemplate5 = getIndex(thirdTemplates5);
+                if(thirdTemplate5 != null){
+                    thirdItem5.setContent(thirdTemplate5.getContent());
+                }
                 //TODO 这里是不是需要AI
                 thirdData.setScheme1(thirdItem5);
             } else if (StrUtil.equals("ZHMY",tmpType)) {
@@ -547,19 +561,59 @@ public class TemplateServiceImpl implements TemplateService {
             FourthData fourthData = new FourthData();
             Item fourthItem = new Item();
             fourthItem.setPrompt("优化内容，并重新以列表形式输出");
-            //饮食建议方案
-            Template fourth = new Template();
-            fourth.setTmpType(tmpType);
-            fourth.setSubType("ysjyfa");
-            if(StrUtil.equals("BM",subType) && StrUtil.equals(tmpType,"CD")){
-                fourth.setLable("bm");
-            }else if (StrUtil.equals("FX",subType) && StrUtil.equals(tmpType,"CD")){
-                fourth.setLable("fx");
-            }
-            List<Template> fourthTemplates = templateMapper.selectByTemplate(fourth);
-            Template fourthTemplate = getIndex(fourthTemplates);
-            if(fourthTemplate != null){
-                fourthItem.setContent(fourthTemplate.getContent());
+            if(StrUtil.equals("GXZ",tmpType)){//高血脂的时候需要遍历输出
+                Template fourth1 = new Template();
+                fourth1.setTmpType(tmpType);
+                fourth1.setSubType("ysjyfa_1");
+                List<Template> fourthTemplate1s = templateMapper.selectByTemplate(fourth1);
+                Template fourthTemplate1 = getIndex(fourthTemplate1s);
+                String content = "#### （一）单纯高胆固醇血症（血清甘油三酯水平正常，仅血清胆固醇高于正常）和低高密度脂蛋白血症（高密度脂蛋白水平低于正常）\n";
+                if(fourthTemplate1 != null){
+                    content += fourthTemplate1.getContent();
+                }
+                content += "\n#### （二）单纯高甘油三酯血症（血清胆固醇水平正常，仅血清甘油三酯高于正常）\n";
+                Template fourth2 = new Template();
+                fourth2.setTmpType(tmpType);
+                fourth2.setSubType("ysjyfa_2");
+                List<Template> fourthTemplate2s = templateMapper.selectByTemplate(fourth2);
+                Template fourthTemplate2 = getIndex(fourthTemplate2s);
+                if(fourthTemplate2 != null){
+                    content += fourthTemplate2.getContent();
+                }
+                content += "\n#### （三）混合型血脂异常（血清胆固醇、血清甘油三酯水平高于正常）\n";
+                Template fourth3 = new Template();
+                fourth3.setTmpType(tmpType);
+                fourth3.setSubType("ysjyfa_3");
+                List<Template> fourthTemplate3s = templateMapper.selectByTemplate(fourth3);
+                Template fourthTemplate3 = getIndex(fourthTemplate3s);
+                if(fourthTemplate3 != null){
+                    content += fourthTemplate3.getContent();
+                }
+                content += "\n#### 其他饮食建议\n";
+                Template fourth4 = new Template();
+                fourth4.setTmpType(tmpType);
+                fourth4.setSubType("ysjyfa_other");
+                List<Template> fourthTemplate4s = templateMapper.selectByTemplate(fourth4);
+                Template fourthTemplate4 = getIndex(fourthTemplate4s);
+                if(fourthTemplate4 != null){
+                    content += fourthTemplate4.getContent();
+                }
+                fourthItem.setContent(content);
+            }else {
+                //饮食建议方案
+                Template fourth = new Template();
+                fourth.setTmpType(tmpType);
+                fourth.setSubType("ysjyfa");
+                if(StrUtil.equals("BM",subType) && StrUtil.equals(tmpType,"CD")){
+                    fourth.setLable("bm");
+                }else if (StrUtil.equals("FX",subType) && StrUtil.equals(tmpType,"CD")){
+                    fourth.setLable("fx");
+                }
+                List<Template> fourthTemplates = templateMapper.selectByTemplate(fourth);
+                Template fourthTemplate = getIndex(fourthTemplates);
+                if(fourthTemplate != null){
+                    fourthItem.setContent(fourthTemplate.getContent());
+                }
             }
             fourthData.setScheme1(fourthItem);
             //-------------第四层结束--------------
@@ -963,6 +1017,7 @@ public class TemplateServiceImpl implements TemplateService {
                 endList1.add(endDataItem1);
                 endList1.add(endDataItem2);
                 endList2.add(endDataItem3);
+                endList2.add(endDataItem4);
                 endList3.add(endDataItem5);
                 endList3.add(endDataItem6);
                 endList4.add(endDataItem7);
