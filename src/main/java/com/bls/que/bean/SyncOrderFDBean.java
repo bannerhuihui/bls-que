@@ -1,5 +1,6 @@
 package com.bls.que.bean;
 
+import com.alibaba.fastjson.JSONArray;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -48,6 +49,6 @@ public class SyncOrderFDBean implements Serializable {
 
     private Integer collectionmoney;
 
-    private List<Map<String,Object>> goods;
+    private List goods;
 
 }

@@ -8,12 +8,15 @@ import cn.hutool.crypto.digest.MD5;
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bls.que.bean.SyncOrderFDBean;
 import com.bls.que.mapper.HistoryMapper;
 import com.bls.que.mapper.QuestionMapper;
+import com.bls.que.mapper.SysMapper;
 import com.bls.que.pojo.History;
 import com.bls.que.pojo.Question;
+import com.bls.que.pojo.Sys;
 import com.bls.que.service.HistoryService;
 import com.bls.que.stat.BaseStatic;
 import com.bls.que.vo.PageEntity;
@@ -39,6 +42,9 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private SysMapper sysMapper;
 
     @Override
     public int createdHistory(History history) {
@@ -152,11 +158,11 @@ public class HistoryServiceImpl implements HistoryService {
                 fd.setDetailaddress(history.getOrderProvince()+history.getOrderCity()+history.getOrderCounty()+history.getOrderAddress());//详细地址  黑龙江省大兴安岭地区加格达奇大杨树镇国美百货家店
                 fd.setIscollecion(history.getOrderMoney()-history.getPriceBefore() == 0 ? 0 : 1);//是否货到付款。1为是，0为否（不传此参数为否）
                 fd.setCollectionmoney(history.getPriceBefore());////预收款金额（不传此参数为0）
-                List<Map<String,Object>> goodsList = new ArrayList<>();
-                Map<String , Object> goods = new HashMap<>();
-                goods.put("gid",185);
-                goods.put("qty",1);
-                goodsList.add(goods);
+                Sys sys = sysMapper.selectByName(history.getOrderType() + history.getOrderMoney());
+                JSONArray goodsList = null;
+                if(sys != null){
+                    goodsList = JSONArray.parseArray(sys.getMessage());
+                }
                 fd.setGoods(goodsList);
                 fd.setSign(sign(fd));//签名
                 String result = HttpRequest.post("http://api.rtyouth.com/openapi/syncorder.ashx").header(Header.CONTENT_TYPE,"application/json").body(JSONObject.toJSONString(fd)).execute().body();

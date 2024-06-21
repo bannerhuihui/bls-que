@@ -16,7 +16,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bls.que.QueApplication;
 import com.bls.que.bean.SyncOrderFDBean;
 import com.bls.que.mapper.HistoryMapper;
+import com.bls.que.mapper.SysMapper;
 import com.bls.que.pojo.History;
+import com.bls.que.pojo.Sys;
 import com.bls.que.service.HistoryService;
 import com.bls.que.vo.template.*;
 import org.junit.Test;
@@ -24,6 +26,7 @@ import org.junit.runner.RunWith;
 import org.junit.runner.Runner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.json.GsonTester;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.imageio.ImageIO;
@@ -389,11 +392,50 @@ public class UserServiceTest {
         System.out.println(StrUtil.isEmpty(s1));
     }
 
+    @Autowired
+    private SysMapper sysMapper;
 
     @Test
     public void testFd(){
-        historyService.syncOrderToFD(38);
+        SyncOrderFDBean syncOrderFDBean = new SyncOrderFDBean();
+        //historyService.syncOrderToFD(38);
+        Sys sys = sysMapper.selectByName("高血脂2980");
+        JSONArray goodsList = null;
+        if(sys != null){
+            goodsList = JSONArray.parseArray(sys.getMessage());
+        }
+        System.out.println();
+        syncOrderFDBean.setGoods(goodsList);
+        System.out.println("我的编译"+JSONObject.toJSONString(syncOrderFDBean));
+    }
 
+    @Test
+    public void insertGoods(){
+        Sys sys = new Sys();
+        sys.setName("高血脂2980");
+        JSONArray js = new JSONArray();
+        JSONObject obj1 = new JSONObject();
+        obj1.put("gid",1685);
+        obj1.put("qty",1);
+        JSONObject obj2 = new JSONObject();
+        obj2.put("gid",1686);
+        obj2.put("qty",1);
+        JSONObject obj3 = new JSONObject();
+        obj3.put("gid",1687);
+        obj3.put("qty",1);
+        JSONObject obj4 = new JSONObject();
+        obj4.put("gid",1688);
+        obj4.put("qty",1);
+        JSONObject obj5 = new JSONObject();
+        obj5.put("gid",1689);
+        obj5.put("qty",1);
+        js.add(obj1);
+        js.add(obj2);
+        js.add(obj3);
+        js.add(obj4);
+        js.add(obj5);
+        sys.setMessage(JSONObject.toJSONString(js));
+        sysMapper.insertSelective(sys);
     }
 
 }
