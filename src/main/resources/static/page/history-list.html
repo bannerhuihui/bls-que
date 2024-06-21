@@ -346,25 +346,25 @@
                                                 window.parent.location.href = redirectUrl;
                                             }else {
                                                 layer.close(index);
-                                                if(data === "success"){
-                                                    layer.msg('通知发货成功', {icon: 1, time: 800}, function() {
+                                                if(data.code === "success"){
+                                                    layer.msg('通知发货成功', {icon: 1, time: 1000}, function() {
                                                         // 删除成功后，在2秒钟后刷新父页面
                                                         setTimeout(function() {
                                                             if (window.parent) {
-                                                                window.parent.layer.msg('通知发货成功', {icon: 1, time: 800});
+                                                                window.parent.layer.msg('通知发货成功', {icon: 1, time: 1000});
                                                                 window.parent.location.reload();
                                                             }
-                                                        }, 800);
+                                                        }, 1000);
                                                     });
                                                 }else {
-                                                    layer.msg('通知发货失败', {icon: 2, time: 800}, function() {
+                                                    layer.msg(data.msg, {icon: 2, time: 1500}, function() {
                                                         // 删除失败的提示
                                                         setTimeout(function() {
                                                             if (window.parent) {
-                                                                window.parent.layer.msg('通知发货失败', {icon: 2, time: 800});
+                                                                window.parent.layer.msg(data.msg, {icon: 2, time: 1500});
                                                                 window.parent.location.reload();
                                                             }
-                                                        }, 800);
+                                                        }, 1500);
                                                     });
                                                 }
                                             }

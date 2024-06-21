@@ -1,9 +1,10 @@
-package com.bls.service;
+package com.test;
 
 import cn.hutool.core.lang.Console;
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+
+import cn.hutool.http.Header;
+import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -12,9 +13,19 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.bls.que.QueApplication;
+import com.bls.que.bean.SyncOrderFDBean;
+import com.bls.que.mapper.HistoryMapper;
+import com.bls.que.pojo.History;
+import com.bls.que.service.HistoryService;
 import com.bls.que.vo.template.*;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runner.Runner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -32,8 +43,12 @@ import java.util.List;
  * @date: 2024/4/30 14:44
  * @version: 1.0
  */
-@SpringBootTest
+@SpringBootTest(classes = QueApplication.class)
+@RunWith(SpringRunner.class)
 public class UserServiceTest {
+
+    @Autowired
+    private HistoryService historyService;
 
     @Test
     public void TestHttp(){
@@ -375,5 +390,10 @@ public class UserServiceTest {
     }
 
 
+    @Test
+    public void testFd(){
+        historyService.syncOrderToFD(38);
+
+    }
 
 }

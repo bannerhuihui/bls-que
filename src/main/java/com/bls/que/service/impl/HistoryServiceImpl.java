@@ -4,7 +4,12 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.digest.MD5;
+import cn.hutool.http.Header;
+import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.bls.que.bean.SyncOrderFDBean;
 import com.bls.que.mapper.HistoryMapper;
 import com.bls.que.mapper.QuestionMapper;
 import com.bls.que.pojo.History;
@@ -15,8 +20,7 @@ import com.bls.que.vo.PageEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @projectName: bls-que
@@ -125,20 +129,58 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public String syncOrderToFD(Integer id) {
+    public Map<String,String> syncOrderToFD(Integer id) {
+        Map<String,String> resultMap = new HashMap<>();
+        resultMap.put("code","error");
+        resultMap.put("msg","服务器异常！，请稍后再试！");
         if(id != null && id != 0){
             //获取订单信息
             History history = historyMapper.selectByPrimaryKey(id);
             if(history != null){
                 //TODO 对接FD系统
+                SyncOrderFDBean fd = new SyncOrderFDBean();
+                fd.setTs(new Date().getTime()/1000);//时间戳
+                fd.setCno("HongYunDuo");//渠道商编号
+                fd.setTotalamount(history.getOrderMoney()+".00");//订单总金额.00
+                fd.setOrderid(history.getOrderId());//渠道商平台内不重复的订单编号
+                fd.setPhone(history.getOrderPhone());//收货人电话
+                fd.setRemark(history.getOrderRemark());//备注
+                fd.setConsignee(history.getOrderRecipient());//收货人姓名
+                fd.setProvince(history.getOrderProvince());//省
+                fd.setCity(history.getOrderCity());//市
+                fd.setDistrict(history.getOrderCounty());//区
+                fd.setDetailaddress(history.getOrderProvince()+history.getOrderCity()+history.getOrderCounty()+history.getOrderAddress());//详细地址  黑龙江省大兴安岭地区加格达奇大杨树镇国美百货家店
+                fd.setIscollecion(history.getOrderMoney()-history.getPriceBefore() == 0 ? 0 : 1);//是否货到付款。1为是，0为否（不传此参数为否）
+                fd.setCollectionmoney(history.getPriceBefore());////预收款金额（不传此参数为0）
+                List<Map<String,Object>> goodsList = new ArrayList<>();
+                Map<String , Object> goods = new HashMap<>();
+                goods.put("gid",185);
+                goods.put("qty",1);
+                goodsList.add(goods);
+                fd.setGoods(goodsList);
+                fd.setSign(sign(fd));//签名
+                String result = HttpRequest.post("http://api.rtyouth.com/openapi/syncorder.ashx").header(Header.CONTENT_TYPE,"application/json").body(JSONObject.toJSONString(fd)).execute().body();
                 //更新订单状态为已推送
-                history.setSyncOrder("已通知发货");
-                history.setUpdatedTime(new Date());
-                historyMapper.updateByPrimaryKeySelective(history);
-                return "success";
+                JSONObject json = null;
+                try{
+                    json = JSONObject.parseObject(result);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                if(json != null){
+                    if(json.get("Result").equals("ok")){
+                        history.setSyncOrder("已通知发货");
+                        history.setUpdatedTime(new Date());
+                        historyMapper.updateByPrimaryKeySelective(history);
+                        resultMap.put("code","success");
+                    }else {
+                        resultMap.put("code","error");
+                        resultMap.put("msg",String.valueOf(json.get("Msg")));
+                    }
+                }
             }
         }
-        return "error";
+        return resultMap;
     }
 
     private History updInitHistory(History history) {
@@ -280,6 +322,15 @@ public class HistoryServiceImpl implements HistoryService {
             return true;
         }
         return false;
+    }
+
+    private String sign(SyncOrderFDBean fd){
+        String sign = "";
+        if(fd != null){
+            String baseUrl = "cno="+fd.getCno()+"&ts="+fd.getTs()+"&totalamount="+fd.getTotalamount()+"&phone="+fd.getPhone()+"&orderid="+fd.getOrderid()+"&key=9ekcoxe23cmjp60411rg8vo0gh";
+            sign = MD5.create().digestHex(baseUrl);
+        }
+        return sign;
     }
 
 }

@@ -3,6 +3,8 @@ package com.bls.que.service;
 import com.bls.que.pojo.History;
 import com.bls.que.vo.PageEntity;
 
+import java.util.Map;
+
 public interface HistoryService {
     int createdHistory(History history);
 
@@ -14,6 +16,6 @@ public interface HistoryService {
 
     boolean queryHistoryByQueId(String queId);
 
-    String syncOrderToFD(Integer id);
+    Map<String,String> syncOrderToFD(Integer id);
 
 }
