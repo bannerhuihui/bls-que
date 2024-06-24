@@ -60,6 +60,7 @@ public class TemplateServiceImpl implements TemplateService {
         }
         TemplateVo templateVo = null;
         if(question != null){
+            //填写过问卷
             if(StrUtil.isNotEmpty(question.getLabel())){
                 String[] labels = question.getLabel().split("_");
                 tmpType = labels[0];
@@ -79,12 +80,32 @@ public class TemplateServiceImpl implements TemplateService {
                 return templateVo;
             }
 
-        }
+        }/*else {
+            //没有填写问卷
+            userName = history.getOrderRecipient();
+            subType = "all";
+            if(StrUtil.equals("高血压",history.getOrderType())){
+                tmpType = "GXY";
+            }
+            if(StrUtil.equals("高血脂",history.getOrderType())){
+                tmpType = "GXZ";
+            }
+            if(StrUtil.equals("高血糖",history.getOrderType())){
+                tmpType = "GXT";
+            }
+            if(StrUtil.equals("肠道",history.getOrderType())){
+                tmpType = "CD";
+            }
+            if(StrUtil.equals("免疫力",history.getOrderType())){
+                tmpType = "ZHMY";
+            }
+            gender = "先生/女士";
+        }*/
         //将数据保存到Vo
         templateVo = new TemplateVo();
         if(StrUtil.isNotEmpty(tmpType) && StrUtil.isNotEmpty(subType) && StrUtil.isNotEmpty(userName) && StrUtil.isNotEmpty(gender)){
             templateVo.setUserName(userName);
-            templateVo.setSex(StrUtil.equals("男",gender) ? "先生":"女士");
+            templateVo.setSex(StrUtil.equals("男",gender) ? "先生": StrUtil.equals("女",gender) ? "女士":gender);
             templateVo.setOrderNo(orderNo);
             templateVo.setKey(tmpType);
             //随机封装页面内容

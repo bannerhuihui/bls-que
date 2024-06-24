@@ -264,11 +264,32 @@
             $("[name = 'priceBefore']").val(data.priceBefore);
             $("[name = 'orderType']").val(data.orderType);
             $("[name = 'orderMoney']").val(data.orderMoney);
-            $("[name = 'orderRecipient']").val(data.orderRecipient);
-            $("[name = 'orderPhone']").val(data.orderPhone);
-            $("[name = 'orderAddress']").val(data.orderAddress);
-            $("[name = 'orderRemark']").val(data.orderRemark);
-            $("[name = 'remark']").val(data.remark);
+            if(data.orderRecipient === "待定"){
+                $("[name = 'orderRecipient']").val("");
+            }else {
+                $("[name = 'orderRecipient']").val(data.orderRecipient);
+            }
+            if(data.orderPhone === "待定"){
+                $("[name = 'orderPhone']").val("");
+            }else {
+                $("[name = 'orderPhone']").val(data.orderPhone);
+            }
+            if(data.orderAddress === "待定"){
+                $("[name = 'orderAddress']").val("");
+            }else {
+                $("[name = 'orderAddress']").val(data.orderAddress);
+            }
+
+            if(data.orderRemark === "待定"){
+                $("[name = 'orderRemark']").val("");
+            }else {
+                $("[name = 'orderRemark']").val(data.orderRemark);
+            }
+            if(data.remark === "待定"){
+                $("[name = 'remark']").val("");
+            }else {
+                $("[name = 'remark']").val(data.remark);
+            }
             $("[name='questionState'][value='" + data.questionState + "']").prop('checked', true);
             $("[name = 'questionId']").val(data.questionId);
             // 渲染表单

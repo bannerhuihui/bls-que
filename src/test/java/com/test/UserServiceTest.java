@@ -438,4 +438,9 @@ public class UserServiceTest {
         sysMapper.insertSelective(sys);
     }
 
+    @Test
+    public void testSync(){
+        historyService.syncOrderToFD(67);
+    }
+
 }
