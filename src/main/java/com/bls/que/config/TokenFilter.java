@@ -107,6 +107,8 @@ public class TokenFilter implements Filter {
             flag = true;
         }else if (StrUtil.equals("/page/que",url)){
             flag = true;
+        } else if (StrUtil.equals("/page/create-order-type.html",url)) {
+            flag = true;
         }
         return flag;
     }
