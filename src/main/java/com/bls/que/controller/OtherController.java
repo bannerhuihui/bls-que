@@ -2,12 +2,15 @@ package com.bls.que.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.bls.que.bean.SyncOrderBean;
+import com.bls.que.pojo.Goods;
 import com.bls.que.service.OtherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,4 +35,10 @@ public class OtherController {
     public Map<String,Object> syncOrder(SyncOrderBean syncOrderBean){
         return otherService.syncOrder(syncOrderBean);
     }
+
+    @RequestMapping("/syncGoods")
+    public Map<String,Object> syncGoods(@RequestBody List<Goods> goodsList){
+        return otherService.syncGoods(goodsList);
+    }
+
 }

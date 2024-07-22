@@ -23,6 +23,7 @@ import com.bls.que.vo.PageEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -49,6 +50,8 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public int createdHistory(History history) {
         if(checkHistory(history)){
+            //所有的orderId作为系统生成的ID
+            history.setOrderId(getOrderId());
             //生成一个关联问题ID
             history.setQuestionId(createdQuestionId());
             //将状态改为可用状态
@@ -85,8 +88,14 @@ public class HistoryServiceImpl implements HistoryService {
         String orderId = "";
         boolean flag = true;
         while (flag) {
-            String baseOrderId = IdUtil.simpleUUID();
-            orderId = baseOrderId.substring(0, 3) + baseOrderId.substring(5, 10) + baseOrderId.substring(9, 16);
+            // 生成时间戳部分，使用当前时间
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+            String timestamp = dateFormat.format(new Date());
+            // 生成随机数部分，使用随机数生成器生成6位随机数
+            Random random = new Random();
+            int randomNumber = random.nextInt(900000) + 100000; // 生成6位随机数
+            // 拼接时间戳和随机数生成订单号
+            orderId = "HYD-"+timestamp + randomNumber;
             History checkHistory = historyMapper.selectByOrderId(orderId);
             if (checkHistory == null) {
                 flag = false;
@@ -333,7 +342,11 @@ public class HistoryServiceImpl implements HistoryService {
     private String sign(SyncOrderFDBean fd){
         String sign = "";
         if(fd != null){
-            String baseUrl = "cno="+fd.getCno()+"&ts="+fd.getTs()+"&totalamount="+fd.getTotalamount()+"&phone="+fd.getPhone()+"&orderid="+fd.getOrderid()+"&key=9ekcoxe23cmjp60411rg8vo0gh";
+            //cno\ts\totalamount\phone\orderid
+            //cno\orderid\phone\totalamount\ts
+            //String baseUrl = "cno="+fd.getCno()+"&ts="+fd.getTs()+"&totalamount="+fd.getTotalamount()+"&phone="+fd.getPhone()+"&orderid="+fd.getOrderid()+"&key=9ekcoxe23cmjp60411rg8vo0gh";
+
+            String baseUrl = "cno="+fd.getCno()+"&orderid="+fd.getOrderid()+"&phone="+fd.getPhone()+"&totalamount="+fd.getTotalamount()+"&ts="+fd.getTs()+"&key=9ekcoxe23cmjp60411rg8vo0gh";
             sign = MD5.create().digestHex(baseUrl);
         }
         return sign;

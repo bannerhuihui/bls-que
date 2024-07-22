@@ -263,7 +263,6 @@ public class TemplateServiceImpl implements TemplateService {
                 //TODO 这里是不是需要AI
                 thirdItem3.setPrompt("");
                 Item thirdItem3_1 = new Item();
-                thirdItem3_1.setContent("那什么是高血脂症？");
                 thirdList3.add(thirdItem3_1);
                 thirdList3.add(thirdItem3);
                 Item thirdItem4 = new Item();

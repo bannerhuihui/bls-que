@@ -13,12 +13,12 @@
         <h1 class="title">添加问卷</h1>
         <form class="layui-form" action="" style="padding-bottom: 30px">
             <input type="text" hidden name="userId" th:value="${userId}">
-            <div class="layui-form-item">
+            <!--<div class="layui-form-item">
                 <label class="layui-form-label">订单号</label>
                 <div class="layui-input-block  layui-input-wrap">
                     <input type="text" name="orderId" placeholder="请输入订单号" class="layui-input "  lay-verify="checkOrderId">
                 </div>
-            </div>
+            </div>-->
             <div class="layui-form-item">
                 <label class="layui-form-label">选择平台</label>
                 <div class="layui-input-block">
@@ -190,11 +190,11 @@
                     return '用户名不能全为数字';
                 }
             },
-            checkOrderId: function (value){
+           /* checkOrderId: function (value){
                 if(value === "" || value === null || value === undefined){
                     return "订单号不能为空！"
                 }
-            }
+            }*/
         });
         //获取所有的省
         $.ajax({

@@ -1,9 +1,12 @@
 package com.bls.que.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.bls.que.bean.SyncOrderBean;
+import com.bls.que.mapper.GoodsMapper;
 import com.bls.que.mapper.HistoryMapper;
+import com.bls.que.pojo.Goods;
 import com.bls.que.pojo.History;
 import com.bls.que.service.OtherService;
 import com.bls.que.stat.BaseStatic;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -96,6 +100,31 @@ public class OtherServiceImpl implements OtherService {
             result.put("data",null);
         }
         return result;
+    }
+
+    @Autowired
+    private GoodsMapper goodsMapper;
+    @Override
+    public Map<String, Object> syncGoods(List<Goods> goodsList) {
+        Map<String,Object> res = new HashMap<>();
+        if(CollectionUtil.isNotEmpty(goodsList)){
+            //将之前所有的数据同步为不可用
+            goodsMapper.updateAllGoodsUnusable();
+            for (Goods goods: goodsList) {
+                if(goods != null){
+                    goods.setTotalCount(0);
+                    goodsMapper.insertSelective(goods);
+                }
+            }
+            res.put("code",2000);
+            res.put("message","商品同步完成");
+            res.put("data",goodsList);
+            return res;
+        }
+        res.put("code",4000);
+        res.put("message","参数为空");
+        res.put("data",goodsList);
+        return res;
     }
 
     private String createdQuestionId() {
